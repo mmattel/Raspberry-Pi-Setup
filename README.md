@@ -62,3 +62,9 @@ Enable wlan0 on boot
 ```
 sudo cp /etc/wpa_supplicant/wpa_supplicant.conf /boot
 sudo reboot
+```
+`ip -br addr show`
+
+## Install Netplan (RaspOS Bullseye)
+
+The goal is to create a setup where you can use eth0 and wlan0 concurrently having the same static IP address like you would have with a failover/bond but only one interface is actively used. After many trials where none of them worked, `netplan` is the solution, doing the job perfectly and is easy to configure. The `metric` entry does the magic.
