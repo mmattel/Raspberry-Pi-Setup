@@ -1,5 +1,11 @@
 # Raspberry-Pi-Setup
-Steps to setup a RPi Server with Raspberry PI OS x64
+
+Steps to setup a RPi Server with Raspberry PI OS x64 with:
+
+- Argon mini Fan pwm speed control
+- lan0 / wlan0 failover
+- Docker
+- Portainer
 
 Table of Contents
 =================
@@ -76,9 +82,9 @@ sudo reboot
 sudo wpa_passphrase [ssid-name] [password-name]
 sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
 ```
-…copy psk to /etc/wpa_supplicant/wpa_supplicant.conf
+… copy the psk key to /etc/wpa_supplicant/wpa_supplicant.conf
 
-…add scan_ssid=1 if you have a hidden SSID
+… add scan_ssid=1 if you have a hidden SSID
 
 Enable wlan0 on boot
 
@@ -90,7 +96,7 @@ sudo reboot
 
 ## Netplan (RaspOS Bullseye)
 
-The goal is to create a setup where you can use eth0 and wlan0 concurrently having the same static IP address like you would have with a failover/bond but only one interface is actively used. After many trials where none of them worked, `netplan` is the solution, doing the job perfectly and is easy to configure. The `metric` entry does the magic.
+The goal is to create a setup where you can use eth0 and wlan0 concurrently having the same static IP address like you would have with a failover/bond but only one interface is actively used. After many trials where none of them worked, `netplan` is the solution, doing the job perfectly and is easy to configure. The `metric` entry in the yaml configuration file does the magic.
 
 ### Install and Configure Netplan
 
@@ -162,7 +168,7 @@ While not mandatory, it is g good thing to check the minimum required value to t
 
 To do so, configure the `calib_fan.py` script to identify the minimum speed. Use a low temperature so you can see it immediately. Check other values too.
 
-Note that you mandatory need a minimum temperature value with zero speed which is reached when cooling down, else the fan will turn forever when turned on once.
+Note that you mandatory need a minimum temperature value with zero speed which is reachable when cooling down, else the fan will turn forever if it turns on once.
 
 Use the minimum fan speed value and configure the `fan_control.py` script, set/change the temp/speed value pairs according your needs.
 
@@ -198,4 +204,31 @@ sudo systemctl daemon-reload
 sudo systemctl enable fan_control
 sudo systemctl start fan_control.service
 sudo systemctl status fan_control.service
+```
+
+## Installing Docker
+
+```
+sudo apt update
+sudo apt install docker-ce docker-ce-cli containerd.io
+sudo usermod -aG docker ${USER}
+sudo pip3 install docker-compose
+```
+
+## Installing Portainer with Docker on Linux
+
+[Portainer](https://docs.portainer.io/start/install/server/docker/linux) consists of two elements, the Portainer Server, and the Portainer Agent. Both elements run as lightweight Docker containers on a Docker engine. This document will help you install the Portainer Server container on your Linux environment.
+
+
+```
+docker volume create portainer_data
+
+docker run \
+  -d \
+  -p 8000:8000 \
+  -p 9443:9443 \
+  --name portainer \
+  --restart=always \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v portainer_data:/data portainer/portainer-ce:latest
 ```
