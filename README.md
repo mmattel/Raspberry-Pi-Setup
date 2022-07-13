@@ -136,7 +136,11 @@ sudo apt install python3 python3-pip
 
 Note, **do not use the argonone.sh** script. It is not designed for that fan and will not work.
 
-Note, you can of course set a fixed temp value in `/boot/config.txt` like `dtoverlay=gpio-fan,gpiopin=18,temp=65000`, but you only get on/off and lose fan speed control, with a fan that offers PWM...   
+Note, you can of course set a fixed temp value in `/boot/config.txt` like
+
+`dtoverlay=gpio-fan,gpiopin=18,temp=65000`
+
+but you only get on/off and lose fan speed control, having a fan that offers PWM...   
 
 Note that the Argon mini Fan uses GPIO pin 18 for PWM speed control.
 
