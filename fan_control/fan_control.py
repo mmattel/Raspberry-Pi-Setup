@@ -1,13 +1,14 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-# derived from:
-# https://github.com/JeremySCook/RaspberryPi-Fan-Control
-# https://www.instructables.com/PWM-Regulated-Fan-Based-on-CPU-Temperature-for-Ras/
 # controls fan speed by pwm with configurable:
 # - pwm gpio pin
 # - min fan speed (test with calib_fan.py the minimum setting required)
 # - temp/speed array (note that you must have a 0 speed value!)
+
+# derived from:
+# https://github.com/JeremySCook/RaspberryPi-Fan-Control
+# https://www.instructables.com/PWM-Regulated-Fan-Based-on-CPU-Temperature-for-Ras/
 
 import RPi.GPIO as GPIO
 import time
