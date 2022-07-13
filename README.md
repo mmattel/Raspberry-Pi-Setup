@@ -142,6 +142,8 @@ Note that the Argon mini Fan uses GPIO pin 18 for PWM speed control.
 
 ### PWM controlled fan speed
 
+Kudos for this aricle as source, some adoptions made [PWM Regulated Fan Based on CPU Temperature](https://www.instructables.com/PWM-Regulated-Fan-Based-on-CPU-Temperature-for-Ras/)
+
 Create a folder in your home directory and copy the following files to this location, you can change it according your needs, adopt the file/path in `fan_control.service` accordingly:
 
 `mkdir ~/fan_control`
