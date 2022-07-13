@@ -142,7 +142,7 @@ Note that the Argon mini Fan uses GPIO pin 18 for PWM speed control.
 
 ### PWM controlled fan speed
 
-Create a folder in your home directory and copy the following files to this location, you can change it according your needds, adopt the file/path in `fan_control.service` accordingly:
+Create a folder in your home directory and copy the following files to this location, you can change it according your needs, adopt the file/path in `fan_control.service` accordingly:
 
 `mkdir ~/fan_control`
 
@@ -156,9 +156,9 @@ While not mandatory, it is g good thing to check the minimum required value to t
 
 To do so, configure the `calib_fan.py` script to identify the minimum speed. Use a low temperature so you can see it immediately. Check other values too.
 
-Note that you mandatory need minimum temperature value with zero speed which is reached when cooling down, else the fan will turn forever when turned on once.
+Note that you mandatory need a minimum temperature value with zero speed which is reached when cooling down, else the fan will turn forever when turned on once.
 
-Use the minimum fan speed value and configure the `fan_control.py` script, set the temp/speed values according your needs.
+Use the minimum fan speed value and configure the `fan_control.py` script, set/change the temp/speed value pairs according your needs.
 
 ### Check the Fan Speed
 
@@ -183,6 +183,8 @@ The test takes about 5min, the fan speed should change from 0 to what you have s
 You may use different stress tests too.
 
 ### Making fan_control a Service
+
+When you are satisified with the result, make `fan_control.py` a service.
 
 ```
 sudo systemctl link /home/<your-user>/fan_control/fan_control.service
