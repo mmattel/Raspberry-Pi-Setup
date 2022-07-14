@@ -25,10 +25,11 @@ Table of Contents
       * [PWM controlled fan speed](#pwm-controlled-fan-speed)
       * [Check the Fan Speed](#check-the-fan-speed)
       * [Making fan_control a Service](#making-fan_control-a-service)
-   * [Installing Docker](#installing-docker)
+   * [Installing Docker and Docker Compose](#installing-docker-and-docker-compose)
    * [Installing Portainer with Docker on Linux](#installing-portainer-with-docker-on-linux)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
+
 ## Prerequisites
 
 - RPi
