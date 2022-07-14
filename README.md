@@ -107,9 +107,9 @@ The netplan package is available in the [debian package](https://packages.debian
 sudo apt search netplan
 sudo apt install netplan.io
 ```
-After installing netplan, see the [01-netcfg.yaml](https://github.com/mmattel/Raspberry-Pi-Setup/blob/main/netplan/01-netcfg.yaml) example file, adapt it to your needs and save it in the `/etc/netplan/` folder.
+After installing netplan, get the [01-netcfg.yaml](https://github.com/mmattel/Raspberry-Pi-Setup/blob/main/netplan/01-netcfg.yaml) example file, adapt it to your needs and save it in the `/etc/netplan/` folder.
 
-Apply the following commands:
+Apply the changes with following commands:
 ```
 sudo netplan generate
 sudo netplan apply
@@ -165,11 +165,11 @@ Create a folder in your home directory and copy the following files to this loca
 
 [fan_control.service](https://github.com/mmattel/Raspberry-Pi-Setup/blob/main/fan_control/fan_control.service)
 
-While not mandatory, it is g good thing to check the minimum required value to turn on the fan speed.
+While not mandatory, it is g good thing to check the minimum speed required value to turn on the fan.
 
 To do so, configure the `calib_fan.py` script to identify the minimum speed. Use a low temperature so you can see it immediately. Check other values too.
 
-Note that you mandatory need a minimum temperature value with zero speed which is reachable when cooling down, else the fan will turn forever if it turns on once.
+Note that you mandatory need a minimum temperature / zero speed value pair which is reachable when cooling down, else the fan will turn forever if it turns on once.
 
 Use the minimum fan speed value and configure the `fan_control.py` script, set/change the temp/speed value pairs according your needs.
 
@@ -177,7 +177,7 @@ Use the minimum fan speed value and configure the `fan_control.py` script, set/c
 
 Open two terminals, T1 and T2
 
-In T1, we check if the `fan_control.py` script is working, type `python3 fan_control.py`
+In T1, start with `python3 fan_control.py` the script to see if it is working
 
 In T2, we do a stress test:
 
@@ -193,11 +193,13 @@ The test takes about 5min, the fan speed should change from 0 to what you have s
 .local/bin/stressberry-plot out.dat -o out.png
 ```
 
-You may use different stress tests too.
+You may use different stress tests too. Change the temp / speed pairs if necessary and redo the test.
 
 ### Making fan_control a Service
 
 When you are satisified with the result, make `fan_control.py` a service.
+
+Set `<your-user>` according your username. Check in `fan_control.service` if you have set the path to `fan_control.py` correctly. 
 
 ```
 sudo systemctl link /home/<your-user>/fan_control/fan_control.service
@@ -207,14 +209,27 @@ sudo systemctl start fan_control.service
 sudo systemctl status fan_control.service
 ```
 
-## Installing Docker
+## Installing Docker and Docker Compose
+
+Note that installing docker may take some minutes.
 
 ```
 sudo apt update
-sudo apt install docker-ce docker-ce-cli containerd.io
+sudo apt upgrade
+sudo curl -fsSL https://get.docker.com get-docker.sh | bash
 sudo usermod -aG docker ${USER}
+```
+
+Logout your terminal session and relogin to apply the usermod changes.
+
+```
+docker info
 sudo pip3 install docker-compose
 ```
+
+Allow the Docker System Service to Launch your Containers on Boot
+
+`sudo systemctl enable docker`
 
 ## Installing Portainer with Docker on Linux
 
