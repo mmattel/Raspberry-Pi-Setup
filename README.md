@@ -46,7 +46,7 @@ Download the [Raspberry Pi Imager](https://www.raspberrypi.com/software/) and pr
 
 When finished, insert the card in your PI, connect your LAN port and power up. Watch the booting process on the monitor.
 
-Do a `ping www.google.com` to see if you have a internet connection.
+Do a `ping www.google.com` to see if you have an internet connection.
 
 ## Base Preparation
 
@@ -234,7 +234,7 @@ Allow the Docker System Service to Launch your Containers on Boot
 
 ## Installing Portainer with Docker on Linux
 
-[Portainer](https://docs.portainer.io/start/install/server/docker/linux) consists of two elements, the Portainer Server, and the Portainer Agent. Both elements run as lightweight Docker containers on a Docker engine. This document will help you install the Portainer Server container on your Linux environment.
+[Portainer](https://docs.portainer.io/start/install/server/docker/linux) consists of two elements, the **Portainer Server**, and the **Portainer Agent** when using a client. Both elements run as lightweight Docker containers on a Docker engine. This document will help you install the **Portainer Server** container on your Linux environment.
 
 
 ```
@@ -249,3 +249,8 @@ docker run \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v portainer_data:/data portainer/portainer-ce:latest
 ```
+
+When the Portainer Container is running, access it with: `https://<your-server/ip>:9443`
+
+Note that on first login, an admin user is created requiring a **12 digit** password. You can change this setting (and afterwards the pwd for the admin user) by going to **Settings > Authentication**.
+
