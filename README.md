@@ -241,14 +241,20 @@ sudo usermod -aG docker ${USER}
 
 Logout your terminal session and relogin to apply the usermod changes.
 
+Install docker compose:
+
 ```
 docker info
 sudo pip3 install docker-compose
 ```
 
-Allow the Docker System Service to Launch your Containers on Boot
+Allow the Docker System Service to Launch your Containers on Boot:
 
 `sudo systemctl enable docker`
+
+Create a default docker base directory for all your volumes you want to access:
+
+`mkdir -p ~/docker`
 
 ## Installing Podman
 
@@ -352,9 +358,9 @@ services:
     security_opt:
       - apparmor:unconfined
     volumes:
-      - /home/<your-user>/netdata/netdataconfig:/etc/netdata
-      - /home/<your-user>/netdata/netdatalib:/var/lib/netdata
-      - /home/<your-user>/netdata/netdatacache:/var/cache/netdata
+      - /home/<your-user>/docker/netdata/netdataconfig:/etc/netdata
+      - /home/<your-user>/docker/netdata/netdatalib:/var/lib/netdata
+      - /home/<your-user>/docker/netdata/netdatacache:/var/cache/netdata
       - /etc/passwd:/host/etc/passwd:ro
       - /etc/group:/host/etc/group:ro
       - /proc:/host/proc:ro
@@ -363,10 +369,6 @@ services:
     environment:
       - DOCKER_USR=1000
       - DOCKER_GRP=1000
-volumes:
-  netdataconfig:
-  netdatalib:
-  netdatacache:
 ```
 
 When the container is running, you can access netdata via `https://<your-server/ip>:19999`
@@ -375,8 +377,8 @@ To make `edit-config` work, you need to set the needed environment variables whe
 
 Edit the `/etc/profiles` file and add at the end the following to define the necessary environment variables for `edit-config`. Note it needs the full path and no substitution and you must set the env's in `/etc/profiles` and not in `~/.bashrc`:
 ```
-export NETDATA_USER_CONFIG_DIR="/home/<your-username>/netdata/netdataconfig"
-export NETDATA_STOCK_CONFIG_DIR="/home/<your-username>/netdata/netdataconfig/orig"
+export NETDATA_USER_CONFIG_DIR="/home/<your-username>/docker/netdata/netdataconfig"
+export NETDATA_STOCK_CONFIG_DIR="/home/<your-username>/docker/netdata/netdataconfig/orig"
 ```
 
 When done, just type `source ~/.profile` in your shell to activate it.
