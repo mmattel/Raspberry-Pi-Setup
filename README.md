@@ -5,7 +5,8 @@ Steps to setup a RPi Server with Raspberry PI OS x64 with:
 - Argon mini Fan pwm speed control
 - lan0 / wlan0 failover
 - Docker
-- Portainer
+- Container management with [Portainer](https://docs.portainer.io)
+- Monitoring the RPi with [netdata](https://learn.netdata.cloud)
 
 Table of Contents
 =================
@@ -14,7 +15,7 @@ Table of Contents
    * [Install the Raspberry Pi OS x64 Server Image](#install-the-raspberry-pi-os-x64-server-image)
       * [Raspberry Pi Imager](#raspberry-pi-imager)
    * [Base Preparation](#base-preparation)
-      * [Install vim](#install-vim)
+      * [Install and Configure vim](#install-and-configure-vim)
          * [Set bash_aliases](#set-bash_aliases)
    * [Update Raspberry Pi OS](#update-raspberry-pi-os)
    * [wlan0 (for testing only, eg without eth0 connected)](#wlan0-for-testing-only-eg-without-eth0-connected)
@@ -26,7 +27,10 @@ Table of Contents
       * [Check the Fan Speed](#check-the-fan-speed)
       * [Making fan_control a Service](#making-fan_control-a-service)
    * [Installing Docker and Docker Compose](#installing-docker-and-docker-compose)
-   * [Installing Portainer with Docker on Linux](#installing-portainer-with-docker-on-linux)
+   * [Installing Podman](#installing-podman)
+   * [Installing Portainer with Docker](#installing-portainer-with-docker)
+   * [Install Theia IDE for RPi as Docker Image](#install-theia-ide-for-rpi-as-docker-image)
+   * [Install Netdata with Docker](#install-netdata-with-docker)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
 
@@ -50,9 +54,21 @@ Do a `ping www.google.com` to see if you have an internet connection.
 
 ## Base Preparation
 
-### Install vim
+### Install and Configure vim
 
 `sudo apt install vim`
+
+Add following lines to `~/.vimrc`, create one if it does not exist:
+
+```
+set encoding=utf-8
+set showmode
+set backspace=indent,eol,start
+set clipboard+=unnamed  " use the clipboards of vim and win
+set paste               " Paste from a windows or from vim
+set go+=a               " Visual selection automatically copied to the clipboard
+syntax on               " permanently turn on syntax highlighting
+```
 
 #### Set bash_aliases
 
@@ -232,10 +248,23 @@ Allow the Docker System Service to Launch your Containers on Boot
 
 `sudo systemctl enable docker`
 
-## Installing Portainer with Docker on Linux
+## Installing Podman
 
-[Portainer](https://docs.portainer.io/start/install/server/docker/linux) consists of two elements, the **Portainer Server**, and the **Portainer Agent** when using a client. Both elements run as lightweight Docker containers on a Docker engine. This document will help you install the **Portainer Server** container on your Linux environment.
+If you want to use podman...
 
+```
+sudo apt install podman
+sudo vi /etc/containers/registries.conf
+```
+Set the string: `unqualified-search-registries = ["docker.io"]`
+
+## Installing Portainer with Docker
+
+With portainer, you can easily deploy, configure and secure containers in minutes with a nice GUI.
+
+[Portainer](https://docs.portainer.io/start/install/server/docker/linux) consists of two elements, the **Portainer Server**, and the **Portainer Agent** when using a client. Both elements run as lightweight Docker containers on a Docker engine.
+
+This document will help you install the **Portainer Server** container on your Linux environment.
 
 ```
 docker volume create portainer_data
@@ -252,5 +281,103 @@ docker run \
 
 When the Portainer Container is running, access it with: `https://<your-server/ip>:9443`
 
-Note that on first login, an admin user is created requiring a **12 digit** password. You can change this setting (and afterwards the pwd for the admin user) by going to **Settings > Authentication**.
+Note that on first login, an admin user is created requiring a **12 digit** password. You can change this setting (and afterwards the pwd for the admin user) by going to **Settings > Authentication > Password rules**.
 
+## Install Theia IDE for RPi as Docker Image
+
+The official Theia docker image is designed forAMD64 architectures, the common one that powers laptops and desktop PCs. In this case we are going to use a custom image to extend the compatibility to ARM devices like Raspberry Pi. Sourced from [Deploying Theia with Docker in Raspberry Pi](https://brjapon.medium.com/part-3-deploying-theia-ide-using-docker-740f8e2de841)
+
+To maintain the container via Portainer, add a new container via the Portainer GUI with the data as shown below. Change the port (8100) as required by your envronment.
+
+```
+docker run 
+  -d \
+  -it --restart always \
+  -p 8100:3000 \
+  -v "/home/<your username>:/home/project" \
+  --name theia \
+  docker.io/brjapon/theia-arm64
+```
+
+When finished, you can access the Theia IDE via `https://<your-server/ip>:8100`
+
+## Install Netdata with Docker
+
+Netdata is a monitoring, visualization, and troubleshooting solution for systems, containers, services, and applications.
+
+While the product is great, the [netdata docker documentation](https://learn.netdata.cloud/docs/agent/packaging/docker) has some room for improvement. The following is a working setup description.
+
+Prepare a `netdata` directory in your home:
+
+`mkdir -p ~/netdata`
+
+Use this base path for the mounts described in [Install Netdata with Docker](https://learn.netdata.cloud/docs/agent/packaging/docker) compose file, use Portainer Stack to compose the container. Note that it was necessary to add the DOCKER_USR/GRP info, else the container errored with can't write into `/var/cache/netdata`. See the [Github](https://github.com/netdata/netdata/issues/8663) issue for this.
+
+First we need to make a [Host editable configuration](https://learn.netdata.cloud/docs/agent/packaging/docker#host-editable-configuration)
+
+```
+sudo mkdir -p /usr/lib/netdata
+sudo chown <your-user>:<your-user> /usr/lib/netdata
+docker run -d --name netdata_tmp netdata/netdata
+docker cp netdata_tmp:/usr/lib/netdata/conf.d /usr/lib/netdata/
+docker rm -f netdata_tmp
+```
+
+Use the following composer file for netdata and adapt it to your needs:
+
+```
+version: '3'
+services:
+  netdata:
+    image: netdata/netdata
+    container_name: netdata
+    hostname: <your-hostname> # set to fqdn of host
+    ports:
+      - 19999:19999
+    restart: unless-stopped
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - apparmor:unconfined
+    volumes:
+      - /home/<your-user>/netdata/netdataconfig:/etc/netdata
+      - /home/<your-user>/netdata/netdatalib:/var/lib/netdata
+      - /home/<your-user>/netdata/netdatacache:/var/cache/netdata
+      - /etc/passwd:/host/etc/passwd:ro
+      - /etc/group:/host/etc/group:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/os-release:/host/etc/os-release:ro
+    environment:
+      - DOCKER_USR=1000
+      - DOCKER_GRP=1000
+volumes:
+  netdataconfig:
+  netdatalib:
+  netdatacache:
+```
+
+When the container is running, you can access netdata via `https://<your-server/ip>:19999`
+
+To make `edit-config` work, you need to set the needed environment variables when using docker.
+
+Edit the `/etc/profiles` file and add at the end the following to define the necessary environment variables for `edit-config`. Note that it needs the full path and no substitution:
+```
+export NETDATA_USER_CONFIG_DIR="/home/<your-username>/netdata/netdataconfig"
+export NETDATA_STOCK_CONFIG_DIR="/home/<your-username>/netdata/netdataconfig/orig"
+```
+
+When done, just type `source ~/.profile` in your shell to activate it.
+
+To see if it is working, run `sudo ~/netdata/netdataconfig/edit-config`
+
+Check the output for the `Stock` and `User` config location.
+You also should see the listing of the available config files.
+
+[Enable temperature sensor monitoring](https://learn.netdata.cloud/guides/monitor/pi-hole-raspberry-pi#enable-temperature-sensor-monitoring) for yor RPi
+
+`sudo ~/netdata/netdataconfig/edit-config charts.d.conf`
+
+Uncomment `# sensors=force` --> `sensors=force`
+
+Restart the container, and see the RPi temerature in the web interface in section `Sensors`.
