@@ -67,6 +67,7 @@ set backspace=indent,eol,start
 set clipboard+=unnamed  " use the clipboards of vim and win
 set paste               " Paste from a windows or from vim
 set go+=a               " Visual selection automatically copied to the clipboard
+set mouse=r             " enable mouse copy/paste
 syntax on               " permanently turn on syntax highlighting
 ```
 
@@ -381,3 +382,9 @@ You also should see the listing of the available config files.
 Uncomment `# sensors=force` --> `sensors=force`
 
 Restart the container, and see the RPi temerature in the web interface in section `Sensors`.
+
+<!---
+/api/v1/chart?
+URL/dashboard.html
+https://github.com/netdata/netdata/issues/9144
+-->
