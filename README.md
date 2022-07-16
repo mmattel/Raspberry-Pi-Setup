@@ -381,7 +381,7 @@ You also should see the listing of the available config files.
 
 Uncomment `# sensors=force` --> `sensors=force`
 
-Restart the container, and see the RPi temerature in the web interface in section `Sensors`.
+Restart the container, and see the RPi temperature in the web interface in section `Sensors`.
 
 <!---
 /api/v1/chart?
