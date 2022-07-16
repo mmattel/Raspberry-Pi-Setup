@@ -256,6 +256,25 @@ Create a default docker base directory for all your volumes you want to access:
 
 `mkdir -p ~/docker`
 
+Create an own file in `/etc/profiles.d` to define global environment variables used by containers or compose.
+
+`sudo vi /etc/profiles.d/docker.sh`
+
+Add at the following to define following environment variables:
+```
+export LOCAL_USER=1000
+export LOCAL_GROUP=1000
+```
+
+Reload your environment settings with (both are necessary to get back your settings for bash):
+
+```
+source /etc/profile
+source ~/.profile
+```
+
+Note if you want to remove an envoronment variable, just call `unset <variable-name>`.
+
 ## Installing Podman
 
 If you want to use podman...
@@ -375,18 +394,28 @@ When the container is running, you can access netdata via `https://<your-server/
 
 To make `edit-config` work, you need to set the needed environment variables when using docker.
 
-Edit the `/etc/profiles` file and add at the end the following to define the necessary environment variables for `edit-config`. Note it needs the full path and no substitution and you must set the env's in `/etc/profiles` and not in `~/.bashrc`:
+Add at the following to define the necessary environment variables for `edit-config`. Note it needs the full path and no substitution and you must set the env's in `/etc/profiles.d/docker.sh` and not in `~/.bashrc`:
+
+`sudo vi /etc/profiles.d/docker.sh`
+
 ```
 export NETDATA_USER_CONFIG_DIR="/home/<your-username>/docker/netdata/netdataconfig"
 export NETDATA_STOCK_CONFIG_DIR="/home/<your-username>/docker/netdata/netdataconfig/orig"
 ```
 
-When done, just type `source ~/.profile` in your shell to activate it.
+Reload your environment settings with (both are necessary to get back your settings for bash):
 
-To see if it is working, run `sudo ~/netdata/netdataconfig/edit-config`
+```
+source /etc/profile
+source ~/.profile
+```
+Check if the environment variables are present with:
 
-Check the output for the `Stock` and `User` config location.
-You also should see the listing of the available config files.
+`printenv | grep NETDATA`
+
+To see if it is working, run `sudo ~/netdata/netdataconfig/edit-config`.
+
+Check the output for the `Stock` and `User` config location with following command. You also should see the listing of the available config files.
 
 [Enable temperature sensor monitoring](https://learn.netdata.cloud/guides/monitor/pi-hole-raspberry-pi#enable-temperature-sensor-monitoring) for yor RPi
 
