@@ -362,7 +362,7 @@ When the container is running, you can access netdata via `https://<your-server/
 
 To make `edit-config` work, you need to set the needed environment variables when using docker.
 
-Edit the `/etc/profiles` file and add at the end the following to define the necessary environment variables for `edit-config`. Note that it needs the full path and no substitution:
+Edit the `/etc/profiles` file and add at the end the following to define the necessary environment variables for `edit-config`. Note it needs the full path and no substitution and you must set the env's in `/etc/profiles` and not in `~/.bashrc`:
 ```
 export NETDATA_USER_CONFIG_DIR="/home/<your-username>/netdata/netdataconfig"
 export NETDATA_STOCK_CONFIG_DIR="/home/<your-username>/netdata/netdataconfig/orig"
