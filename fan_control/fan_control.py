@@ -23,7 +23,7 @@ PWM_FREQ = 25  # [Hz] Change this value if fan has strange behavior
 # Configurable temperature and fan speed steps
 # note that you MUST have a 0 speed pair where the temp will be reached
 # when cooling down, else the fan will run forever
-tempSteps = [47, 53, 60, 65]   # [°C]
+tempSteps = [50, 55, 60, 65]   # [°C]
 speedSteps = [0, 30, 70, 100]  # [%]
 
 # Fan speed will change only of the difference of temperature is
