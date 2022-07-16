@@ -2,6 +2,8 @@
 
 A fully configurable [Z-Wave to MQTT Gateway](https://zwave-js.github.io/zwavejs2mqtt/#/) and Control Panel  when you want to build a Z-Wave hub. This is necessary for the official Home Assistant integration when you use a Z-Wave USB dongle that acts as central point. 
 
+zwavejs2mqtt exposes Z-Wave devices to an MQTT broker (to be installed, [Mosquitto MQTT](https://mosquitto.org)) in a fully configurable manner.
+
 See the [installation](https://zwave-js.github.io/zwavejs2mqtt/#/getting-started/docker?id=installation) for options.
 
 ## Installing via Docker Compose
