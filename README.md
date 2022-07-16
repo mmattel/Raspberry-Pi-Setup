@@ -377,9 +377,9 @@ services:
     security_opt:
       - apparmor:unconfined
     volumes:
-      - /home/<your-user>/docker/netdata/netdataconfig:/etc/netdata
-      - /home/<your-user>/docker/netdata/netdatalib:/var/lib/netdata
-      - /home/<your-user>/docker/netdata/netdatacache:/var/cache/netdata
+      - /home/<your-user>/docker/netdata/config:/etc/netdata
+      - /home/<your-user>/docker/netdata/lib:/var/lib/netdata
+      - /home/<your-user>/docker/netdata/cache:/var/cache/netdata
       - /etc/passwd:/host/etc/passwd:ro
       - /etc/group:/host/etc/group:ro
       - /proc:/host/proc:ro
@@ -399,8 +399,8 @@ Add at the following to define the necessary environment variables for `edit-con
 `sudo vi /etc/profiles.d/docker.sh`
 
 ```
-export NETDATA_USER_CONFIG_DIR="/home/<your-username>/docker/netdata/netdataconfig"
-export NETDATA_STOCK_CONFIG_DIR="/home/<your-username>/docker/netdata/netdataconfig/orig"
+export NETDATA_USER_CONFIG_DIR="/home/<your-username>/docker/netdata/config"
+export NETDATA_STOCK_CONFIG_DIR="/home/<your-username>/docker/netdata/config/orig"
 ```
 
 Reload your environment settings with (both are necessary to get back your settings for bash):
