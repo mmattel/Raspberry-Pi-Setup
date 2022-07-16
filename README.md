@@ -258,7 +258,7 @@ Create a default docker base directory for all your volumes you want to access:
 
 Create an own file in `/etc/profiles.d` to define global environment variables used by containers or compose.
 
-`sudo vi /etc/profiles.d/docker.sh`
+`sudo vi /etc/profiles.d/docker-env.sh`
 
 Add at the following to define following environment variables:
 ```
@@ -394,7 +394,7 @@ When the container is running, you can access netdata via `https://<your-server/
 
 To make `edit-config` work, you need to set the needed environment variables when using docker.
 
-Add at the following to define the necessary environment variables for `edit-config`. Note it needs the full path and no substitution and you must set the env's in `/etc/profiles.d/docker.sh` and not in `~/.bashrc`:
+Add at the following to define the necessary environment variables for `edit-config`. Note it needs the full path and no substitution and you must set the env's in `/etc/profiles.d/docker-env.sh` and not in `~/.bashrc`:
 
 `sudo vi /etc/profiles.d/docker.sh`
 
