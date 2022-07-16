@@ -10,6 +10,8 @@ Use the [Run as a Service](https://zwave-js.github.io/zwavejs2mqtt/#/getting-sta
 
 To get your `serial/by-id` value, connect the device run: `ls -l /dev/serial/by-id` and see the output.
 
+Use the directory `/home/<your-user>/docker` as base for the volume.
+
 ```
 version: "3.7"
 services:
