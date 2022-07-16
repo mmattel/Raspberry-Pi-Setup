@@ -29,7 +29,7 @@ Table of Contents
    * [Installing Docker and Docker Compose](#installing-docker-and-docker-compose)
    * [Installing Podman](#installing-podman)
    * [Installing Portainer with Docker](#installing-portainer-with-docker)
-   * [Install Theia IDE for RPi as Docker Image](#install-theia-ide-for-rpi-as-docker-image)
+   * [Install Theia IDE for RPi with Docker](#install-theia-ide-for-rpi-with-docker)
    * [Install Netdata with Docker](#install-netdata-with-docker)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
@@ -284,7 +284,7 @@ When the Portainer Container is running, access it with: `https://<your-server/i
 
 Note that on first login, an admin user is created requiring a **12 digit** password. You can change this setting (and afterwards the pwd for the admin user) by going to **Settings > Authentication > Password rules**.
 
-## Install Theia IDE for RPi as Docker Image
+## Install Theia IDE for RPi with Docker
 
 The official Theia docker image is designed forAMD64 architectures, the common one that powers laptops and desktop PCs. In this case we are going to use a custom image to extend the compatibility to ARM devices like Raspberry Pi. Sourced from [Deploying Theia with Docker in Raspberry Pi](https://brjapon.medium.com/part-3-deploying-theia-ide-using-docker-740f8e2de841)
 
