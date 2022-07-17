@@ -30,6 +30,7 @@ Table of Contents
    * [Installing Podman](#installing-podman)
    * [Installing Portainer with Docker](#installing-portainer-with-docker)
       * [Portainer Container Admin Password Reset](#portainer-container-admin-password-reset)
+   * [Live Monitoring of Docker Logs with Dozzle](#live-monitoring-of-docker-logs-with-dozzle)
    * [Install Theia IDE for RPi with Docker](#install-theia-ide-for-rpi-with-docker)
    * [Install Netdata with Docker](#install-netdata-with-docker)
 
@@ -320,6 +321,34 @@ docker run --rm -v portainer_data:/data portainer/helper-reset-password
 
 docker container start portainer
 ```
+
+## Live Monitoring of Docker Logs with Dozzle
+
+Altough you can access the logs in Portainer, it is not that eyecatching _click-and-go_ as with [Dozzle](https://golangexample.com/a-web-based-interface-to-monitor-your-docker-container-logs-live/). Dozzle is a simple, lightweight application that provides you with a web based interface to monitor your Docker container logs live. It doesn’t store log information, it is for live monitoring of your container logs only. You also can find Dozzle on [GitHub](https://github.com/amir20/dozzle).
+
+```
+version: "3"
+services:
+  dozzle:
+    container_name: dozzle
+    image: amir20/dozzle:latest
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 9999:8080
+    environment:
+      - DOZZLE_LEVEL=info
+      # - DOZZLE_NO_ANALYTICS=true # uncomment to disallow statistics
+```
+
+When Dozzle is running, access it with: `https://<your-server/ip>:9999`
+
+
 ## Install Theia IDE for RPi with Docker
 
 The official Theia docker image is designed forAMD64 architectures, the common one that powers laptops and desktop PCs. In this case we are going to use a custom image to extend the compatibility to ARM devices like Raspberry Pi. Sourced from [Deploying Theia with Docker in Raspberry Pi](https://brjapon.medium.com/part-3-deploying-theia-ide-using-docker-740f8e2de841)
@@ -327,13 +356,20 @@ The official Theia docker image is designed forAMD64 architectures, the common o
 To maintain the container via Portainer, add a new container via the Portainer GUI with the data as shown below. Change the port (8100) as required by your envronment.
 
 ```
-docker run 
-  -d \
-  -it --restart always \
-  -p 8100:3000 \
-  -v "/home/<your username>:/home/project" \
-  --name theia \
-  docker.io/brjapon/theia-arm64
+version: "3"
+services:
+  theia:
+    container_name: theia
+    image: brjapon/theia-arm64
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    volumes:
+      - /home/<your username>:/home/project
+    ports:
+      - 8100:3000
 ```
 
 When finished, you can access the Theia IDE via `https://<your-server/ip>:8100`

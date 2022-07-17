@@ -48,7 +48,7 @@ services:
     ports:
       - "8091:8091" # port for web interface
       - "3000:3000" # port for Z-Wave JS websocket server
-    user: "${LOCAL_USER}:${LOCAL_GROUP}"
+    # user: "${LOCAL_USER}:${LOCAL_GROUP}"
 networks:
   zwave:
 volumes:
