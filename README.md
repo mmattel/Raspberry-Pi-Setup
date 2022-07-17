@@ -466,6 +466,14 @@ Uncomment `# sensors=force` --> `sensors=force`
 
 Restart the container, and see the RPi temperature in the web interface in section `Sensors`.
 
+## Bash Script to Check a Port
+
+This script checks if a port of an application responds, useful when you want to define docker container independently via compose but need a dependency for starting up, like when you have one container waiting for a database to be responsive. The script restricts checking for local ports only.
+
+You can put this script at any location desired, but as we use it with docker, put it in the `~/docker` directory created above.
+
+Open `vi ~/docker/port-test.sh` and insert the content of [port-test.sh](./scripts/port-test.sh). When done, make the script executable with `sudo chmod +x ~/docker/port-test.sh`. Give it a try with `~/docker/port-test.sh`, it is self explaining.
+
 <!---
 /api/v1/chart?
 URL/dashboard.html
