@@ -14,6 +14,11 @@ services:
   homeassistant:
     container_name: homeassistant
     image: "ghcr.io/home-assistant/home-assistant:stable"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
     volumes:
       - //home/<your-user>/docker/hass:/config
       - /etc/localtime:/etc/localtime:ro

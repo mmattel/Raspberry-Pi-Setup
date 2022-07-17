@@ -366,8 +366,13 @@ Use the following composer file for netdata and adapt it to your needs:
 version: '3'
 services:
   netdata:
-    image: netdata/netdata
     container_name: netdata
+    image: netdata/netdata
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
     hostname: <your-hostname> # set to fqdn of host
     ports:
       - 19999:19999
