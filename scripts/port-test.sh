@@ -61,6 +61,9 @@ for EXPONENTIAL_BACKOFF in $(eval echo {1..${2:-5}}); do
     sleep $DELAY
 done
 
-echo "Port $1 was not reachable after $SUM seconds"
+if [ -z $STATUS ]; then
+    echo "Port $1 was not reachable after $SUM seconds"
+fi
+
 exit $STATUS
 
