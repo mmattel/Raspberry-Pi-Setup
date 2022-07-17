@@ -19,6 +19,7 @@ Usage:
     1 ... port inaccessible
     2 ... parameter missing
     3 ... parameter is not a positive integer number or too high
+
 USAGE
   exit 2
 fi
