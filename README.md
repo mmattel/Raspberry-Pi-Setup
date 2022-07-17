@@ -33,6 +33,7 @@ Table of Contents
    * [Live Monitoring of Docker Logs with Dozzle](#live-monitoring-of-docker-logs-with-dozzle)
    * [Install Theia IDE for RPi with Docker](#install-theia-ide-for-rpi-with-docker)
    * [Install Netdata with Docker](#install-netdata-with-docker)
+   * [Bash Script to Check a Port](#bash-script-to-check-a-port)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
 
