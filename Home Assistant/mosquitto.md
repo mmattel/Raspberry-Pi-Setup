@@ -32,4 +32,4 @@ services:
     user: "${LOCAL_USER}:${LOCAL_GROUP}"
 ```
 
-When the container is running, you can access mosquitto via `http://<your-server/ip>:1883`
+[comment]: # (When the container is running, you can access mosquitto via `http://<your-server/ip>:1883`)
