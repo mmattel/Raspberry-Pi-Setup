@@ -469,7 +469,7 @@ Restart the container, and see the RPi temperature in the web interface in secti
 
 ## Bash Script to Check a Port
 
-This script checks if a port of an application responds, useful when you want to define docker container independently via compose but need a dependency for starting up, like when you have one container waiting for a database to be responsive. The script restricts checking for local ports only.
+This script checks if a port of an application responds, useful when you want to check if a service is up. The script restricts checking for local ports only.
 
 You can put this script at any location desired, but as we use it with docker, put it in the `~/docker` directory created above.
 

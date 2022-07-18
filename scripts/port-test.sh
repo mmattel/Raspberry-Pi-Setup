@@ -63,6 +63,8 @@ done
 
 if [ -z $STATUS ]; then
     echo "Port $1 was not reachable after $SUM seconds"
+else
+    echo "Port $1 is reachable"
 fi
 
 exit $STATUS
