@@ -10,9 +10,11 @@ The MQTT protocol provides a lightweight method of carrying out messaging using 
 
 The Mosquitto MQTT broker is the central hub for messages. The the [Z-Wave to MQTT Gateway](./zwavejs2mqtt.md) and [Home Assistant](./ha_install.md) will connect to it.
 
+See the mosquitto broker as a hub for messages without knowledge of the sender and topic, which publishes (broadcasts) the messages recieved. To do so, it uses a port the publisher and subscriber connect to. It is on the  publisher/subscriber to decide about the topic sent or recieved. 
+
 ## Installing Mosquitto with Docker
 
-Note that the container will fail starting up as a default config file is missing. To fix this, just copy the [mosquitto.conf](https://github.com/eclipse/mosquitto/blob/master/mosquitto.conf) file from github to the `docker/mosquitto/config` directory.
+Note that the container will fail starting up as a default config file is missing. To fix this, just copy the [mosquitto.conf](https://github.com/eclipse/mosquitto/blob/master/mosquitto.conf) file from github to the `docker/mosquitto/config` directory and restart the container.
 
 ```
 version: "3"
@@ -32,4 +34,11 @@ services:
     user: "${LOCAL_USER}:${LOCAL_GROUP}"
 ```
 
-[comment]: # (When the container is running, you can access mosquitto via `http://<your-server/ip>:1883`)
+Because we are only working on the local LAN, you can set the `listerer` in section _Extra listeners_ and the `allow_anonymous` in the _Security_ section config option to:
+
+`vi docker/mosquitto/config/mosquitto.conf`
+
+```
+listener 1883 0.0.0.0
+allow_anonymous true
+```
