@@ -480,3 +480,13 @@ Open `vi ~/docker/port-test.sh` and copy the content of [port-test.sh](./scripts
 URL/dashboard.html
 https://github.com/netdata/netdata/issues/9144
 -->
+
+## Summary of Ports Used
+
+| Service   | Port  |
+| :---      |  ---: |
+| Portainer | 9443  |
+| Dozzle    | 9999  |
+| Theia     | 8100  |
+| netdata   | 19999 |
+
