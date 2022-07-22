@@ -34,6 +34,9 @@ Table of Contents
    * [Install Theia IDE for RPi with Docker](#install-theia-ide-for-rpi-with-docker)
    * [Install Netdata with Docker](#install-netdata-with-docker)
    * [Bash Script to Check a Port](#bash-script-to-check-a-port)
+   * [Summary of Ports and URL's Used](#summary-of-ports-and-urls-used)
+   * [Install Home Assistant](#install-home-assistant)
+      * [Additional Ports and URL's Used](#additional-ports-and-urls-used)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
 
@@ -481,12 +484,27 @@ URL/dashboard.html
 https://github.com/netdata/netdata/issues/9144
 -->
 
-## Summary of Ports Used
+## Summary of Ports and URL's Used
 
-| Service   | Port  |
-| :---      |  ---: |
-| Portainer | 9443  |
-| Dozzle    | 9999  |
-| Theia     | 8100  |
-| netdata   | 19999 |
+| Service   | Port  | URL                              |
+| :---      |  ---: | :---                             |
+| Portainer | 9443  | `https:\\<your-server/ip>:9443`  |
+| Dozzle    | 9999  |  `http:\\<your-server/ip>:9999`  |
+| Theia     | 8100  |  `http:\\<your-server/ip>:8100`  |
+| netdata   | 19999 |  `http:\\<your-server/ip>:19999` |
+
+## Install Home Assistant
+
+- Install [mosquitto](./home_assistant/mosquitto.md)
+- Install [MQTT Explorer](./home_assistant/mqtt_explorer.md)
+- Install [zwavejs2mqtt](./home_assistant/zwavejs2mqtt.md)
+- Install [ha_install](./home_assistant/ha_install.md)
+
+### Additional Ports and URL's Used
+
+| Service       | Port  | URL                             |
+| :---          |  ---: | :---                            |
+| mosquitto     | 1883  |                                 |
+| MQTT Explorer | 4000  |  `http:\\<your-server/ip>:4000` |
+| zwavejs2mqtt  | 8091  | `https:\\<your-server/ip>:8091` |
 

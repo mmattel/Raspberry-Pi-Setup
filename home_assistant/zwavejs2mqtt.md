@@ -63,3 +63,5 @@ More environment variables can be provided, see the [list](https://zwave-js.gith
 When the container is running, you can access zwavejs2mqtt via `http://<your-server/ip>:8091`
 
 If you have enabled authentication and forgot the password, the default username is `admin`, password is `zwave`.
+
+If you previously have added MQTT Explorer, you see post configuring that zwave has been added and messages are posted.  
