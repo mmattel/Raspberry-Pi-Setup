@@ -1,5 +1,14 @@
 # Mosquitto MQTT broker
 
+   * [Overview](#overview)
+   * [Installing Mosquitto with Docker](#installing-mosquitto-with-docker)
+   * [Set a Password authentication](#set-a-password-authentication)
+   * [Accessing Mosquitto](#accessing-mosquitto)
+
+<!-- Created by https://github.com/ekalinin/github-markdown-toc -->
+
+## Overview
+
 [Mosquitto](https://mosquitto.org) is an open source message broker that implements the MQTT protocol.
 
 The MQTT protocol provides a lightweight method of carrying out messaging using a publish/subscribe model. This makes it suitable for Internet of Things messaging such as with low power sensors or mobile devices such as phones, embedded computers or microcontrollers.
@@ -27,6 +36,11 @@ services:
     tty: true            # comment if you do not need
     ports:
       - "1883:1883"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
     volumes:
       - "/home/<your-user>l/docker/mosquitto/config:/mosquitto/config"
       - "/home/<your-user>/docker/mosquitto/data:/mosquitto/data"
@@ -47,16 +61,15 @@ allow_anonymous true
 
 ## Set a Password authentication
 
-If you want to set a password for security reasons, proceed with the following:
+If you want to set a password for security reasons, proceed with the following, replace `<user-name>` accordingly:
 
-- In portainer, go into the command shell of the container using `bin/sh`
-- `cd /mosquitto/config`
-- `mosquitto_passwd -U password.txt`
+- In portainer, go into the command shell of the mosquitto container using `bin/sh`
+- Run `mosquitto_passwd -c /mosquitto/config/password.txt <user-name>`
+- You will get asked for a user and a password - remember it.
+- Use `mosquitto_passwd --help` to see all the arguments and options (like for updating the password)
 - Exit the command shell with button `Disconnect`
 
-You will get asked for a user and a password - remember it.
-
-Now change the mosquitto.conf file to configure it for password authentication
+Now change the mosquitto.conf file from your RPi to configure it for password authentication
 
 `vi docker/mosquitto/config/mosquitto.conf`
 
@@ -66,3 +79,8 @@ password_file /mosquitto/config/password.txt
 ```
 
 When done, restart the container.
+
+
+## Accessing Mosquitto
+
+To access mosquitto, it might be neccessary to use not only the hostname of the RPi but the FQDN - check it out.
