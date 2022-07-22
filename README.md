@@ -498,13 +498,13 @@ https://github.com/netdata/netdata/issues/9144
 - Install [mosquitto](./home_assistant/mosquitto.md)
 - Install [MQTT Explorer](./home_assistant/mqtt_explorer.md)
 - Install [zwavejs2mqtt](./home_assistant/zwavejs2mqtt.md)
-- Install [ha_install](./home_assistant/ha_install.md)
+- Install [Home Assistant](./home_assistant/ha_install.md)
 
 ### Additional Ports and URL's Used
 
-| Service       | Port  | URL                             |
-| :---          |  ---: | :---                            |
-| mosquitto     | 1883  |                                 |
-| MQTT Explorer | 4000  |  `http:\\<your-server/ip>:4000` |
-| zwavejs2mqtt  | 8091  | `https:\\<your-server/ip>:8091` |
-
+| Service         | Port  | URL                             |
+| :---            |  ---: | :---                            |
+| mosquitto       | 1883  |                                 |
+| MQTT Explorer   | 4000  |  `http:\\<your-server/ip>:4000` |
+| zwavejs2mqtt    | 8091  | `https:\\<your-server/ip>:8091` |
+| Home Assistant  | 8123  | `https:\\<your-server/ip>:8123` |
