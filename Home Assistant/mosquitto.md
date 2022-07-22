@@ -23,6 +23,8 @@ services:
     container_name: mosquitto
     image: eclipse-mosquitto
     restart: unless-stopped
+    stdin_open: true     # comment if you do not need
+    tty: true            # comment if you do not need
     ports:
       - "1883:1883"
     volumes:
@@ -42,3 +44,25 @@ Because we are only working on the local LAN, you can set the `listerer` in sect
 listener 1883 0.0.0.0
 allow_anonymous true
 ```
+
+## Set a Password authentication
+
+If you want to set a password for security reasons, proceed with the following:
+
+- In portainer, go into the command shell of the container using `bin/sh`
+- `cd /mosquitto/config`
+- `mosquitto_passwd -U password.txt`
+- Exit the command shell with button `Disconnect`
+
+You will get asked for a user and a password - remember it.
+
+Now change the mosquitto.conf file to configure it for password authentication
+
+`vi docker/mosquitto/config/mosquitto.conf`
+
+```
+allow_anonymous false
+password_file /mosquitto/config/password.txt
+```
+
+When done, restart the container.
