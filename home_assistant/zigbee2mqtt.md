@@ -6,6 +6,7 @@
       * [Setup the MQTT Broker connection](#setup-the-mqtt-broker-connection)
       * [Fix USB Device Error Issues](#fix-usb-device-error-issues)
    * [Update the Zigbee USB Gateway adapter](#update-the-zigbee-usb-gateway-adapter)
+   * [Configuration](#configuration)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
 
@@ -21,7 +22,7 @@ Note as MQTT is used, do not install in Home Assistant the Zigbee Home Automatio
 
 Note you should plugin the Zigbee USB Gateway adapter before configuring to avoid startup issues.
 
-As tip, [Phoscon ConBee II - Universal Zigbee USB-Gateway](https://www.amazon.de/ConBee-das-universelle-Zigbee-USB-Gateway/dp/B07PZ7ZHG5/ref=sr_1_2?__mk_de_DE=ÅMÅŽÕÑ&crid=1WSYKN1A08TY1&keywords=Phoscon+ConBee+II+-+das+universelle+Zigbee+USB-Gateway&qid=1658563005&s=ce-de&sprefix=phoscon+conbee+ii+-+das+universelle+zigbee+usb-gateway%2Celectronics%2C188&sr=1-2) from _dresden electronik_ is a gateway with many positive reviews.  
+For the configuration, the [Phoscon ConBee II - Universal Zigbee USB-Gateway](https://www.amazon.de/ConBee-das-universelle-Zigbee-USB-Gateway/dp/B07PZ7ZHG5/ref=sr_1_2?__mk_de_DE=ÅMÅŽÕÑ&crid=1WSYKN1A08TY1&keywords=Phoscon+ConBee+II+-+das+universelle+Zigbee+USB-Gateway&qid=1658563005&s=ce-de&sprefix=phoscon+conbee+ii+-+das+universelle+zigbee+usb-gateway%2Celectronics%2C188&sr=1-2) from _dresden electronik_ is used as it has many positive reviews.  
 
 To get your `serial/by-id` value, connect the device run: `ls -l /dev/serial/by-id` and see the output.
 
@@ -42,6 +43,10 @@ services:
       - 8090:8080
     environment:
       - TZ=Europe/Berlin
+      - ZIGBEE2MQTT_CONFIG_MQTT_SERVER='mqtt://<fqdn>:1883'
+      - ZIGBEE2MQTT_CONFIG_MQTT_USER=<your-user>
+      - ZIGBEE2MQTT_CONFIG_MQTT_PASSWORD=<your-password>
+      - ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER=deconz
     devices:
       # Do not use /dev/ttyUSBX serial devices, as those mappings can change over time.
       # Instead, use the /dev/serial/by-id/X serial device for your Zigbee stick like
@@ -53,21 +58,24 @@ services:
 
 When you have started the container, it will most likely fail for some reasons:
 
-- The connection to the MQTT broker (mosquitto) is not setup in `configuration.yaml`.
-- When using the Conbee II, you have not added the `adapter: deconz` entry in `configuration.yaml`.
+- The connection to the MQTT broker (mosquitto) fails.
+- When using the Conbee II, the `adapter: deconz` setting is not set.
 - You have not connected the Zigbee USB Gateway adapter or misconfigured its device definition.
 
 See the log responses in `Dozzle` for details.
 
 If the Zigbee USB Gateway adapter is not connected or misconfigured, you will see log messages like: `Error: Error while opening serialport 'Error: Error: No such file or directory, cannot open /dev/ttyACM0'` 
 
+Note, enironment variables overwrite `configuration.yaml`. To edit the configuration file, type:
+
+`sudo vi ~/docker/zigbee2mqtt/data/configuration.yaml`
+
 When the container is running, you can access Zigbee2MQTT via `https://<your-server/ip>:8090`.
 
 ### Setup the MQTT Broker connection
 
-Edit the `configuration.yaml` and set the server respectively user and password if required. Note that the URL for the server is `mqtt://fqdn:1883`
-
-`sudo vi ~/docker/zigbee2mqtt/data/configuration.yaml`
+- Check the environmant variables in the docker-compose file, or
+- Edit the `configuration.yaml` and set the server respectively user and password if required. Note that the URL for the server is `mqtt://fqdn:1883`
 
 ### Fix USB Device Error Issues
 
@@ -80,3 +88,7 @@ Edit the `configuration.yaml` and set the server respectively user and password 
 ## Update the Zigbee USB Gateway adapter
 
 This is not possible using Zigbee2MQTT, at least I have not found a way. When using  ConBee II, it must be done in a different way. A good description can be found here: [How to update ConBee/ConBee II firmware in Windows 10](https://flemmingss.com/how-to-update-conbee-conbee-ii-firmware-in-windows-10/).
+
+## Configuration
+
+See the [Configuration](https://www.zigbee2mqtt.io/guide/configuration/#configuration) documentation for more details.
