@@ -26,3 +26,5 @@ services:
     privileged: true
     network_mode: host
 ```
+
+[Official Zigbee2MQTT Home Assistant addon](https://www.zigbee2mqtt.io/guide/installation/03_ha_addon.html#home-assistant-addon)
