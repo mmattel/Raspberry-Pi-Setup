@@ -42,6 +42,11 @@ services:
     container_name: zigbee2mqtt
     image: koenkk/zigbee2mqtt
     restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
     volumes:
       - /home/<your-user>/docker/zigbee2mqtt/data:/app/data
       - /run/udev:/run/udev:ro
