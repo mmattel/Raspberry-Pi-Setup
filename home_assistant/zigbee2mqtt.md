@@ -20,13 +20,20 @@ Note as MQTT is used, do not install in Home Assistant the Zigbee Home Automatio
 
 ## Installing via Docker Compose
 
-Note you should plugin the Zigbee USB Gateway adapter before configuring to avoid startup issues.
+Note that you **must** plugin the Zigbee USB Gateway adapter before configuring to avoid startup issues.
 
 For the configuration, the [Phoscon ConBee II - Universal Zigbee USB-Gateway](https://www.amazon.de/ConBee-das-universelle-Zigbee-USB-Gateway/dp/B07PZ7ZHG5/ref=sr_1_2?__mk_de_DE=ÅMÅŽÕÑ&crid=1WSYKN1A08TY1&keywords=Phoscon+ConBee+II+-+das+universelle+Zigbee+USB-Gateway&qid=1658563005&s=ce-de&sprefix=phoscon+conbee+ii+-+das+universelle+zigbee+usb-gateway%2Celectronics%2C188&sr=1-2) from _dresden electronik_ is used as it has many positive reviews.  
 
 To get your `serial/by-id` value, connect the device run: `ls -l /dev/serial/by-id` and see the output.
 
-Use the directory `/home/<your-user>/docker` as base for the volume.
+Use the directory `/home/<your-user>/docker` as base for the volumes.
+
+Note that [envoronment variables](https://www.zigbee2mqtt.io/guide/configuration/#environment-variables) are used to setup the connection to the MQTT broker (mosquitto) and necessary serial adapter config for the ConBee II. This eases basic startup configuration at the docker-compose level.
+
+Note that enironment variables overwrite settings in `configuration.yaml`.\
+To edit the configuration file post first start, type: 
+`sudo vi ~/docker/zigbee2mqtt/data/configuration.yaml`
+
 
 ```
 version: '3.8'
@@ -60,27 +67,24 @@ When you have started the container, it will most likely fail for some reasons:
 
 - The connection to the MQTT broker (mosquitto) fails.
 - When using the Conbee II, the `adapter: deconz` setting is not set.
-- You have not connected the Zigbee USB Gateway adapter or misconfigured its device definition.
+- The `serial/by-id` string is incorrect. 
+- You have not connected the Zigbee USB Gateway adapter.
 
 See the log responses in `Dozzle` for details.
 
 If the Zigbee USB Gateway adapter is not connected or misconfigured, you will see log messages like: `Error: Error while opening serialport 'Error: Error: No such file or directory, cannot open /dev/ttyACM0'` 
 
-Note, enironment variables overwrite `configuration.yaml`. To edit the configuration file, type:
-
-`sudo vi ~/docker/zigbee2mqtt/data/configuration.yaml`
-
 When the container is running, you can access Zigbee2MQTT via `https://<your-server/ip>:8090`.
 
-### Setup the MQTT Broker connection
+### Fix MQTT Broker Connection Issues
 
-- Check the environmant variables in the docker-compose file, or
-- Edit the `configuration.yaml` and set the server respectively user and password if required. Note that the URL for the server is `mqtt://fqdn:1883`
+- Check the environmant variables in the docker-compose file.
+- Use the FQDN, the server may not be accessible using the hostname only.
 
 ### Fix USB Device Error Issues
 
 - Connect the Zigbee USB Gateway adapter
-- When using the Conbee II, check if you need to _add_ `adapter: deconz` in [configuration.yaml](https://www.zigbee2mqtt.io/guide/adapters/#other).
+- When using the Conbee II, check if you have _added_ `adapter: deconz`, see the [configuration](https://www.zigbee2mqtt.io/guide/adapters/#other) section of the documentation.
 - Check the `serial/by-id` value with `ls -l /dev/serial/by-id` and add it to the docker-compose file.
 - Check the [Zigbee2MQTT fails to start](https://www.zigbee2mqtt.io/guide/installation/20_zigbee2mqtt-fails-to-start.html#zigbee2mqtt-fails-to-start) section.
 - When all checked, restart the container.
