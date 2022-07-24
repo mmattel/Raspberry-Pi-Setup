@@ -3,7 +3,7 @@
 ## Table of Contents
 
    * [Installing via Docker Compose](#installing-via-docker-compose)
-      * [Setup the MQTT Broker connection](#setup-the-mqtt-broker-connection)
+      * [Fix MQTT Broker Connection Issues](#fix-mqtt-broker-connection-issues)
       * [Fix USB Device Error Issues](#fix-usb-device-error-issues)
    * [Update the Zigbee USB Gateway adapter](#update-the-zigbee-usb-gateway-adapter)
    * [Configuration](#configuration)

@@ -80,7 +80,6 @@ password_file /mosquitto/config/password.txt
 
 When done, restart the container.
 
-
 ## Accessing Mosquitto
 
 To access mosquitto, it might be neccessary to use not only the hostname of the RPi but the FQDN - check it out.
