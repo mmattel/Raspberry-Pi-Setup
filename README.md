@@ -344,6 +344,7 @@ services:
   dozzle:
     container_name: dozzle
     image: amir20/dozzle:latest
+    restart: unless-stopped
     logging:
       driver: "json-file"
       options:
