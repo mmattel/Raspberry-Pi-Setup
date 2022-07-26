@@ -379,6 +379,7 @@ services:
   theia:
     container_name: theia
     image: brjapon/theia-arm64
+    restart: unless-stopped
     logging:
       driver: "json-file"
       options:
@@ -422,6 +423,7 @@ services:
   netdata:
     container_name: netdata
     image: netdata/netdata
+    restart: unless-stopped
     logging:
       driver: "json-file"
       options:
@@ -430,7 +432,6 @@ services:
     hostname: <your-hostname> # set to fqdn of host
     ports:
       - 19999:19999
-    restart: unless-stopped
     cap_add:
       - SYS_PTRACE
     security_opt:

@@ -62,7 +62,7 @@ services:
     devices:
       # Do not use /dev/ttyUSBX serial devices, as those mappings can change over time.
       # Instead, use the /dev/serial/by-id/X serial device for your Zigbee stick like
-      #- "/dev/serial/by-id/usb-dresden_elektronik_ingenieurtechnik_GmbH_ConBee_II_DE2478344-if00:/dev/ttyACM0"
+      - "/dev/serial/by-id/usb-dresden_elektronik_ingenieurtechnik_GmbH_ConBee_II_DE2598287-if00:/dev/ttyACM0"
     group_add:
       - dialout
     user: "${LOCAL_USER}:${LOCAL_GROUP}"

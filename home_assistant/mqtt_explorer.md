@@ -13,6 +13,7 @@ services:
   mqtt-explorer:
     container_name: mqtt-explorer
     image: smeagolworms4/mqtt-explorer
+    restart: unless-stopped
     logging:
       driver: "json-file"
       options:
