@@ -96,7 +96,7 @@ When the container is running, you can access Zigbee2MQTT via `https://<your-ser
 
 ## Update the Zigbee USB Gateway adapter
 
-This is not possible using Zigbee2MQTT, at least I have not found a way. When using  ConBee II, it must be done in a different way. A good description can be found here: [How to update ConBee/ConBee II firmware in Windows 10](https://flemmingss.com/how-to-update-conbee-conbee-ii-firmware-in-windows-10/).
+This is not possible using Zigbee2MQTT, at least I have not found a way. When using  ConBee II, it must be done in a different way. A description can be found here: [Firmware in Windows](https://github.com/dresden-elektronik/deconz-rest-plugin/wiki/Update-deCONZ-manually#update-in-windows). Note that as far I see it, the GCFFlasher is only available in Windows as standalone program without the need for any installation. For Linux, there is always the need to install the deCONZ package and disable the application afterwards - just to use the flasher.
 
 ## Configuration
 
