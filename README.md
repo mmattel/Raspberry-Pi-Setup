@@ -31,6 +31,7 @@ Table of Contents
    * [Installing Podman](#installing-podman)
    * [Installing Portainer with Docker](#installing-portainer-with-docker)
       * [Portainer Container Admin Password Reset](#portainer-container-admin-password-reset)
+      * [Portainer Upgrade](#portainer-upgrade)
    * [Live Monitoring of Docker Logs with Dozzle](#live-monitoring-of-docker-logs-with-dozzle)
    * [Install Theia IDE for RPi with Docker](#install-theia-ide-for-rpi-with-docker)
    * [Install Netdata with Docker](#install-netdata-with-docker)
@@ -333,6 +334,10 @@ docker run --rm -v portainer_data:/data portainer/helper-reset-password
 
 docker container start portainer
 ```
+
+### Portainer Upgrade
+
+Follow the [portainer upgrade documantation](https://docs.portainer.io/start/upgrade/docker) for details.
 
 ## Live Monitoring of Docker Logs with Dozzle
 
