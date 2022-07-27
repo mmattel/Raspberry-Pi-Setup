@@ -30,10 +30,11 @@ Use the directory `/home/<your-user>/docker` as base for the volumes.
 
 Note that [envoronment variables](https://www.zigbee2mqtt.io/guide/configuration/#environment-variables) are used to setup the connection to the MQTT broker (mosquitto) and necessary serial adapter config for the ConBee II. This eases basic startup configuration at the docker-compose level.
 
-Note that enironment variables overwrite settings in `configuration.yaml`.\
-To edit the configuration file post first start, type: 
-`sudo vi ~/docker/zigbee2mqtt/data/configuration.yaml`
+**IMPORTANT:** Currently you need to define the mqtt.server in the configuration.yaml file, the definition via an environment variable in the docker-compose file returns an error when starting up (MQTT failed to connect: Missing protocol)
 
+Note that enironment variables overwrite settings in `configuration.yaml`.\
+To edit the [configuration](https://www.zigbee2mqtt.io/guide/configuration/#configuration) file post first start, type: 
+`sudo vi ~/docker/zigbee2mqtt/data/configuration.yaml`
 
 ```
 version: '3.8'
@@ -55,14 +56,16 @@ services:
       - 8090:8080
     environment:
       - TZ=Europe/Berlin
-      - ZIGBEE2MQTT_CONFIG_MQTT_SERVER='mqtt://<fqdn>:1883'
+      #- ZIGBEE2MQTT_CONFIG_MQTT_SERVER='mqtt://<fqdn>:1883'
       - ZIGBEE2MQTT_CONFIG_MQTT_USER=<your-user>
       - ZIGBEE2MQTT_CONFIG_MQTT_PASSWORD=<your-password>
+      - ZIGBEE2MQTT_CONFIG_SERIAL_PORT=/dev/zigbee
       - ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER=deconz
+      - ZIGBEE2MQTT_CONFIG_FRONTEND=true 
     devices:
-      # Do not use /dev/ttyUSBX serial devices, as those mappings can change over time.
+      # Do not use /dev/ttyUSBX/ACM0 serial devices, as those mappings can change over time.
       # Instead, use the /dev/serial/by-id/X serial device for your Zigbee stick like
-      - "/dev/serial/by-id/usb-dresden_elektronik_ingenieurtechnik_GmbH_ConBee_II_DE2598287-if00:/dev/ttyACM0"
+      - "/dev/serial/by-id/usb-dresden_elektronik_ingenieurtechnik_GmbH_ConBee_II_DE2598287-if00:/dev/zigbee"
     group_add:
       - dialout
     user: "${LOCAL_USER}:${LOCAL_GROUP}"
