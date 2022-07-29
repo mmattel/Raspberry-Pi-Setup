@@ -27,7 +27,9 @@ Table of Contents
       * [PWM controlled fan speed](#pwm-controlled-fan-speed)
       * [Check the Fan Speed](#check-the-fan-speed)
       * [Making fan_control a Service](#making-fan_control-a-service)
+   * [Install and Configure the NFS Client](#install-and-configure-the-nfs-client)
    * [Installing Docker and Docker Compose](#installing-docker-and-docker-compose)
+      * [Setup Docker to Wait for NFS Mounts](#setup-docker-to-wait-for-nfs-mounts)
    * [Installing Podman](#installing-podman)
    * [Installing Portainer with Docker](#installing-portainer-with-docker)
       * [Portainer Container Admin Password Reset](#portainer-container-admin-password-reset)
@@ -242,13 +244,16 @@ sudo systemctl start fan_control.service
 sudo systemctl status fan_control.service
 ```
 
-## Install and Configure NFS Client
+## Install and Configure the NFS Client
 
-NFS is used to store the `docker` folder in the home directory. This folder will contain all volumes used by containers. This is done to relax the IO from the SD card improving lifetime.
+NFS is used to store the `docker` and the `backup` folder in the home directory. This is done to relax the IO from the SD card improving its lifetime.
+
+* The `docker` folder will contain all volumes used by containers. 
+* The `backup` folder will contain the RPi backup image.
 
 `sudo apt install nfs-common`
 
-Add to your `/etc/fstab` the following lines, the `_netdev` option waits until the network is up. 
+Add to your `/etc/fstab` the following lines, the `_netdev` option waits until the network is up, `nofail` continues the boot process without being stuck when the mount is not available.
 
 `sudo vi /etc/fstab`
 
@@ -307,19 +312,21 @@ source ~/.profile
 
 Note if you want to remove an envoronment variable, just call `unset <variable-name>`.
 
-### Configure Docker with NFS
+### Setup Docker to Wait for NFS Mounts
 
-First of all we check the docker servise is up
+Doing so, the service will start only if the NFS mount is available ensuring that container will work properly.
+ 
+First of all we check if the docker servise is up, look for a positive result:
 
 `sudo systemctl status docker`
 
-If this returns a positive running docker service, run:
+Then check the name of the mount to wait for:
 
 `systemctl list-units | grep -nP "\.mount"`
 
-and look for the ` home-<your-user>-docker.mount`, this should be present.
+look for the ` home-<your-user>-docker.mount`, this mount should be present.
 
-Next add this folder to the docker service as startup dependency:
+Add this folder to the docker service as startup dependency:
 
 `sudo systemctl edit docker.service`
 
