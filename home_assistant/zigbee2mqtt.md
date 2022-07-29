@@ -56,7 +56,7 @@ services:
       - 8090:8080
     environment:
       - TZ=Europe/Berlin
-      #- ZIGBEE2MQTT_CONFIG_MQTT_SERVER='mqtt://<fqdn>:1883'
+      - ZIGBEE2MQTT_CONFIG_MQTT_SERVER=mqtt://<fqdn>:1883
       - ZIGBEE2MQTT_CONFIG_MQTT_USER=<your-user>
       - ZIGBEE2MQTT_CONFIG_MQTT_PASSWORD=<your-password>
       - ZIGBEE2MQTT_CONFIG_SERIAL_PORT=/dev/zigbee
