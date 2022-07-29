@@ -242,6 +242,24 @@ sudo systemctl start fan_control.service
 sudo systemctl status fan_control.service
 ```
 
+## Install and Configure NFS Client
+
+NFS is used to store the `docker` folder in the home directory. This folder will contain all volumes used by containers. This is done to relax the IO from the SD card improving lifetime.
+
+`sudo apt install nfs-common`
+
+Add to your `/etc/fstab` the following lines, the `_netdev` option waits until the network is up. 
+
+`sudo vi /etc/fstab`
+
+```
+# nfs
+<nfs-server>:path_docker /home/<your-user>/docker nfs bg,nfsvers=3,wsize=32768,rsize=32768,tcp,_netdev,nofail 0 0
+<nfs-server>:path_backup /home/<your-user>/backup nfs bg,nfsvers=3,wsize=32768,rsize=32768,tcp,_netdev,nofail 0 0
+```
+
+Run `sudo mount -a` to mount all directories.
+
 ## Installing Docker and Docker Compose
 
 Note that installing docker may take some minutes.
@@ -288,6 +306,27 @@ source ~/.profile
 ```
 
 Note if you want to remove an envoronment variable, just call `unset <variable-name>`.
+
+### Configure Docker with NFS
+
+First of all we check the docker servise is up
+
+`sudo systemctl status docker`
+
+If this returns a positive running docker service, run:
+
+`systemctl list-units | grep -nP "\.mount"`
+
+and look for the ` home-<your-user>-docker.mount`, this should be present.
+
+Next add this folder to the docker service as startup dependency:
+
+`sudo systemctl edit docker.service`
+
+```
+[UNIT]
+After=home-mmattel-docker.mount
+```
 
 ## Installing Podman
 
