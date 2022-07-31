@@ -582,5 +582,5 @@ For a more detailed information use:
 | Zigbee2MQTT     | 8090  | `https:\\<your-server/ip>:8090` |
 | ZwaveJS2mqtt    | 8091  | `https:\\<your-server/ip>:8091` |
 | Mariadb         | 3306  | --                              |
-| Adminer         | 8092  | `https:\\<your-server/ip>:8092` |
+| Adminer         | 8092  | `http:\\<your-server/ip>:8092`  |
 | Home Assistant  | 8123  | `https:\\<your-server/ip>:8123` |
