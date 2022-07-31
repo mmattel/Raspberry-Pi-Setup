@@ -557,11 +557,11 @@ https://github.com/netdata/netdata/issues/9144
 
 ## Install Home Assistant
 
-To test any USB device connected, use following command and replace ttyACM0 accordingly, like with ttyUSB0:
+Note, to test any USB device connected, use following command and replace ttyACM0 accordingly, like with ttyUSB0:
 
 `test -w /dev/ttyACM0 && echo success || echo failure`
 
-For a more detailes information use:
+For a more detailed information use:
 
 `udevadm info -a -n /dev/ttyACM0`
 
