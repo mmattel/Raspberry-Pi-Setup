@@ -21,7 +21,7 @@ Table of Contents
    * [wlan0 (for testing only, eg without eth0 connected)](#wlan0-for-testing-only-eg-without-eth0-connected)
    * [Netplan (RaspOS Bullseye)](#netplan-raspos-bullseye)
       * [Install and Configure Netplan](#install-and-configure-netplan)
-   * [Install Some Libraries](#install-some-libraries)
+   * [Install Some Tools and Libraries](#install-some-tools-and-libraries)
    * [Install Python3 and pip3](#install-python3-and-pip3)
    * [Enable Argon Mini Fan temp driven PWM fan speed](#enable-argon-mini-fan-temp-driven-pwm-fan-speed)
       * [PWM controlled fan speed](#pwm-controlled-fan-speed)
@@ -161,10 +161,11 @@ sudo systemctl restart dhcpcd
 ip -br addr show
 ```
 
-## Install Some Libraries
+## Install Some Tools and Libraries
 
 ```
 sudo apt install netcat
+sudo apt install iftop
 sudo apt install libglib2.0-bin
 ```
 
