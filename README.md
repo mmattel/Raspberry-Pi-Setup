@@ -569,6 +569,8 @@ For a more detailes information use:
 - Install [MQTT Explorer](./home_assistant/mqtt_explorer.md)
 - Install [Zigbee2MQTT](./home_assistant/zigbee2mqtt.md)
 - Install [ZwaveJS2mqtt](./home_assistant/zwavejs2mqtt.md)
+- Install [Mariadb](./home_assistant/mariadb.md)
+- Install [Adminer](./home_assistant/adminer.md)
 - Install [Home Assistant](./home_assistant/ha_install.md)
 
 ### Additional Ports and URL's Used
@@ -579,4 +581,6 @@ For a more detailes information use:
 | MQTT Explorer   | 4000  |  `http:\\<your-server/ip>:4000` |
 | Zigbee2MQTT     | 8090  | `https:\\<your-server/ip>:8090` |
 | ZwaveJS2mqtt    | 8091  | `https:\\<your-server/ip>:8091` |
+| Mariadb         | 3306  | --                              |
+| Adminer         | 8092  | `https:\\<your-server/ip>:8092` |
 | Home Assistant  | 8123  | `https:\\<your-server/ip>:8123` |
