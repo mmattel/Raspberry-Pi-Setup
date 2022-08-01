@@ -167,6 +167,7 @@ ip -br addr show
 sudo apt install netcat
 sudo apt install iftop
 sudo apt install libglib2.0-bin
+sudo apt install build-essential
 ```
 
 ## Install Python3 and pip3
