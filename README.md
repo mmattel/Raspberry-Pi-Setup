@@ -16,7 +16,8 @@ Table of Contents
       * [Raspberry Pi Imager](#raspberry-pi-imager)
    * [Base Preparation](#base-preparation)
       * [Install and Configure vim](#install-and-configure-vim)
-         * [Set bash_aliases](#set-bash_aliases)
+      * [Set bash_aliases](#set-bash_aliases)
+      * [Use bash and vim Settings for Root](#use-bash-and-vim-settings-for-root)
    * [Update Raspberry Pi OS](#update-raspberry-pi-os)
    * [wlan0 (for testing only, eg without eth0 connected)](#wlan0-for-testing-only-eg-without-eth0-connected)
    * [Netplan (RaspOS Bullseye)](#netplan-raspos-bullseye)
@@ -81,7 +82,7 @@ set mouse=r             " enable mouse copy/paste
 syntax on               " permanently turn on syntax highlighting
 ```
 
-#### Set bash_aliases
+### Set bash_aliases
 
 `nano ~/.bash_aliases`
 
@@ -94,6 +95,18 @@ alias l='ls -CF'
 use the new settings:
 
 `source ~/.profile`
+
+### Use bash and vim Settings for Root
+
+Use the same bash settings from your user also when using root.
+
+```
+sudo su -
+cd /root
+cd /home/<your-user>/.vimrc .
+cd /home/<your-user>/.bash_aliases .
+cd /home/<your-user>
+```
 
 ## Update Raspberry Pi OS
 
