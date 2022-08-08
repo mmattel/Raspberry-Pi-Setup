@@ -103,9 +103,22 @@ Use the same bash settings from your user also when using root.
 ```
 sudo su -
 cd /root
-cd /home/<your-user>/.vimrc .
-cd /home/<your-user>/.bash_aliases .
+cd /root/.vimrc .
+cd /root/.bash_aliases .
+vi .bashrc
+```
+Add the following lines at the end if not exists:
+
+```
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+```
+Save the file and run `source ~/.profile` to enable the changes. Type `ll` to test. Finally,
+
+```
 cd /home/<your-user>
+CTRL D
 ```
 
 ## Update Raspberry Pi OS
