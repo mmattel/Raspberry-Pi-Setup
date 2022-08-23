@@ -7,6 +7,8 @@ Steps to setup a RPi Server with Raspberry PI OS x64 with:
 - Docker
 - Container management with [Portainer](https://docs.portainer.io)
 - Monitoring the RPi with [netdata](https://learn.netdata.cloud)
+- Bakup your SD-Card / boot drive
+- Install Home Assistant 
 
 Table of Contents
 =================
@@ -39,8 +41,10 @@ Table of Contents
    * [Install Theia IDE for RPi with Docker](#install-theia-ide-for-rpi-with-docker)
    * [Install Netdata with Docker](#install-netdata-with-docker)
    * [Bash Script to Check a Port](#bash-script-to-check-a-port)
+   * [Backup your RPi SD Card](#backup-your-rpi-sd-card)
    * [Summary of Ports and URL's Used](#summary-of-ports-and-urls-used)
    * [Install Home Assistant](#install-home-assistant)
+      * [Steps](#steps)
       * [Additional Ports and URL's Used](#additional-ports-and-urls-used)
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
@@ -559,19 +563,28 @@ Uncomment `# sensors=force` --> `sensors=force`
 
 Restart the container, and see the RPi temperature in the web interface in section `Sensors`.
 
+<!---
+/api/v1/chart?
+URL/dashboard.html
+https://github.com/netdata/netdata/issues/9144
+-->
+
 ## Bash Script to Check a Port
 
 This script checks if a port of an application responds, useful when you want to check if a service is up. The script restricts checking for local ports only.
 
 You can put this script at any location desired, but as we use it with docker, put it in the `~/docker` directory created above.
 
-Open `vi ~/docker/tools/port-test.sh` and copy the content of [port-test.sh](./scripts/port-test.sh). When done, make the script executable with `sudo chmod +x ~/docker/port-test.sh`. Give it a try with `~/docker/tools/port-test.sh`, it is self explaining.
+Open `vi ~/docker/tools/port-test.sh` and copy the content of [port-test.sh](./scripts/port-test.sh). When done, make the script executable with `sudo chmod +x ~/docker/tools/port-test.sh`. Give it a try with `~/docker/tools/port-test.sh`, it is self explaining.
 
-<!---
-/api/v1/chart?
-URL/dashboard.html
-https://github.com/netdata/netdata/issues/9144
--->
+## Backup your RPi SD Card
+
+To backup your SD-Card or boot drive, open `vi ~/docker/tools/make-backup.sh` and copy the content of [make-backup.sh](./scripts/make-backup.sh). When done, make the script executable with `sudo chmod +x ~/docker/tools/make-backup.sh`. Run it with `sudo ~/docker/tools/make-backup.sh`, it is self explaining.
+
+Notes:
+- The script requires the presense of the NFS mount located at `/home/<your-user>/backup` as described above.
+- Rotate the amount of backup files manually to avoid wasting nfs space.
+- Use [etcher](https://www.balena.io/etcher/) to burn (restore) the image to your target.
 
 ## Summary of Ports and URL's Used
 
@@ -591,6 +604,8 @@ Note, to test any USB device connected, use following command and replace ttyACM
 For a more detailed information use:
 
 `udevadm info -a -n /dev/ttyACM0`
+
+### Steps
 
 - Install [Mosquitto](./home_assistant/mosquitto.md)
 - Install [MQTT Explorer](./home_assistant/mqtt_explorer.md)
