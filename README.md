@@ -565,7 +565,7 @@ This script checks if a port of an application responds, useful when you want to
 
 You can put this script at any location desired, but as we use it with docker, put it in the `~/docker` directory created above.
 
-Open `vi ~/docker/tools/port-test.sh` and copy the content of [port-test.sh](./scripts/port-test.sh). When done, make the script executable with `sudo chmod +x ~/docker/port-test.sh`. Give it a try with `~/docker/port-test.sh`, it is self explaining.
+Open `vi ~/docker/tools/port-test.sh` and copy the content of [port-test.sh](./scripts/port-test.sh). When done, make the script executable with `sudo chmod +x ~/docker/port-test.sh`. Give it a try with `~/docker/tools/port-test.sh`, it is self explaining.
 
 <!---
 /api/v1/chart?
