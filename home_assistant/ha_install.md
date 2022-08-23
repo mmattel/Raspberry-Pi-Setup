@@ -59,49 +59,9 @@ services:
 
 To update HA, you must follow some steps in necessary order. To ease most of the steps, a script can be used. Finally, check if a new superviser has been tagged on docker hub. In case you need to update the HA supervisor compose file (stack when using portainer) and just apply the new tag on the image, When bringing the stack up, updated images are downloaded and you are up-to-date.
 
-Create a file named `<you-user>/docker/tools/remove-hassio.sh` and make it execuatble with `sudo chmod +x remove-hassio.sh`:
+Open `vi ~/docker/tools/remove-hassio.sh` and copy the content of [remove-hassio.sh](./scripts/remove-hassio.sh). When done make it execuatble with `sudo chmod +x remove-hassio.sh`
 
-```
-#! /bin/bash
-
-echo "stopping the HA supervisor container"
-container1=$(docker container ls --format="{{.Image}} {{.ID}}" |
-grep "hassio-supervisor" | cut -d' ' -f2)
-#echo $container1
-if [ "$container" ]; then
-  docker stop $container1
-  docker wait $container1
-fi
-
-echo "stop the remaining HA containers, waiting"
-container2=$(docker container ls --format="{{.Image}} {{.ID}}" |
-grep "hassio\|home-assistant" | cut -d' ' -f2)
-
-container2=$(echo ${container2//$container1/} | xargs)
-#echo $container2
-if [ "$container2" ]; then
-  docker stop $container2
-  docker wait $container2
-fi
-#exit
-
-echo "remove all HA containers"
-container3=$(docker images --format="{{.Repository}} {{.ID}}" |
-grep "hassio\|homeassistant" | cut -d' ' -f2)
-
-if [ "$container3" ]; then
-  docker rmi -f $container3
-fi
-
-echo
-
-# print the remaining images to proof image deletion
-docker images
-
-echo
-echo "check: https://hub.docker.com/r/homeassistant/armv7-hassio-supervisor/tags?page=1"
-echo "to get the latest stable supervisor tag (not latest or .devxxx)"
-```
+Run the script, but only when HA tells you that an update is avaliable with `~/docker/tools/remove-hassio.sh`. and finalize as described above.
 
 ## Connect with MQTT
 
