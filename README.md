@@ -360,7 +360,7 @@ Add this folder to the docker service as startup dependency:
 
 ```
 [UNIT]
-After=home-mmattel-docker.mount
+After=home-<your-user>-docker.mount
 ```
 
 ## Installing Podman
