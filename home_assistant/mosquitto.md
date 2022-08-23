@@ -31,7 +31,7 @@ services:
   mosquitto:
     container_name: mosquitto
     image: eclipse-mosquitto
-    restart: unless-stopped
+    restart: always
     stdin_open: true     # comment if you do not need
     tty: true            # comment if you do not need
     ports:

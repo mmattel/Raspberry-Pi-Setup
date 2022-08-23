@@ -42,7 +42,7 @@ services:
   zigbee2mqtt:
     container_name: zigbee2mqtt
     image: koenkk/zigbee2mqtt
-    restart: unless-stopped
+    restart: always
     logging:
       driver: "json-file"
       options:

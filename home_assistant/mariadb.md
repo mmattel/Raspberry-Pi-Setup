@@ -11,8 +11,8 @@ We are using mariadb version 10.6.8 as this version has long term support until 
 version: "3.8"
 services:
   mariadb:
-    image: mariadb:10.6.8  # long term support until July 2026
     container_name: mariadb-hass
+    image: mariadb:10.6.8  # long term support until July 2026
     restart: always
     logging:
       driver: "json-file"

@@ -20,12 +20,12 @@ services:
   zwavejs2mqtt:
     container_name: zwavejs2mqtt
     image: zwavejs/zwavejs2mqtt:latest
+    restart: always
     logging:
       driver: "json-file"
       options:
         max-size: "200k"
         max-file: "10"
-    restart: always
     tty: true
     stop_signal: SIGINT
     environment:
