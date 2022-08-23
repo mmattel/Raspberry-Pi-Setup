@@ -55,14 +55,14 @@ services:
     user: "${LOCAL_USER}:${LOCAL_GROUP}"
 ```
 
+## Connect with MQTT
+
+After setting up and personalizing the system you can connect HA with MQTT (mosquitto). To do so, go to `Settings > Integration > Add Integration` and add MQTT. Configure it according your mosquitto settings.
+
 ## Updating Home Assistant
 
-To update HA, you must follow some steps in necessary order. To ease most of the steps, a script can be used. Finally, check if a new superviser has been tagged on docker hub. In case you need to update the HA supervisor compose file (stack when using portainer) and just apply the new tag on the image, When bringing the stack up, updated images are downloaded and you are up-to-date.
+To update HA, you must follow some steps in necessary order. To ease most of the steps, a script can be used. Finally, check if a new superviser has been tagged on docker hub. In case you need to update the HA supervisor compose file (stack when using portainer) and just apply the new tag on the image. When bringing the stack up, updated images are downloaded and you are up-to-date.
 
 Open `vi ~/docker/tools/remove-hassio.sh` and copy the content of [remove-hassio.sh](./scripts/remove-hassio.sh). When done make it execuatble with `sudo chmod +x remove-hassio.sh`
 
 Run the script, but only when HA tells you that an update is avaliable with `~/docker/tools/remove-hassio.sh`. and finalize as described above.
-
-## Connect with MQTT
-
-After setting up and personalizing the system you can connect HA with MQTT (mosquitto). To do so, go to `Settings > Integration > Add Integration` and add MQTT. Configure it according your mosquitto settings.
