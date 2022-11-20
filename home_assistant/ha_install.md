@@ -33,7 +33,7 @@ version: '3'
 services:
   hassio:
     container_name: hassio_supervisor
-    image: homeassistant/armv7-hassio-supervisor:2022.08.3
+    image: homeassistant/armv7-hassio-supervisor:2022.11.2
     restart: always
     privileged: true
     security_opt:
@@ -66,3 +66,13 @@ To update HA, you must follow some steps in necessary order. To ease most of the
 Open `vi ~/docker/tools/remove-hassio.sh` and copy the content of [remove-hassio.sh](../scripts/remove-hassio.sh). When done make it execuatble with `sudo chmod +x remove-hassio.sh`
 
 Run the script, but only when HA tells you that an update is avaliable with `~/docker/tools/remove-hassio.sh`. and finalize as described above.
+
+## HACS Home Assistant Community Store
+
+HACS is necessary to install Mushroom Cards
+
+[Download](https://hacs.xyz/docs/setup/download)
+
+## Install Mushroom Card
+
+[Mushroom](https://github.com/piitaya/lovelace-mushroom#installation)
