@@ -4,6 +4,8 @@ Open source home automation that puts local control and privacy first.
 
 ### Prerequisites
 
+#### OS Agent
+
 Install the necessary HA [os-agent](https://github.com/home-assistant/os-agent#agent-for-home-assistant-os) package for the Raspberry Pi: 
 
 ```
@@ -17,6 +19,10 @@ If you would like to uninstall because a new package has been published:
 ```
 sudo dpkg --remove os-agent
 ```
+
+#### AppArmor
+
+Add the following `apparmor=1 security=apparmor` to `/boot/cmdline.txt`.
 
 ## Installing via Docker Compose
 
