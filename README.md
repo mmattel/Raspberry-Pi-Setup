@@ -348,7 +348,7 @@ Note if you want to remove an envoronment variable, just call `unset <variable-n
 
 ### Setup Docker to Wait for NFS Mounts
 
-Doing so, the service will start only if the NFS mount is available ensuring that container will work properly.
+Doing so, the docker service will start only if the NFS mount is available ensuring that container will work properly.
  
 First of all we check if the docker servise is up, look for a positive result:
 
@@ -365,9 +365,21 @@ Add this folder to the docker service as startup dependency:
 `sudo systemctl edit docker.service`
 
 ```
-[UNIT]
+[Unit]
 After=home-<your-user>-docker.mount
 ```
+
+Then reload the daemon and check the new network dependencies with:
+
+```
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+sudo systemctl cat docker.service
+sudo systemctl show -p After docker.service
+sudo systemctl show -p WantedBy network-online.target
+````
+
+Post rebooting, check the output of `/var/log/syslog` for any startup errors related to systemd changes.  
 
 ## Installing Podman
 
