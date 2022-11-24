@@ -42,6 +42,7 @@ Table of Contents
    * [Install Netdata with Docker](#install-netdata-with-docker)
    * [Bash Script to Check a Port](#bash-script-to-check-a-port)
    * [Update the Bluetooth Driver (Bluez)](#update-the-bluetooth-driver-bluez)
+   * [Install D-Bus Broker](#install-d-bus-broker)
    * [Backup your RPi SD Card](#backup-your-rpi-sd-card)
    * [Summary of Ports and URL's Used](#summary-of-ports-and-urls-used)
    * [Install Home Assistant](#install-home-assistant)
@@ -623,6 +624,21 @@ pair <mac>
 paired-devices
 quit
 ```
+
+## Install D-Bus Broker
+
+Similar to the above when planning to use HomeAssistant, the installation of the `dbus-broker` is adviced by HA.
+
+First check if it is available for the distro used, the following command should return a valid entry:
+
+```
+sudo apt-cache search dbus-broker
+dbus-broker - Linux D-Bus Message Broker
+``` 
+
+In case, install with `sudo apt install dbus-broker`
+
+If the package is not available, install from [source](https://github.com/bus1/dbus-broker).
 
 ## Backup your RPi SD Card
 
