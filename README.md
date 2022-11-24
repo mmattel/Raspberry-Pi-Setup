@@ -173,6 +173,7 @@ Apply the changes with following commands:
 ```
 sudo netplan generate
 sudo netplan apply
+networkctl -a
 ip -br addr show
 ```
 
