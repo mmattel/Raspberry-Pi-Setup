@@ -41,6 +41,7 @@ Table of Contents
    * [Install Theia IDE for RPi with Docker](#install-theia-ide-for-rpi-with-docker)
    * [Install Netdata with Docker](#install-netdata-with-docker)
    * [Bash Script to Check a Port](#bash-script-to-check-a-port)
+   * [Update the Bluetooth Driver (Bluez)](#update-the-bluetooth-driver-bluez)
    * [Backup your RPi SD Card](#backup-your-rpi-sd-card)
    * [Summary of Ports and URL's Used](#summary-of-ports-and-urls-used)
    * [Install Home Assistant](#install-home-assistant)
@@ -576,6 +577,52 @@ This script checks if a port of an application responds, useful when you want to
 You can put this script at any location desired, but as we use it with docker, put it in the `~/docker` directory created above.
 
 Open `vi ~/docker/tools/port-test.sh` and copy the content of [port-test.sh](./scripts/port-test.sh). When done, make the script executable with `sudo chmod +x ~/docker/tools/port-test.sh`. Give it a try with `~/docker/tools/port-test.sh`, it is self explaining.
+
+## Update the Bluetooth Driver (Bluez)
+
+The following stelp is necessary especially when using HomeAssistant, also see [HA Bluetooth integration](https://www.home-assistant.io/integrations/bluetooth/).
+
+The Bluetooth adapter must be accessible to D-Bus and running BlueZ >= 5.43. It is highly recommended to use BlueZ >= 5.63 as older versions have been reported to be unreliable.
+
+Derived from [Compiling Bluez](https://learn.adafruit.com/pibeacon-ibeacon-with-a-raspberry-pi/compiling-bluez):
+
+
+```
+dpkg --status bluez | grep '^Version'
+bluetoothctl -v
+
+sudo apt install libusb-dev libdbus-1-dev libglib2.0-dev libudev-dev libical-dev libreadline-dev
+sudo pip install docutils
+cd /opt
+sudo mkdir bluez
+cd bluez/
+sudo wget https://mirrors.edge.kernel.org/pub/linux/bluetooth/bluez-5.66.tar.xz
+sudo unxz bluez-5.66.tar.xz
+sudo tar xvf bluez-5.66.tar
+cd bluez-5.66/
+sudo ./configure --disable-systemd
+sudo make
+sudo make install
+
+sudo systemctl daemon-reload
+sudo systemctl restart dbus Bluetooth
+(or reboot)
+
+bluetoothctl -v
+
+sudo bluetoothctl devices
+sudo bluetoothctl connect <mac>
+
+
+sudo bluetoothctl
+power on
+agent on
+scan on
+scan off
+pair <mac>
+paired-devices
+quit
+```
 
 ## Backup your RPi SD Card
 
