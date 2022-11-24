@@ -640,6 +640,8 @@ In case, install with `sudo apt install dbus-broker`
 
 If the package is not available, install from [source](https://github.com/bus1/dbus-broker).
 
+Post installation, reboot your Pi with `sudo reboot`.
+
 ## Backup your RPi SD Card
 
 To backup your SD-Card or boot drive, open `vi ~/docker/tools/make-backup.sh` and copy the content of [make-backup.sh](./scripts/make-backup.sh). When done, make the script executable with `sudo chmod +x ~/docker/tools/make-backup.sh`. Run it with `sudo ~/docker/tools/make-backup.sh`, it is self explaining.
