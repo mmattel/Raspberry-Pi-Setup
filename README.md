@@ -196,7 +196,7 @@ sudo systemctl restart dhcpcd
 ip -br addr show
 ```
 
-Without being mandatory but avoiding the obligatory waiting time of 120 seconds for the interface that is not coming up, the network startup needs some adoption. Edit the `networkd wait online service` (create an override.conf) to reduce the default waiting time to 10 seconds and continue booting immediately if at least one interface is configured.
+Without being mandatory but to avoid the obligatory waiting time of 120 seconds for the interface that is not coming up, the network startup needs some adoption. Edit the `networkd wait online service` (create an override.conf) to reduce the default waiting time to 10 seconds and continue booting immediately if at least one interface is configured.
 
 ```
 sudo systemctl edit systemd-networkd-wait-online
