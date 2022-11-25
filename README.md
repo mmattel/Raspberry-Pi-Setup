@@ -161,7 +161,7 @@ The goal is to create a setup where you can use eth0 and wlan0 concurrently havi
 
 ### Install and Configure Netplan
 
-The interfaces will be setup with Netplan so that either eth0 or wlan0 will get configured where eth0 has the higher priority than wlan0. This means that at least one but not both will get configured. If the LAN is connected, use this, but if not use the WLAN - both with the same network address making it easy to switch over without hassles.
+The interfaces will be setup so that either eth0 or wlan0 will get configured where eth0 has the higher priority than wlan0. This means that at least one but not both will get configured. If the LAN is connected, use this, but if not use the WLAN - both with the same network address making it easy to switch over without hassles.
 
 The netplan package is available in the [debian package](https://packages.debian.org/stable/net/netplan.io) list and available to RPi.
 
@@ -169,7 +169,7 @@ The netplan package is available in the [debian package](https://packages.debian
 sudo apt search netplan
 sudo apt install netplan.io
 ```
-After installing netplan, get the [01-netcfg.yaml](https://github.com/mmattel/Raspberry-Pi-Setup/blob/main/netplan/01-netcfg.yaml) example file, adapt it to your needs and save it in the `/etc/netplan/` folder. Note that this configuration disables IPv6 as not necessary and to reduce network startup time, but it can be enabled at any time again.
+After installing netplan, get the [01-netcfg.yaml](https://github.com/mmattel/Raspberry-Pi-Setup/blob/main/netplan/01-netcfg.yaml) example file, adapt it to your needs and save it in the `/etc/netplan/` folder. Note that this configuration disables IPv6 as not necessary (by the use of `link-local: [ ]`) and to reduce network startup time, but it can be enabled at any time again.
 
 Apply the changes with following commands:
 ```
