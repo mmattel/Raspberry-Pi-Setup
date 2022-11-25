@@ -24,7 +24,9 @@ Table of Contents
    * [wlan0 (for testing only, eg without eth0 connected)](#wlan0-for-testing-only-eg-without-eth0-connected)
    * [Netplan (RaspOS Bullseye)](#netplan-raspos-bullseye)
       * [Install and Configure Netplan](#install-and-configure-netplan)
-   * [Install Some Tools and Libraries](#install-some-tools-and-libraries)
+   * [Install/Update Some Tools and Libraries](#installupdate-some-tools-and-libraries)
+      * [Update the Bluetooth Driver (Bluez)](#update-the-bluetooth-driver-bluez)
+      * [Install D-Bus Broker](#install-d-bus-broker)
    * [Install Python3 and pip3](#install-python3-and-pip3)
    * [Enable Argon Mini Fan temp driven PWM fan speed](#enable-argon-mini-fan-temp-driven-pwm-fan-speed)
       * [PWM controlled fan speed](#pwm-controlled-fan-speed)
@@ -41,8 +43,6 @@ Table of Contents
    * [Install Theia IDE for RPi with Docker](#install-theia-ide-for-rpi-with-docker)
    * [Install Netdata with Docker](#install-netdata-with-docker)
    * [Bash Script to Check a Port](#bash-script-to-check-a-port)
-   * [Update the Bluetooth Driver (Bluez)](#update-the-bluetooth-driver-bluez)
-   * [Install D-Bus Broker](#install-d-bus-broker)
    * [Backup your RPi SD Card](#backup-your-rpi-sd-card)
    * [Summary of Ports and URL's Used](#summary-of-ports-and-urls-used)
    * [Install Home Assistant](#install-home-assistant)
@@ -161,13 +161,15 @@ The goal is to create a setup where you can use eth0 and wlan0 concurrently havi
 
 ### Install and Configure Netplan
 
+The interfaces will be setup with Netplan so that either eth0 or wlan0 will get configured where eth0 has the higher priority than wlan0. This means that at least one but not both will get configured. If the LAN is connected, use this, but if not use the WLAN - both with the same network address making it easy to switch over without hassles.
+
 The netplan package is available in the [debian package](https://packages.debian.org/stable/net/netplan.io) list and available to RPi.
 
 ```
 sudo apt search netplan
 sudo apt install netplan.io
 ```
-After installing netplan, get the [01-netcfg.yaml](https://github.com/mmattel/Raspberry-Pi-Setup/blob/main/netplan/01-netcfg.yaml) example file, adapt it to your needs and save it in the `/etc/netplan/` folder.
+After installing netplan, get the [01-netcfg.yaml](https://github.com/mmattel/Raspberry-Pi-Setup/blob/main/netplan/01-netcfg.yaml) example file, adapt it to your needs and save it in the `/etc/netplan/` folder. Note that this configuration disables IPv6 as not necessary and to reduce network startup time, but it can be enabled at any time again.
 
 Apply the changes with following commands:
 ```
@@ -194,7 +196,37 @@ sudo systemctl restart dhcpcd
 ip -br addr show
 ```
 
-## Install Some Tools and Libraries
+Without being mandatory but avoiding the obligatory waiting time of 120 seconds for the interface that is not coming up, the network startup needs some adoption. Edit the `networkd wait online service` (create an override.conf) to reduce the default waiting time to 10 seconds and continue booting immediately if at least one interface is configured.
+
+```
+sudo systemctl edit systemd-networkd-wait-online
+```
+
+Add the following two lines between the comments (as described in the editor window):
+
+```
+[Service]
+ExecStart=
+ExecStart=/lib/systemd/systemd-networkd-wait-online --timeout=10 --any
+```
+
+Note, just use the current `ExecStart` parameter (scroll down in the editor to see the current value) and add the `timeout` and `any` option.
+
+Use the following to check the result:
+
+```
+sudo systemctl show -p ExecStart systemd-networkd-wait-online
+```
+
+Finally reboot the Pi and monitor via console (boot process...) that there is no network wait anymore.
+
+Additional `ExecStart` parameters can be checked via:
+
+```
+man systemd-networkd-wait-online.service
+```
+
+## Install/Update Some Tools and Libraries
 
 ```
 sudo apt install netcat
@@ -202,6 +234,69 @@ sudo apt install iftop
 sudo apt install libglib2.0-bin
 sudo apt install build-essential
 ```
+
+### Update the Bluetooth Driver (Bluez)
+
+The following stelp is necessary especially when using HomeAssistant, also see [HA Bluetooth integration](https://www.home-assistant.io/integrations/bluetooth/).
+
+The Bluetooth adapter must be accessible to D-Bus and running BlueZ >= 5.43. It is highly recommended to use BlueZ >= 5.63 as older versions have been reported to be unreliable.
+
+Derived from [Compiling Bluez](https://learn.adafruit.com/pibeacon-ibeacon-with-a-raspberry-pi/compiling-bluez):
+
+
+```
+dpkg --status bluez | grep '^Version'
+bluetoothctl -v
+
+sudo apt install libusb-dev libdbus-1-dev libglib2.0-dev libudev-dev libical-dev libreadline-dev
+sudo pip install docutils
+cd /opt
+sudo mkdir bluez
+cd bluez/
+sudo wget https://mirrors.edge.kernel.org/pub/linux/bluetooth/bluez-5.66.tar.xz
+sudo unxz bluez-5.66.tar.xz
+sudo tar xvf bluez-5.66.tar
+cd bluez-5.66/
+sudo ./configure --disable-systemd
+sudo make
+sudo make install
+
+sudo systemctl daemon-reload
+sudo systemctl restart dbus Bluetooth
+(or reboot)
+
+bluetoothctl -v
+
+sudo bluetoothctl devices
+sudo bluetoothctl connect <mac>
+
+
+sudo bluetoothctl
+power on
+agent on
+scan on
+scan off
+pair <mac>
+paired-devices
+quit
+```
+
+### Install D-Bus Broker
+
+Similar to the above when planning to use HomeAssistant, the installation of the `dbus-broker` is adviced by HA.
+
+First check if it is available for the distro used, the following command should return a valid entry:
+
+```
+sudo apt-cache search dbus-broker
+dbus-broker - Linux D-Bus Message Broker
+``` 
+
+In case, install with `sudo apt install dbus-broker`
+
+If the package is not available, install from [source](https://github.com/bus1/dbus-broker).
+
+Post installation, reboot your Pi with `sudo reboot`.
 
 ## Install Python3 and pip3
 
@@ -591,69 +686,6 @@ This script checks if a port of an application responds, useful when you want to
 You can put this script at any location desired, but as we use it with docker, put it in the `~/docker` directory created above.
 
 Open `vi ~/docker/tools/port-test.sh` and copy the content of [port-test.sh](./scripts/port-test.sh). When done, make the script executable with `sudo chmod +x ~/docker/tools/port-test.sh`. Give it a try with `~/docker/tools/port-test.sh`, it is self explaining.
-
-## Update the Bluetooth Driver (Bluez)
-
-The following stelp is necessary especially when using HomeAssistant, also see [HA Bluetooth integration](https://www.home-assistant.io/integrations/bluetooth/).
-
-The Bluetooth adapter must be accessible to D-Bus and running BlueZ >= 5.43. It is highly recommended to use BlueZ >= 5.63 as older versions have been reported to be unreliable.
-
-Derived from [Compiling Bluez](https://learn.adafruit.com/pibeacon-ibeacon-with-a-raspberry-pi/compiling-bluez):
-
-
-```
-dpkg --status bluez | grep '^Version'
-bluetoothctl -v
-
-sudo apt install libusb-dev libdbus-1-dev libglib2.0-dev libudev-dev libical-dev libreadline-dev
-sudo pip install docutils
-cd /opt
-sudo mkdir bluez
-cd bluez/
-sudo wget https://mirrors.edge.kernel.org/pub/linux/bluetooth/bluez-5.66.tar.xz
-sudo unxz bluez-5.66.tar.xz
-sudo tar xvf bluez-5.66.tar
-cd bluez-5.66/
-sudo ./configure --disable-systemd
-sudo make
-sudo make install
-
-sudo systemctl daemon-reload
-sudo systemctl restart dbus Bluetooth
-(or reboot)
-
-bluetoothctl -v
-
-sudo bluetoothctl devices
-sudo bluetoothctl connect <mac>
-
-
-sudo bluetoothctl
-power on
-agent on
-scan on
-scan off
-pair <mac>
-paired-devices
-quit
-```
-
-## Install D-Bus Broker
-
-Similar to the above when planning to use HomeAssistant, the installation of the `dbus-broker` is adviced by HA.
-
-First check if it is available for the distro used, the following command should return a valid entry:
-
-```
-sudo apt-cache search dbus-broker
-dbus-broker - Linux D-Bus Message Broker
-``` 
-
-In case, install with `sudo apt install dbus-broker`
-
-If the package is not available, install from [source](https://github.com/bus1/dbus-broker).
-
-Post installation, reboot your Pi with `sudo reboot`.
 
 ## Backup your RPi SD Card
 
