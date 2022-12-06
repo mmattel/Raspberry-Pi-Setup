@@ -22,7 +22,10 @@ Note as MQTT is used, do not install in Home Assistant the Zigbee Home Automatio
 
 Note that you **must** plugin the Zigbee USB Gateway adapter before configuring to avoid startup issues.
 
-For the configuration, the [Phoscon ConBee II - Universal Zigbee USB-Gateway](https://www.amazon.de/ConBee-das-universelle-Zigbee-USB-Gateway/dp/B07PZ7ZHG5/ref=sr_1_2?__mk_de_DE=ÅMÅŽÕÑ&crid=1WSYKN1A08TY1&keywords=Phoscon+ConBee+II+-+das+universelle+Zigbee+USB-Gateway&qid=1658563005&s=ce-de&sprefix=phoscon+conbee+ii+-+das+universelle+zigbee+usb-gateway%2Celectronics%2C188&sr=1-2) from _dresden electronik_ is used as it has many positive reviews.  
+For the configuration, either use the the [Phoscon ConBee II - Universal Zigbee USB-Gateway](https://www.amazon.de/ConBee-das-universelle-Zigbee-USB-Gateway/dp/B07PZ7ZHG5/ref=sr_1_2?__mk_de_DE=ÅMÅŽÕÑ&crid=1WSYKN1A08TY1&keywords=Phoscon+ConBee+II+-+das+universelle+Zigbee+USB-Gateway&qid=1658563005&s=ce-de&sprefix=phoscon+conbee+ii+-+das+universelle+zigbee+usb-gateway%2Celectronics%2C188&sr=1-2) from _dresden electronik_ is or the [Sonoff Zigbee 3.0 USB Dongle Plus](https://www.amazon.de/gp/product/B09KXTCMSC/ref=ppx_yo_dt_b_asin_title_o01_s00?ie=UTF8&psc=1).
+
+For both devices a firmware upgrade is recommended before first use.
+Note that as of December 2022, the Conbee II does not support `Install Codes` but the Sonoff does (after a FW upgrade). 
 
 To get your `serial/by-id` value, connect the device run: `ls -l /dev/serial/by-id` and see the output.
 
@@ -41,7 +44,7 @@ version: '3.8'
 services:
   zigbee2mqtt:
     container_name: zigbee2mqtt
-    image: koenkk/zigbee2mqtt
+    image: koenkk/zigbee2mqtt:latest
     restart: always
     logging:
       driver: "json-file"
@@ -49,23 +52,25 @@ services:
         max-size: "200k"
         max-file: "10"
     volumes:
-      - /home/<your-user>/docker/zigbee2mqtt/data:/app/data
+      - /home/mmattel/docker/zigbee2mqtt/data:/app/data
       - /run/udev:/run/udev:ro
     ports:
       # Frontend port
       - 8090:8080
     environment:
-      - TZ=Europe/Berlin
-      - ZIGBEE2MQTT_CONFIG_MQTT_SERVER=mqtt://<fqdn>:1883
-      - ZIGBEE2MQTT_CONFIG_MQTT_USER=<your-user>
-      - ZIGBEE2MQTT_CONFIG_MQTT_PASSWORD=<your-password>
+      - TZ=Europe/Vienna
+      - ZIGBEE2MQTT_CONFIG_MQTT_SERVER=mqtt://mm-rp-hoau.mmhome.local.lan:1883
+      - ZIGBEE2MQTT_CONFIG_MQTT_USER=mmattel
+      - ZIGBEE2MQTT_CONFIG_MQTT_PASSWORD=ntap02
       - ZIGBEE2MQTT_CONFIG_SERIAL_PORT=/dev/zigbee
-      - ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER=deconz
+      #- ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER=deconz
       - ZIGBEE2MQTT_CONFIG_FRONTEND=true 
     devices:
-      # Do not use /dev/ttyUSBX/ACM0 serial devices, as those mappings can change over time.
+      # Do not use /dev/ttyUSBX serial devices, as those mappings can change over time.
       # Instead, use the /dev/serial/by-id/X serial device for your Zigbee stick like
-      - "/dev/serial/by-id/usb-dresden_elektronik_ingenieurtechnik_GmbH_ConBee_II_DE2598287-if00:/dev/zigbee"
+      #- "/dev/serial/by-id/usb-dresden_elektronik_ingenieurtechnik_GmbH_ConBee_II_DE2598287-if00:/dev/ttyACM0"
+      #- "/dev/serial/by-id/usb-dresden_elektronik_ingenieurtechnik_GmbH_ConBee_II_DE2598287-if00:/dev/zigbee"
+      - "/dev/serial/by-id/usb-Silicon_Labs_Sonoff_Zigbee_3.0_USB_Dongle_Plus_0001-if00-port0:/dev/zigbee"
     group_add:
       - dialout
     user: "${LOCAL_USER}:${LOCAL_GROUP}"
