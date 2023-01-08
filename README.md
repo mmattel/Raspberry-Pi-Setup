@@ -699,25 +699,12 @@ Notes:
 
 ## Install syslog-ng
 
-At the time of writing, `syslog-ng` comes with version 3.28.1-2 when installing normally via apt. Starting with version 3.33, a [MQTT client](https://www.syslog-ng.com/community/b/blog/posts/syslog-ng-3-33-the-mqtt-destination) was added where you can easily post syslog messages via MQTT to show in HA. The following installation references [Installing the latest syslog-ng on Ubuntu and other DEB distributions
-](https://www.syslog-ng.com/community/b/blog/posts/installing-the-latest-syslog-ng-on-ubuntu-and-other-deb-distributions) respectively [Supported distributions](https://github.com/syslog-ng/syslog-ng/#supported-distributions) and adapts for `debian-bullseye`.
+At the time of writing, `syslog-ng` comes with version 3.28.1-2 when installing normally via apt. Starting with version 3.33, a [MQTT client](https://www.syslog-ng.com/community/b/blog/posts/syslog-ng-3-33-the-mqtt-destination) was added where you can easily post syslog messages via MQTT to show in HA.
 
-1. Download and install the release key:
+The installation referenced by [Installing the latest syslog-ng on Ubuntu and other DEB distributions
+](https://www.syslog-ng.com/community/b/blog/posts/installing-the-latest-syslog-ng-on-ubuntu-and-other-deb-distributions) respectively [Supported distributions](https://github.com/syslog-ng/syslog-ng/#supported-distributions) is only valid for **x86-64** of if you set **deb [arch=amd64]** but not for the Pi using `armhf/arm64`.
 
-        wget -qO - https://ose-repo.syslog-ng.com/apt/syslog-ng-ose-pub.asc | sudo apt-key add -
-
-2. Add the repository containing the latest stable build of syslog-ng to the APT sources. For example, on debian-bullseye:
-
-        echo "deb https://ose-repo.syslog-ng.com/apt/ stable debian-bullseye" | sudo tee -a /etc/apt/sources.list.d/syslog-ng-ose.list
-
-    Run the following command:
-
-        sudo apt-get update
-
-3. Install syslog-ng and any of its subpackages:
-
-        sudo apt-get install syslog-ng-core syslog-ng-scl
-
+It is therefore necessary to use a docker based installation, see [The syslog-ng Docker image](https://www.syslog-ng.com/community/b/blog/posts/central-log-server-docker/).
 
 ## Summary of Ports and URL's Used
 
