@@ -44,6 +44,7 @@ Table of Contents
    * [Install Netdata with Docker](#install-netdata-with-docker)
    * [Bash Script to Check a Port](#bash-script-to-check-a-port)
    * [Backup your RPi SD Card](#backup-your-rpi-sd-card)
+   * [Install syslog-ng](#install-syslog-ng)
    * [Summary of Ports and URL's Used](#summary-of-ports-and-urls-used)
    * [Install Home Assistant](#install-home-assistant)
       * [Steps](#steps)
@@ -695,6 +696,28 @@ Notes:
 - The script requires the presense of the NFS mount located at `/home/<your-user>/backup` as described above.
 - Rotate the amount of backup files manually to avoid wasting nfs space.
 - Use [etcher](https://www.balena.io/etcher/) to burn (restore) the image to your target.
+
+## Install syslog-ng
+
+At the time of writing, `syslog-ng` comes with version 3.28.1-2 when installing normally via apt. Starting with version 3.33, a [MQTT client](https://www.syslog-ng.com/community/b/blog/posts/syslog-ng-3-33-the-mqtt-destination) was added where you can easily post syslog messages via MQTT to show in HA. The following installation references [Installing the latest syslog-ng on Ubuntu and other DEB distributions
+](https://www.syslog-ng.com/community/b/blog/posts/installing-the-latest-syslog-ng-on-ubuntu-and-other-deb-distributions) respectively [Supported distributions](https://github.com/syslog-ng/syslog-ng/#supported-distributions) and adapts for `debian-bullseye`.
+
+1. Download and install the release key:
+
+        wget -qO - https://ose-repo.syslog-ng.com/apt/syslog-ng-ose-pub.asc | sudo apt-key add -
+
+2. Add the repository containing the latest stable build of syslog-ng to the APT sources. For example, on debian-bullseye:
+
+        echo "deb https://ose-repo.syslog-ng.com/apt/ stable debian-bullseye" | sudo tee -a /etc/apt/sources.list.d/syslog-ng-ose.list
+
+    Run the following command:
+
+        sudo apt-get update
+
+3. Install syslog-ng and any of its subpackages:
+
+        sudo apt-get install syslog-ng-core syslog-ng-scl
+
 
 ## Summary of Ports and URL's Used
 
