@@ -704,7 +704,7 @@ At the time of writing, `syslog-ng` comes with version 3.28.1-2 when installing 
 The installation referenced by [Installing the latest syslog-ng on Ubuntu and other DEB distributions
 ](https://www.syslog-ng.com/community/b/blog/posts/installing-the-latest-syslog-ng-on-ubuntu-and-other-deb-distributions) respectively [Supported distributions](https://github.com/syslog-ng/syslog-ng/#supported-distributions) is only valid for **x86-64** but not for the Pi using `armhf/arm64`.
 
-It is therefore necessary to use a docker based installation that supports different architectures like `amd64`, `arm64` and `arm32` see [dockerhub linuxserver.io](https://hub.docker.com/r/linuxserver/syslog-ng). A docker-compose example file is provided in the link. Note that using PxID with a static value is necessary because the composer version used.
+It is therefore necessary to use a docker based installation that supports different architectures like `amd64`, `arm64` and `arm32` see [dockerhub linuxserver.io](https://hub.docker.com/r/linuxserver/syslog-ng). A docker-compose example file is provided in the link. Note that using PxID with a static value is necessary because the composer version used. Also note that when configuring the `syslog-ng.conf` file to use the container and not the host targets.
 
 ## Summary of Ports and URL's Used
 
