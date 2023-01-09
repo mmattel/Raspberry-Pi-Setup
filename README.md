@@ -702,9 +702,9 @@ Notes:
 At the time of writing, `syslog-ng` comes with version 3.28.1-2 when installing normally via apt. Starting with version 3.33, a [MQTT client](https://www.syslog-ng.com/community/b/blog/posts/syslog-ng-3-33-the-mqtt-destination) was added where you can easily post syslog messages via MQTT to show in HA.
 
 The installation referenced by [Installing the latest syslog-ng on Ubuntu and other DEB distributions
-](https://www.syslog-ng.com/community/b/blog/posts/installing-the-latest-syslog-ng-on-ubuntu-and-other-deb-distributions) respectively [Supported distributions](https://github.com/syslog-ng/syslog-ng/#supported-distributions) is only valid for **x86-64** or if you set **deb [arch=amd64]** but not for the Pi using `armhf/arm64`.
+](https://www.syslog-ng.com/community/b/blog/posts/installing-the-latest-syslog-ng-on-ubuntu-and-other-deb-distributions) respectively [Supported distributions](https://github.com/syslog-ng/syslog-ng/#supported-distributions) is only valid for **x86-64** but not for the Pi using `armhf/arm64`.
 
-It is therefore necessary to use a docker based installation, see [The syslog-ng Docker image](https://www.syslog-ng.com/community/b/blog/posts/central-log-server-docker/).
+It is therefore necessary to use a docker based installation that supports different architectures like `amd64`, `arm64` and `arm32` see [dockerhub linuxserver.io](https://hub.docker.com/r/linuxserver/syslog-ng). A docker-compose example file is provided in the link. Note that using PxID with a static value is necessary because the composer version used.
 
 ## Summary of Ports and URL's Used
 
