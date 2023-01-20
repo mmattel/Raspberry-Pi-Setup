@@ -8,13 +8,13 @@
 # reject all messages wich are not of interest
 def filter_syslog_message(message=''):
 
-    if message[1] == 'kern.uptime.filer':
+    if message[2] == 'kern.uptime.filer':
         return 0
-    if message[1] == 'asup.general.reminder':
+    if message[2] == 'asup.general.reminder':
         return 0
-    if message[1] == 'kern.syslogd.restarted':
+    if message[2] == 'kern.syslogd.restarted':
         return 0
-    if message[1] == 'asup.smtp.detailNotSent':
+    if message[2] == 'asup.smtp.detailNotSent':
         return 0
 
     return True
