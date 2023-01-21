@@ -11,11 +11,8 @@ import syslog_regex as sr               # python syslog parser for filer message
 import syslog_construct_update as scu   # construct update from message response
 import syslog_construct_ha as sch       # construct ha from message response
 
-# script and pip needs to be run as root due to access to socket
+# script and pip needs to be run as root due to socket access 
 # pip install paho-mqtt
-
-#message = '<30>Jan 19 17:00:00 [kern.uptime.filer:info]:   5:00pm up  4 days,  5:39 241578229 NFS ops, 4430 CIFS ops, 0 HTTP ops, 0 FCP ops, 0 iSCSI ops'
-#message = '<29>Jan 15 20:25:12 [asup.smtp.sent:notice]: System Notification mail sent: System Notification from filer (USER_TRIGGERED (do)) INFO'
 
 # main program
 
@@ -52,7 +49,9 @@ mqtt_port = int(mqtt_config['mqtt_port'])
 mqtt_username = mqtt_config['mqtt_username']
 mqtt_password = mqtt_config['mqtt_password']
 mqtt_client_id = mqtt_config['mqtt_client_id']
-mqtt_topic = mqtt_config['mqtt_topic']
+mqtt_ha_topic = 'homeassistant/sensor/' + mqtt_config['mqtt_topic']
+mqtt_update_topic = 'syslog/sensor/' + mqtt_config['mqtt_topic']
+mqtt_state_topic = 'syslog/sensor/' + mqtt_config['mqtt_topic'] + '/availability'
 
 # Syslog Parameters
 # Insert IP of server listener. 0.0.0.0 for any
@@ -78,12 +77,12 @@ syslog.syslog(f'Opening MQTT socket: {mqtt_server}:{mqtt_port}')
 
 def on_connect(client, userdata, flags, rc):
     # http://www.steves-internet-guide.com/mqtt-python-callbacks/
-    client.publish("syslog/status", payload="Online", qos=0, retain=True)
+    client.publish(mqtt_state_topic, payload = "Online", qos = 0, retain = True)
 
-mqttclient = mqtt.Client(client_id=mqtt_client_id, clean_session=True)
+mqttclient = mqtt.Client(client_id = mqtt_client_id, clean_session = True)
 mqttclient.on_connect = on_connect
 mqttclient.username_pw_set(mqtt_username, mqtt_password)
-mqttclient.will_set("syslog/status", payload="Offline", qos=0, retain=True)
+mqttclient.will_set(mqtt_state_topic, payload = "Offline", qos = 0, retain = True)
 
 mqttclient.connect_async(mqtt_server, port=mqtt_port, keepalive=70)
 mqttclient.loop_start()
@@ -95,14 +94,14 @@ else:
     sys.exit()
 
 # response = sr.parse_syslog_message(message)
-# json = smc.construct_json_message(response)
+# json = scu.construct_json_message(response)
 # sys.exit()
 
 while True:
     # sudo nc -ulp 514  (read messages from command line)
     # ss -u             (show who has last sent a message)
     # data contains the message in utf-8
-    # sender is a tuple and contains (string)IP (int)port
+    # sender is a tuple with (string)IP (int)port
     # socket.gethostbyaddr(sender[0]) returns a triple ('hostname', [], ['IP'])
     data,sender = s.recvfrom(buf)
     if not data:
@@ -119,9 +118,9 @@ while True:
         if not sf.filter_syslog_message(response):
             continue
         print(response)
-        #json = scu.construct_update_message(response)
-        # send a filer standard message, the format is fixed
-        #mqttclient.publish(mqtt_topic,payload=json,qos=0,retain=True)
+        update = scu.construct_update_message(response)
+        # send a filer update message, the format is fixed
+        mqttclient.publish(mqtt_update_topic, payload = update, qos = 0, retain = True)
 
 graceful_shutdown()
 # as reminder
