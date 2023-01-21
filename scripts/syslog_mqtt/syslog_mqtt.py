@@ -6,9 +6,10 @@ import syslog
 import datetime
 import paho.mqtt.client as mqtt
 from dotenv import dotenv_values
-import syslog_filter as sf              # my python syslog filter for filer messages
-import syslog_regex as sr               # my python syslog parser for filer messages
-import syslog_message_construct as smc  # construct json from message response
+import syslog_filter as sf              # python syslog filter for filer messages
+import syslog_regex as sr               # python syslog parser for filer messages
+import syslog_construct_update as scu   # construct update from message response
+import syslog_construct_ha as sch       # construct ha from message response
 
 # script and pip needs to be run as root due to access to socket
 # pip install paho-mqtt
@@ -119,7 +120,7 @@ while True:
         if not sf.filter_syslog_message(response):
             continue
         print(response)
-        #json = smc.construct_update_message(response)
+        #json = scu.construct_update_message(response)
         # send a filer standard message, the format is fixed
         #mqttclient.publish(mqtt_topic,payload=json,qos=0,retain=True)
 
