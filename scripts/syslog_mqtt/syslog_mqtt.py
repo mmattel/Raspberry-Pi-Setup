@@ -57,7 +57,6 @@ mqtt_topic = mqtt_config['mqtt_topic']
 # Syslog Parameters
 # Insert IP of server listener. 0.0.0.0 for any
 server = "0.0.0.0"
-#server = "127.0.0.1"
 port = 514
 buf = 4096
 addr = (server,port)
