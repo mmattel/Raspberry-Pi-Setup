@@ -1,9 +1,9 @@
- #   message[0] # timestamp "%Y.%m.%d"
- #   message[1] # timestamp "%H:%M"
- #   message[2] # short
- #   message[3] # severity
- #   message[4] # set the uptime
- #   message[5] # set the message
+#   message[0] # timestamp "%Y.%m.%d"
+#   message[1] # timestamp "%H:%M"
+#   message[2] # short
+#   message[3] # severity
+#   message[4] # set the uptime
+#   message[5] # set the message
 
 # reject all messages which are not of interest (return 0)
 def filter_syslog_message(message=''):

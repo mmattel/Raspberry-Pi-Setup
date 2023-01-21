@@ -119,7 +119,7 @@ while True:
         if not sf.filter_syslog_message(response):
             continue
         print(response)
-        #json = smc.construct_json_message(response)
+        #json = smc.construct_update_message(response)
         # send a filer standard message, the format is fixed
         #mqttclient.publish(mqtt_topic,payload=json,qos=0,retain=True)
 

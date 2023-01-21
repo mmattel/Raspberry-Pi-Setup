@@ -1,6 +1,13 @@
 import json
 
-def construct_update_message(message=''):
+ #   message[0] # timestamp "%Y.%m.%d"
+ #   message[1] # timestamp "%H:%M"
+ #   message[2] # short
+ #   message[3] # severity
+ #   message[4] # set the uptime
+ #   message[5] # set the message
+
+def construct_ha_message(message=''):
 
     construct = {
         'date':
