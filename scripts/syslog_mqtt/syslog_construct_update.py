@@ -10,12 +10,12 @@ import json
 def construct_update_message(message=''):
 
     construct = {
-        'date': message[1],
-        'time': message[2],
-        'host': message[3],
-        'severity': message[4],
-        'uptime': message[5],
-        'message': message[6],
+        'date': message[0],
+        'time': message[1],
+        'host': message[2],
+        'severity': message[3],
+        'uptime': message[4],
+        'message': message[5],
     }
 
     final = json.dumps(construct)
