@@ -5,7 +5,7 @@
  #   message[4] # set the uptime
  #   message[5] # set the message
 
-# reject all messages wich are not of interest
+# reject all messages which are not of interest (return 0)
 def filter_syslog_message(message=''):
 
     if message[2] == 'kern.uptime.filer':
