@@ -12,9 +12,10 @@ def construct_ha_message(mqtt_topic, mqtt_state_topic, mqtt_update_topic):
     config = [''] * 6
     name = [''] * 6
 
+    # https://www.home-assistant.io/integrations/sensor.mqtt/
     # device_class: https://www.home-assistant.io/integrations/sensor/
+    # "device_class": "xyz",
     date = {
-        "device_class": "date",
         "name": mqtt_topic + '/' + "Date",
         "state_topic": mqtt_update_topic,
         "value_template": "{{value_json.date}}",
@@ -34,10 +35,9 @@ def construct_ha_message(mqtt_topic, mqtt_state_topic, mqtt_update_topic):
     config[0] = json.dumps(date)
 
     time = {
-        "device_class": "date",
         "name": mqtt_topic + '/' + "Time",
         "state_topic": mqtt_update_topic,
-        "value_template": "{{value_json.date}}",
+        "value_template": "{{value_json.time}}",
         "unique_id": mqtt_topic + "_sensor_time",
         "availability_topic": mqtt_state_topic,
         "device": {
@@ -48,7 +48,7 @@ def construct_ha_message(mqtt_topic, mqtt_state_topic, mqtt_update_topic):
             "model": "FAS2020",
             "manufacturer": "NetApp"
         },
-        "icon": "mdi:calendar-clock"
+        "icon": "mdi:clock-outline"
     }
     name[1] = 'time'
     config[1] = json.dumps(time)
@@ -86,7 +86,7 @@ def construct_ha_message(mqtt_topic, mqtt_state_topic, mqtt_update_topic):
             "model": "FAS2020",
             "manufacturer": "NetApp"
         },
-        "icon": "mdi:alert-circle"
+        "icon": "mdi:alert-circle-outline"
     }
     name[3] = 'severity'
     config[3] = json.dumps(severity)
