@@ -16,6 +16,8 @@ def filter_syslog_message(message=''):
         return 0
     if message[2] == 'asup.smtp.detailNotSent':     # no autosupport.to recipients specified
         return 0
+    if message[2] == 'cifs.terminationNotice':      # cifs shut down completed, cifs terminated
+        return 0
 #    if message[2] == 'kern.syslogd.restarted':      # syslog daemon has been restarted due to syslog.conf changes
 #        return 0
     if message[2] == 'kern.uptime.filer':           # regular update message 1x per h
@@ -33,6 +35,8 @@ def filter_syslog_message(message=''):
     if message[2] == 'raid.scrub.suspended':        # disk scrub suspended
         return 0
     if message[2] == 'rc':                          # timed: time daemon started
+        return 0
+    if message[2] == 'ses.channel.rescanInitiated': # Initiating rescan on channel
         return 0
     if message[2] == 'sfu.firmwareUpToDate':        # firmware is up-to-date on all disk shelves
         return 0
