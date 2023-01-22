@@ -16,6 +16,12 @@ import syslog_construct_ha as sch       # construct ha from message response
 
 # main program
 
+# MQTT qos values (http://www.steves-internet-guide.com/understanding-mqtt-qos-levels-part-1/)
+# QOS 0 – Once (not guaranteed)
+# QOS 1 – At Least Once (guaranteed)
+# QOS 2 – Only Once (guaranteed)
+mqtt_qos = 2
+
 def graceful_shutdown():
     print()
     mqttclient.disconnect()
@@ -79,8 +85,12 @@ def on_connect(client, userdata, flags, rc):
     # http://www.steves-internet-guide.com/mqtt-python-callbacks/
     client.publish(mqtt_state_topic, payload = "Online", qos = 0, retain = True)
 
+def on_publish(client, userdata, mid):
+    print(f"Messages published: {mid}")
+
 mqttclient = mqtt.Client(client_id = mqtt_client_id, clean_session = True)
 mqttclient.on_connect = on_connect
+# mqttclient.on_publish = on_publish      # uncomment for testing purposes    
 mqttclient.username_pw_set(mqtt_username, mqtt_password)
 mqttclient.will_set(mqtt_state_topic, payload = "Offline", qos = 0, retain = True)
 
@@ -93,9 +103,16 @@ else:
     syslog.syslog(f'Could not open MQTT socket: {mqtt_server}:{mqtt_port}. Exiting')
     sys.exit()
 
-# response = sr.parse_syslog_message(message)
-# json = scu.construct_json_message(response)
-# sys.exit()
+# update the home assistant auto config info
+# each item needs its own publish
+# name and config are arrays. name contains the name for the config which is the full json string defining the message
+name, config = sch.construct_ha_message(mqtt_config['mqtt_topic'], mqtt_state_topic, mqtt_update_topic)
+
+for i in range(0,len(name)): 
+    ha_topic_construct = mqtt_ha_topic + '/' + name[i] + '/config'
+    # print(str(i) + ' ' + ha_topic_construct)
+    # print(config[i])
+    mqttclient.publish(ha_topic_construct, payload = config[i], qos = mqtt_qos, retain = True)
 
 while True:
     # sudo nc -ulp 514  (read messages from command line)
@@ -120,7 +137,7 @@ while True:
         print(response)
         update = scu.construct_update_message(response)
         # send a filer update message, the format is fixed
-        mqttclient.publish(mqtt_update_topic, payload = update, qos = 0, retain = True)
+        mqttclient.publish(mqtt_update_topic, payload = update, qos = mqtt_qos, retain = True)
 
 graceful_shutdown()
 # as reminder
