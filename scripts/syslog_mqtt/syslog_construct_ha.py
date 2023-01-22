@@ -9,12 +9,14 @@ import json
 
 def construct_ha_message(mqtt_topic, mqtt_state_topic, mqtt_update_topic):
 
-    config = [''] * 6
-    name = [''] * 6
+    config = [''] * 5
+    name = [''] * 5
 
     # https://www.home-assistant.io/integrations/sensor.mqtt/
     # device_class: https://www.home-assistant.io/integrations/sensor/
     # "device_class": "xyz",
+    # mdi:alert-octagon
+    i = 0
     date = {
         "name": mqtt_topic + '/' + "Date",
         "state_topic": mqtt_update_topic,
@@ -31,9 +33,10 @@ def construct_ha_message(mqtt_topic, mqtt_state_topic, mqtt_update_topic):
         },
         "icon": "mdi:calendar"
     }
-    name[0] = 'date'
-    config[0] = json.dumps(date)
+    name[i] = 'date'
+    config[i] = json.dumps(date)
 
+    i += 1
     time = {
         "name": mqtt_topic + '/' + "Time",
         "state_topic": mqtt_update_topic,
@@ -50,9 +53,10 @@ def construct_ha_message(mqtt_topic, mqtt_state_topic, mqtt_update_topic):
         },
         "icon": "mdi:clock-outline"
     }
-    name[1] = 'time'
-    config[1] = json.dumps(time)
+    name[i] = 'time'
+    config[i] = json.dumps(time)
 
+    i += 1
     type = {
         "name": mqtt_topic + '/' + "Type",
         "state_topic": mqtt_update_topic,
@@ -69,9 +73,10 @@ def construct_ha_message(mqtt_topic, mqtt_state_topic, mqtt_update_topic):
         },
         "icon": "mdi:information-outline"
     }
-    name[2] = 'type'
-    config[2] = json.dumps(type)
+    name[i] = 'type'
+    config[i] = json.dumps(type)
 
+    i += 1
     severity = {
         "name": mqtt_topic + '/' + "Severity",
         "state_topic": mqtt_update_topic,
@@ -86,30 +91,33 @@ def construct_ha_message(mqtt_topic, mqtt_state_topic, mqtt_update_topic):
             "model": "FAS2020",
             "manufacturer": "NetApp"
         },
-        "icon": "mdi:alert-circle-outline"
+        #"icon_template": "{% if {{value_json.severity}} == 'warning') %} mdi:alert-octagon {% else %} mdi:alert-circle-outline {% endif %}"
+        "icon": "mdi:alert-octagon-outline"
     }
-    name[3] = 'severity'
-    config[3] = json.dumps(severity)
+    name[i] = 'severity'
+    config[i] = json.dumps(severity)
 
-    uptime = {
-        "name": mqtt_topic + '/' + "Uptime",
-        "state_topic": mqtt_update_topic,
-        "value_template": "{{value_json.uptime}}",
-        "unique_id": mqtt_topic + "_sensor_uptime",
-        "availability_topic": mqtt_state_topic,
-        "device": {
-            "identifiers": [
-                mqtt_topic + "_sensor"
-            ],
-            "name": mqtt_topic + " Sensors",
-            "model": "FAS2020",
-            "manufacturer": "NetApp"
-        },
-        "icon": "mdi:arrow-up-bold"
-    }
-    name[4] = 'uptime'
-    config[4] = json.dumps(uptime)
+#    i += 1
+#    uptime = {
+#        "name": mqtt_topic + '/' + "Uptime",
+#        "state_topic": mqtt_update_topic,
+#        "value_template": "{{value_json.uptime}}",
+#        "unique_id": mqtt_topic + "_sensor_uptime",
+#        "availability_topic": mqtt_state_topic,
+#        "device": {
+#            "identifiers": [
+#                mqtt_topic + "_sensor"
+#            ],
+#            "name": mqtt_topic + " Sensors",
+#            "model": "FAS2020",
+#            "manufacturer": "NetApp"
+#        },
+#        "icon": "mdi:arrow-up-bold"
+#    }
+#    name[i] = 'uptime'
+#    config[i] = json.dumps(uptime)
 
+    i += 1
     message = {
         "name": mqtt_topic + '/' + "Message",
         "state_topic": mqtt_update_topic,
@@ -126,7 +134,7 @@ def construct_ha_message(mqtt_topic, mqtt_state_topic, mqtt_update_topic):
         },
         "icon": "mdi:file-document-outline"
     }
-    name[5] = 'message'
-    config[5] = json.dumps(message)
+    name[i] = 'message'
+    config[i] = json.dumps(message)
 
     return name, config
