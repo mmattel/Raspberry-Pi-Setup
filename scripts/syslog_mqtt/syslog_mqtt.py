@@ -44,6 +44,8 @@ if len(sys.argv) > 1:
     if os.path.isfile(sys.argv[1]) == True:
         env_file = sys.argv[1]
 
+syslog.syslog(f'Using env file: {env_file}')
+
 full_config = {
     **dotenv_values(env_file),  # load env variables for mqtt
     **os.environ,               # override loaded values with environment variables if exists
