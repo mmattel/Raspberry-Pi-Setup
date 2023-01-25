@@ -38,8 +38,14 @@ def graceful_shutdown():
 # get all environment variables as dictionary
 # https://pypi.org/project/python-dotenv/
 # pip install python-dotenv (if necessary)
+# file either predefined or as cmd line option. option ID starts with 2
+env_file = ".env"
+if len(sys.argv) > 1:
+    if os.path.isfile(sys.argv[1]) == True:
+        env_file = sys.argv[1]
+
 full_config = {
-    **dotenv_values(".env"),    # load .env variables for mqtt
+    **dotenv_values(env_file),  # load env variables for mqtt
     **os.environ,               # override loaded values with environment variables if exists
 }
 
