@@ -4,6 +4,7 @@
 #   message[3] # severity
 #   message[4] # set the uptime
 #   message[5] # set the message
+#   message[6] # set the full message
 
 # reject all messages which are not of interest (return 0)
 def filter_syslog_message(message=''):

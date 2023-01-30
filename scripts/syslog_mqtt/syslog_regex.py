@@ -10,7 +10,7 @@ def parse_syslog_message(message):
     the_regex = r'<.+>(.+?(?=.\[))..(.+?(?=.\:).).(.*?)(\]:\s+)(\D)?(?(5)(.*$)|.+(up)(\s*)(.+?(?=,))(.+?(?=:).\d*.)(.*))'
 
     target = [''] * 12              # initaialize array with 12 empty elements 
-    final = [''] * 7                # finaly array containing all info at the right locations
+    final = [''] * 8                # final array contains all info at the right locations
 
     m = re.search(the_regex, message)
 
@@ -58,6 +58,13 @@ def parse_syslog_message(message):
     else:
         final[5] = target[9]             # set the uptime 
         final[6] = target[11]            # set the message
+
+    # construct a full message based on the regex outcome
+    # special care on the uptime as it can be empty, avoid double whitespace
+    ut = final[5] + ' '
+    if ut.isspace():
+        ut = ''
+    final[7] = final[1] + ' ' + final[2] + ' ' + final[3] + ' ' + final[4] + ' ' +  ut + final[6]
 
     # remove the first entry (full message) as not necessary
     final = final[1:]

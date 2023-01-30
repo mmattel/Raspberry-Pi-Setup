@@ -6,11 +6,12 @@ import json
  #   message[3] # severity
  #   message[4] # set the uptime
  #   message[5] # set the message
+ #   message[6] # construct the full message
 
 def construct_ha_message(mqtt_topic, mqtt_state_topic, mqtt_update_topic):
 
-    config = [''] * 5
-    name = [''] * 5
+    config = [''] * 6
+    name = [''] * 6
 
     # https://www.home-assistant.io/integrations/sensor.mqtt/
     # device_class: https://www.home-assistant.io/integrations/sensor/
@@ -136,5 +137,25 @@ def construct_ha_message(mqtt_topic, mqtt_state_topic, mqtt_update_topic):
     }
     name[i] = 'message'
     config[i] = json.dumps(message)
+
+    i += 1
+    full = {
+        "name": mqtt_topic + '/' + "Full Message",
+        "state_topic": mqtt_update_topic,
+        "value_template": "{{value_json.full}}",
+        "unique_id": mqtt_topic + "_sensor_full",
+        "availability_topic": mqtt_state_topic,
+        "device": {
+            "identifiers": [
+                mqtt_topic + "_sensor"
+            ],
+            "name": mqtt_topic + " Sensors",
+            "model": "FAS2020",
+            "manufacturer": "NetApp"
+        },
+        "icon": "mdi:file-document-outline"
+    }
+    name[i] = 'full'
+    config[i] = json.dumps(full)
 
     return name, config

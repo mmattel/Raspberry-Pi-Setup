@@ -6,8 +6,9 @@ import json
  #   message[3] # severity
  #   message[4] # set the uptime
  #   message[5] # set the message
- 
-def construct_update_message(message=''):
+ #   message[6] # set the full message
+
+def construct_update_message(message):
 
     construct = {
         'date': message[0],
@@ -16,6 +17,7 @@ def construct_update_message(message=''):
         'severity': message[3],
         'uptime': message[4],
         'message': message[5],
+        'full': message[6],
     }
 
     final = json.dumps(construct)

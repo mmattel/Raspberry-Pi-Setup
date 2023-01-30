@@ -142,7 +142,7 @@ while True:
         # only continue if response is important
         if not sf.filter_syslog_message(response):
             continue
-        print(response)
+        #print(response)
         update = scu.construct_update_message(response)
         # send a filer update message, the format is fixed
         mqttclient.publish(mqtt_update_topic, payload = update, qos = mqtt_qos, retain = True)
