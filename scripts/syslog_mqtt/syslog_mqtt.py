@@ -135,7 +135,7 @@ while True:
         break
     else:
         # only continue if the message comes from filer
-        if "filer" not in socket.gethostbyaddr(sender[0])[0]:
+        if mqtt_config['mqtt_topic'] not in socket.gethostbyaddr(sender[0])[0]:
             continue
         # setup response from data
         response = sr.parse_syslog_message(data.decode(encoding='utf-8'))
