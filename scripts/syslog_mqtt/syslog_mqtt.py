@@ -143,7 +143,7 @@ while True:
             continue
         #print(response)
         update = scu.construct_update_message(response)
-        # send a filer update message, the format is fixed
+        # send a mqtt update message, the format is fixed
         mqttclient.publish(mqtt_update_topic, payload = update, qos = mqtt_qos, retain = True)
 
 graceful_shutdown()
