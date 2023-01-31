@@ -130,8 +130,7 @@ while True:
     # socket.gethostbyaddr(sender[0]) returns a triple ('hostname', [], ['IP'])
     data,sender = s.recvfrom(buf)
     if not data:
-        message = f'Cant revieve data from socket {server}:{port}. Exiting'
-        print (message, file=log_file, flush=True)
+        syslog.syslog(f'Cant recieve data from socket {server}:{port}. Exiting')
         break
     else:
         # only continue if the message comes from filer
