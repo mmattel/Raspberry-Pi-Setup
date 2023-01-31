@@ -113,7 +113,8 @@ else:
 
 # update the home assistant auto config info
 # each item needs its own publish
-# name and config are arrays. name contains the name for the config which is the full json string defining the message
+# name and config are arrays
+# name contains the name for the config which is the full json string defining the message
 name, config = sch.construct_ha_message(mqtt_config['mqtt_topic'], mqtt_state_topic, mqtt_update_topic)
 
 for i in range(0,len(name)): 
