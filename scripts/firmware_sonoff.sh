@@ -17,7 +17,7 @@ basepath="$HOME/docker/tools/sonoff-zb3.0p"
 tmp="tmp"
 
 main () {
-    if [ $1 -ne 3 ]
+    if [ $1 -ne 4 ]
        then
           show_usage
        else
@@ -27,7 +27,7 @@ main () {
           prepare_tmp_dir
           download_serial_bootloader
           download_firmware $1 $2
-          flash_firmware $1 $2 $3
+          flash_firmware $1 $2 $3 $4
           cleanup
     fi
 }
@@ -72,17 +72,16 @@ download_serial_bootloader () {
 download_firmware () {
     # https://github.com/Koenkk/Z-Stack-firmware
     # No attempt is made to use github api to download latest versions.
-    # Urls will need to be edited to point to correct files as updates
-    # are posted to github.
+    # Urls may need to be edited to point to correct files as updates are posted to github.
 
     if [ $1 == "master" ]; then
       cd $basepath/$tmp
       mkdir master
       cd master
 
-      # Master branch coordinator as of 5/11/22
+      # Master branch coordinator
       if [ $2 == "coordinator" ]; then
-        wget https://github.com/Koenkk/Z-Stack-firmware/raw/master/coordinator/Z-Stack_3.x.0/bin/CC1352P2_CC2652P_launchpad_coordinator_20220219.zip
+        wget https://github.com/Koenkk/Z-Stack-firmware/raw/master/coordinator/Z-Stack_3.x.0/bin/CC1352P2_CC2652P_launchpad_coordinator_$4.zip
 
         if [[ $? -ne 0 ]]; then
           log "wget $1 coordinator failed"
@@ -91,7 +90,7 @@ download_firmware () {
       fi
 
       if [ $2 == "router" ]; then
-        wget https://github.com/Koenkk/Z-Stack-firmware/raw/master/router/Z-Stack_3.x.0/bin/CC1352P2_CC2652P_launchpad_router_20220219.zip
+        wget https://github.com/Koenkk/Z-Stack-firmware/raw/master/router/Z-Stack_3.x.0/bin/CC1352P2_CC2652P_launchpad_router_$4.zip
 
         if [[ $? -ne 0 ]]; then
           log "wget $1 router failed"
@@ -107,9 +106,9 @@ download_firmware () {
       mkdir dev
       cd dev
 
-      # Dev branch coordinator as of 5/11/22
+      # Dev branch coordinator
       if [ $2 == "coordinator" ]; then
-        wget https://github.com/Koenkk/Z-Stack-firmware/raw/develop/coordinator/Z-Stack_3.x.0/bin/CC1352P2_CC2652P_launchpad_coordinator_20220507.zip
+        wget https://github.com/Koenkk/Z-Stack-firmware/raw/develop/coordinator/Z-Stack_3.x.0/bin/CC1352P2_CC2652P_launchpad_coordinator_$4.zip
 
         if [[ $? -ne 0 ]]; then
           log "wget $1 coordinator failed"
@@ -118,7 +117,7 @@ download_firmware () {
       fi
 
       if [ $2 == "router" ]; then
-        wget https://github.com/Koenkk/Z-Stack-firmware/raw/develop/router/Z-Stack_3.x.0/bin/CC1352P2_CC2652P_launchpad_router_20220125.zip
+        wget https://github.com/Koenkk/Z-Stack-firmware/raw/develop/router/Z-Stack_3.x.0/bin/CC1352P2_CC2652P_launchpad_router_$4.zip
 
         if [[ $? -ne 0 ]]; then
           log "wget $1 router failed"
@@ -143,7 +142,7 @@ cleanup () {
 }
 
 log() {
-    # tehrnumber is the color used for printing
+    # the number is the color used for printing
     _log_message 3 "$@"
 }
 
@@ -158,6 +157,7 @@ show_usage() {
     # $1: dev or master
     # $2: router or coordinator
     # $3: ttyUSB port number
+    # $4: the filename date component like 20221226
 
     log
     log "Usage: $0 [branch] [type] [usb port number]"
@@ -165,12 +165,19 @@ show_usage() {
     log "branch:  master or dev"
     log "type:    coordinator or router"
     log "port:    ttyUSB port number"
+    log "date:    filename date component"
     log
     log "Note that dev of router may not be available at all"
     log "Example: /ttyUSB0 --> 0"
     log
     log USB dongles found:
-    log $(ls -Alhr /dev/serial/by-id | awk '{print $9, $10, $11}')
+
+    readarray -t dongles < <(ls -Alhr /dev/serial/by-id | awk '{print $11, $10, $9}')
+    for i in "${dongles[@]}"
+    do
+      log "$i"
+    done
+
     log
 }
 
@@ -189,4 +196,4 @@ prepare_python () {
     log
 }
 
-main $# $1 $2 $3
+main $# $1 $2 $3 $4
