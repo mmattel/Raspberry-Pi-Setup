@@ -315,6 +315,7 @@ sudo apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-
 tar -xzvf Python-3.11.1.tgz 
 cd Python-3.11.1/
 ./configure --enable-optimizations
+make
 sudo make altinstall
 sudo rm /usr/bin/python*
 sudo ln -s /usr/local/bin/python3.11 /usr/bin/python
