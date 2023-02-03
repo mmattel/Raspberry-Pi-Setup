@@ -44,7 +44,6 @@ Table of Contents
    * [Install Netdata with Docker](#install-netdata-with-docker)
    * [Bash Script to Check a Port](#bash-script-to-check-a-port)
    * [Backup your RPi SD Card](#backup-your-rpi-sd-card)
-   * [Install syslog-ng](#install-syslog-ng)
    * [Summary of Ports and URL's Used](#summary-of-ports-and-urls-used)
    * [Install Home Assistant](#install-home-assistant)
       * [Steps](#steps)
@@ -301,8 +300,39 @@ Post installation, reboot your Pi with `sudo reboot`.
 
 ## Install Python3 and pip3
 
+Note that this will install as of writing Python 3.9 which now EOL
+
 ```
 sudo apt install python3 python3-pip
+```
+
+To install an updated version like Python 3.11, do following steps:
+
+```
+cd /tmp
+wget https://www.python.org/ftp/python/3.11.1/Python-3.11.1.tgz
+sudo apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev
+tar -xzvf Python-3.11.1.tgz 
+cd Python-3.11.1/
+./configure --enable-optimizations
+sudo make altinstall
+sudo rm /usr/bin/python*
+sudo ln -s /usr/local/bin/python3.11 /usr/bin/python
+sudo ln -s /usr/local/bin/python3.11 /usr/bin/python3
+sudo ln -s /usr/local/bin/python3.11-config /usr/bin/python3.11-config
+```
+
+Run the following to verify that you have installed the version correctly:
+
+```
+python -V
+Python 3.11.1
+```
+
+Finally you can remove the files from the /temp dir:
+
+```
+rm -r /tmp/Python-3.11.1*
 ```
 
 ## Enable Argon Mini Fan temp driven PWM fan speed
@@ -696,15 +726,6 @@ Notes:
 - The script requires the presense of the NFS mount located at `/home/<your-user>/backup` as described above.
 - Rotate the amount of backup files manually to avoid wasting nfs space.
 - Use [etcher](https://www.balena.io/etcher/) to burn (restore) the image to your target.
-
-## Install syslog-ng
-
-At the time of writing, `syslog-ng` comes with version 3.28.1-2 when installing normally via apt. Starting with version 3.33, a [MQTT client](https://www.syslog-ng.com/community/b/blog/posts/syslog-ng-3-33-the-mqtt-destination) was added where you can easily post syslog messages via MQTT to show in HA.
-
-The installation referenced by [Installing the latest syslog-ng on Ubuntu and other DEB distributions
-](https://www.syslog-ng.com/community/b/blog/posts/installing-the-latest-syslog-ng-on-ubuntu-and-other-deb-distributions) respectively [Supported distributions](https://github.com/syslog-ng/syslog-ng/#supported-distributions) is only valid for **x86-64** but not for the Pi using `armhf/arm64`.
-
-It is therefore necessary to use a docker based installation that supports different architectures like `amd64`, `arm64` and `arm32` see [dockerhub linuxserver.io](https://hub.docker.com/r/linuxserver/syslog-ng). A docker-compose example file is provided in the link. Note that using PxID with a static value is necessary because the composer version used. Also note that when configuring the `syslog-ng.conf` file to use the container and not the host targets.
 
 ## Summary of Ports and URL's Used
 
