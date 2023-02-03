@@ -322,6 +322,7 @@ sudo rm /usr/bin/python*
 sudo ln -s /usr/local/bin/python3.11 /usr/bin/python
 sudo ln -s /usr/local/bin/python3.11 /usr/bin/python3
 sudo ln -s /usr/local/bin/python3.11-config /usr/bin/python3.11-config
+pip3.11 install --upgrade pip
 ```
 
 Run the following to verify that you have installed the version correctly:
