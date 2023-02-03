@@ -312,7 +312,7 @@ To install an updated version like Python 3.11, do following steps:
 cd /tmp
 sudo apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev
 wget https://www.python.org/ftp/python/3.11.1/Python-3.11.1.tgz
-tar -xzvf Python-3.11.1.tgz 
+tar -xzvf Python-3.11.1.tgz
 cd Python-3.11.1/
 ./configure --enable-optimizations
 make
