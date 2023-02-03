@@ -530,6 +530,8 @@ With portainer, you can easily deploy, configure and secure containers in minute
 This document will help you install the **Portainer Server** container on your Linux environment.
 
 ```
+# sudo apt-get install apparmor-utils
+
 docker volume create portainer_data
 
 docker run \
@@ -541,6 +543,7 @@ docker run \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v portainer_data:/data portainer/portainer-ce:latest
 ```
+Use `portainer-ee` for the enterprise edition.
 
 When the Portainer Container is running, access it with: `https://<your-server/ip>:9443`
 
