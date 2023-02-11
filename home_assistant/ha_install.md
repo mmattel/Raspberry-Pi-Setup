@@ -39,7 +39,7 @@ version: '3'
 services:
   hassio:
     container_name: hassio_supervisor
-    image: homeassistant/armv7-hassio-supervisor:2022.11.2
+    image: homeassistant/armv7-hassio-supervisor:2023.01.1
     restart: always
     privileged: true
     security_opt:
