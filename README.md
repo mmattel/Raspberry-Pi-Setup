@@ -7,7 +7,7 @@ Steps to setup a RPi Server with Raspberry PI OS x64 with:
 - Docker
 - Container management with [Portainer](https://docs.portainer.io)
 - Monitoring the RPi with [netdata](https://learn.netdata.cloud)
-- Bakup your SD-Card / boot drive
+- Backup your SD-Card / boot drive
 - Install Home Assistant 
 
 Table of Contents
@@ -41,7 +41,6 @@ Table of Contents
       * [Portainer Upgrade](#portainer-upgrade)
    * [Live Monitoring of Docker Logs with Dozzle](#live-monitoring-of-docker-logs-with-dozzle)
    * [Install Theia IDE for RPi with Docker](#install-theia-ide-for-rpi-with-docker)
-   * [Install Netdata with Docker](#install-netdata-with-docker)
    * [Bash Script to Check a Port](#bash-script-to-check-a-port)
    * [Backup your RPi SD Card](#backup-your-rpi-sd-card)
    * [Summary of Ports and URL's Used](#summary-of-ports-and-urls-used)
@@ -617,104 +616,6 @@ services:
 ```
 
 When finished, you can access the Theia IDE via `https://<your-server/ip>:8100`
-
-## Install Netdata with Docker
-
-Netdata is a monitoring, visualization, and troubleshooting solution for systems, containers, services, and applications.
-
-While the product is great, the [netdata docker documentation](https://learn.netdata.cloud/docs/agent/packaging/docker) has some room for improvement. The following is a working setup description.
-
-Prepare a `netdata` directory in your home:
-
-`mkdir -p ~/netdata`
-
-Use this base path for the mounts described in [Install Netdata with Docker](https://learn.netdata.cloud/docs/agent/packaging/docker) compose file, use Portainer Stack to compose the container. Note that it was necessary to add the DOCKER_USR/GRP info, else the container errored with can't write into `/var/cache/netdata`. See the [Github](https://github.com/netdata/netdata/issues/8663) issue for this.
-
-First we need to make a [Host editable configuration](https://learn.netdata.cloud/docs/agent/packaging/docker#host-editable-configuration)
-
-```
-sudo mkdir -p /usr/lib/netdata
-sudo chown <your-user>:<your-user> /usr/lib/netdata
-docker run -d --name netdata_tmp netdata/netdata
-docker cp netdata_tmp:/usr/lib/netdata/conf.d /usr/lib/netdata/
-docker rm -f netdata_tmp
-```
-
-Use the following composer file for netdata and adapt it to your needs:
-
-```
-version: '3'
-services:
-  netdata:
-    container_name: netdata
-    image: netdata/netdata
-    restart: unless-stopped
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "200k"
-        max-file: "10"
-    hostname: <your-hostname> # set to fqdn of host
-    ports:
-      - 19999:19999
-    cap_add:
-      - SYS_PTRACE
-    security_opt:
-      - apparmor:unconfined
-    volumes:
-      - /home/<your-user>/docker/netdata/config:/etc/netdata
-      - /home/<your-user>/docker/netdata/lib:/var/lib/netdata
-      - /home/<your-user>/docker/netdata/cache:/var/cache/netdata
-      - /etc/passwd:/host/etc/passwd:ro
-      - /etc/group:/host/etc/group:ro
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-      - /etc/os-release:/host/etc/os-release:ro
-    environment:
-      - DOCKER_USR=1000
-      - DOCKER_GRP=1000
-```
-
-When the container is running, you can access netdata via `https://<your-server/ip>:19999`
-
-To make `edit-config` work, you need to set the needed environment variables when using docker.
-
-Add at the following to define the necessary environment variables for `edit-config`. Note it needs the full path and no substitution and you must set the env's in `/etc/profiles.d/docker-env.sh` and not in `~/.bashrc`:
-
-`sudo vi /etc/profiles.d/docker.sh`
-
-```
-export NETDATA_USER_CONFIG_DIR="/home/<your-username>/docker/netdata/config"
-export NETDATA_STOCK_CONFIG_DIR="/home/<your-username>/docker/netdata/config/orig"
-```
-
-Reload your environment settings with (both are necessary to get back your settings for bash):
-
-```
-source /etc/profile
-source ~/.profile
-```
-Check if the environment variables are present with:
-
-`printenv | grep NETDATA`
-
-To see if it is working, run `sudo ~/netdata/netdataconfig/edit-config`.
-
-Check the output for the `Stock` and `User` config location with following command. You also should see the listing of the available config files.
-
-[Enable temperature sensor monitoring](https://learn.netdata.cloud/guides/monitor/pi-hole-raspberry-pi#enable-temperature-sensor-monitoring) for yor RPi
-
-`sudo ~/netdata/netdataconfig/edit-config charts.d.conf`
-
-Uncomment `# sensors=force` --> `sensors=force`
-
-Restart the container, and see the RPi temperature in the web interface in section `Sensors`.
-
-<!---
-/api/v1/chart?
-URL/dashboard.html
-https://github.com/netdata/netdata/issues/9144
--->
 
 ## Bash Script to Check a Port
 
