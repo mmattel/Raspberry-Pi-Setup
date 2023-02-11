@@ -11,9 +11,9 @@ Install the necessary HA [os-agent](https://github.com/home-assistant/os-agent#a
 ```
 cd /tmp
 
-wget https://github.com/home-assistant/os-agent/releases/download/1.3.0/os-agent_1.3.0_linux_armv7.deb
+wget https://github.com/home-assistant/os-agent/releases/download/1.4.1/os-agent_1.4.1_linux_armv7.deb
 
-sudo dpkg --install os-agent_1.3.0_linux_armv7.deb
+sudo dpkg --install os-agent_1.4.1_linux_armv7.deb
 ```
 If you would like to uninstall because a new package has been published:
 ```
