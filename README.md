@@ -6,7 +6,7 @@ Steps to setup a RPi Server with Raspberry PI OS x64 with:
 - lan0 / wlan0 failover
 - Docker
 - Container management with [Portainer](https://docs.portainer.io)
-- Monitoring the RPi with [netdata](https://learn.netdata.cloud)
+- Monitoring the RPi with [system_sensors](https://github.com/Sennevds/system_sensors)
 - Backup your SD-Card / boot drive
 - Install Home Assistant 
 
