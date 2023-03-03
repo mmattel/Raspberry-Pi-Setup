@@ -42,14 +42,23 @@ def parse_syslog_message(message):
 
     # add year --> 2023 Jan 19 17:00:00
     target[1] = str(datetime.datetime.now().year) + ' ' + target[1]
-    t = datetime.datetime.strptime(target[1], "%Y %b %d %H:%M:%S")
+
+    # there can be cases that strptime fails and would kill the program
+    # but the string causing the issue is not printed therefore using try/except
+    try:
+        t = datetime.datetime.strptime(target[1], "%Y %b %d %H:%M:%S")
+        final[1] = t.strftime("%Y.%m.%d")    # timestamp "%Y.%m.%d"
+        final[2] = t.strftime("%H:%M")       # timestamp "%H:%M"
+    except:
+        t = target[1]
+        syslog.syslog(f'Unidentifyable time string: {t}')  # log the failed string for further investigation
+        final[1] = t                         # raw timestamp in case of an error
+        final[2] = ""                        # keep empty
 
     # print for testing
     # for i in range(1, len(target)):
     #    print(i, target[i])
 
-    final[1] = t.strftime("%Y.%m.%d")    # timestamp "%Y.%m.%d"
-    final[2] = t.strftime("%H:%M")       # timestamp "%H:%M"
     final[3] = target[2]                 # short
     final[4] = target[3]                 # severity
 
