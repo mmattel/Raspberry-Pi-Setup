@@ -16,24 +16,22 @@ import syslog_construct_ha as sch       # construct ha from message response
 
 # main program
 
-# MQTT qos values (http://www.steves-internet-guide.com/understanding-mqtt-qos-levels-part-1/)
-# QOS 0 – Once (not guaranteed)
-# QOS 1 – At Least Once (guaranteed)
-# QOS 2 – Only Once (guaranteed)
-mqtt_qos = 2
-
 def graceful_shutdown():
     print()
+    # the will_set is not sent on graceful shutdown by design
+    # we need to wait until the message has been sent, else it will not appear in the broker
+    publish_result = mqttclient.publish(mqtt_state_topic, payload = "offline", qos = mqtt_qos, retain = True)
+    publish_result.wait_for_publish() 
     mqttclient.disconnect()
     mqttclient.loop_stop()
     s.close()
     sys.exit()
 
 # catch ctrl-c
-#def signal_handler(signal, frame):
-#    graceful_shutdown()
-#
-#signal.signal(signal.SIGINT, signal_handler)
+def signal_handler(signum, frame):
+    graceful_shutdown()
+
+signal.signal(signal.SIGINT, signal_handler)
 
 # get all environment variables as dictionary
 # https://pypi.org/project/python-dotenv/
@@ -66,6 +64,12 @@ mqtt_client_id = mqtt_config['mqtt_client_id']
 mqtt_ha_topic = 'homeassistant/sensor/' + mqtt_config['mqtt_topic']
 mqtt_update_topic = 'syslog/sensor/' + mqtt_config['mqtt_topic']
 mqtt_state_topic = 'syslog/sensor/' + mqtt_config['mqtt_topic'] + '/availability'
+
+# MQTT qos values (http://www.steves-internet-guide.com/understanding-mqtt-qos-levels-part-1/)
+# QOS 0 – Once (not guaranteed)
+# QOS 1 – At Least Once (guaranteed)
+# QOS 2 – Only Once (guaranteed)
+mqtt_qos = 2
 
 # Syslog Parameters
 # Insert IP of server listener. 0.0.0.0 for any
