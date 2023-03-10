@@ -16,6 +16,11 @@ import syslog_construct_ha as sch       # construct ha from message response
 
 # main program
 
+# must run as root
+if os.geteuid() != 0:
+    print("You need to run the program with root previleges like with sudo.")
+    sys.exit()
+
 def graceful_shutdown():
     print()
     # the will_set is not sent on graceful shutdown by design
