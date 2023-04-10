@@ -325,15 +325,14 @@ whereis python
 
 sudo update-alternatives --install /usr/bin/python python /usr/local/bin/python3.11 50
 sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.9 30
+
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.11 50
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 30
+
 update-alternatives --config python
+update-alternatives --config python3
 
 whereis pip
-
-
-sudo rm /usr/bin/python*
-sudo ln -s /usr/local/bin/python3.11 /usr/bin/python
-sudo ln -s /usr/local/bin/python3.11 /usr/bin/python3
-sudo ln -s /usr/local/bin/python3.11-config /usr/bin/python3.11-config
 ```
 
 Run the following to verify that you have installed the version correctly:
