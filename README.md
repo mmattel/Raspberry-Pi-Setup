@@ -158,6 +158,8 @@ sudo reboot
 
 The goal is to create a setup where you can use eth0 and wlan0 concurrently having the same static IP address like you would have with a failover/bond but only one interface is actively used. After many trials where none of them worked, `netplan` is the solution, doing the job perfectly and is easy to configure. The `metric` entry in the yaml configuration file does the magic.
 
+Note to configure the wireless region once like with `sudo raspi-config` to set the correct frequencies.
+
 ### Install and Configure Netplan
 
 The interfaces will be setup so that either eth0 or wlan0 will get configured where eth0 has the higher priority than wlan0. This means that at least one but not both will get configured. If the LAN is connected, use this, but if not use the WLAN - both with the same network address making it easy to switch over without hassles.
