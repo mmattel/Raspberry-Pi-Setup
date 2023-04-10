@@ -259,8 +259,8 @@ sudo unxz bluez-5.66.tar.xz
 sudo tar xvf bluez-5.66.tar
 cd bluez-5.66/
 sudo ./configure --disable-systemd
-sudo make
-sudo make install
+sudo make -j4
+sudo make -j4 install
 
 sudo systemctl daemon-reload
 sudo systemctl restart dbus Bluetooth
@@ -301,13 +301,15 @@ Post installation, reboot your Pi with `sudo reboot`.
 
 ## Install Python3 and pip3
 
-Note that this will install as of writing Python 3.9 which now EOL
+Check if you have python already installed with `python -V` to show the version.
+
+Note when using apt, that this will install as of writing Python 3.9 which now EOL (just dont do it).
 
 ```
 sudo apt install python3 python3-pip
 ```
 
-To install an updated version like Python 3.11, do following steps, note that compiling can take a while:
+To install an updated version like Python 3.11 addtionally if there is already a bundled OS version installed, do following steps. Note that compiling can take a while:
 
 ```
 cd /tmp
@@ -331,6 +333,9 @@ sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 3
 
 update-alternatives --config python
 update-alternatives --config python3
+
+update-alternatives --list python
+update-alternatives --list python3
 
 whereis pip
 ```
