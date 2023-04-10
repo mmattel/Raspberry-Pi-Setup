@@ -353,6 +353,13 @@ Finally you can remove the files from the /temp dir:
 rm -r /tmp/Python-3.11.1*
 ```
 
+To fix an error message about a missing module `ModuleNotFoundError: No module named 'apt_pkg'` like when installing docker (see below), we need to run the following command:
+```
+sudo ln -s \
+/usr/lib/python3/dist-packages/apt_pkg.cpython-39-aarch64-linux-gnu.so \
+/usr/lib/python3/dist-packages/apt_pkg.so
+```
+
 To prepare some python packages that are often used, create a file named `requirements.txt` in your home directory with following contents, more libraries can be added easily:
 
 ```
@@ -491,6 +498,8 @@ sudo pip3 install docker-compose
 ```
 
 Install docker compose (go, **recommended**) either via the [package manager](https://docs.docker.com/compose/install/linux/#install-using-the-repository), often outdated or [manually](https://docs.docker.com/compose/install/linux/#install-the-plugin-manually) which is latest.
+
+Note to use the correct [architecture](https://github.com/docker/compose/releases/) for file downloading, which is for the Raspberry x64 `armv7`.
 
 Allow the Docker System Service to Launch your Containers on Boot:
 
