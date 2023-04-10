@@ -263,7 +263,7 @@ sudo make -j4
 sudo make -j4 install
 
 sudo systemctl daemon-reload
-sudo systemctl restart dbus Bluetooth
+sudo systemctl restart dbus
 (or reboot)
 
 bluetoothctl -v
@@ -309,7 +309,7 @@ Note when using apt, that this will install as of writing Python 3.9 which now E
 sudo apt install python3 python3-pip
 ```
 
-To install an updated version like Python 3.11 addtionally if there is already a bundled OS version installed, do following steps. Note that compiling can take a while:
+To install an updated version like Python 3.11 additionally if there is already a bundled OS version installed, do following steps. Note that compiling can take a while:
 
 ```
 cd /tmp
@@ -352,6 +352,27 @@ Finally you can remove the files from the /temp dir:
 ```
 rm -r /tmp/Python-3.11.1*
 ```
+
+To prepare some python packages that are often used, create a file named `requirements.txt` in your home directory with following contents, more libraries can be added easily:
+
+```
+paho-mqtt
+psutil
+pytz
+PyYAML
+rpi_bad_power
+python-dotenv
+docutils
+RPi.GPIO
+```
+
+Then load the libraries once for the user and once for root:
+
+```
+pip install -r requirements.txt
+sudo pip install -r requirements.txt
+```
+
 
 ## Enable Argon Mini Fan temp driven PWM fan speed
 
