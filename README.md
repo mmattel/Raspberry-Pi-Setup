@@ -478,14 +478,14 @@ sudo usermod -aG docker ${USER}
 
 Logout your terminal session and relogin to apply the usermod changes.
 
-Install docker compose (pip, deprecated):
+Install docker compose (via pip, **deprecated**):
 
 ```
 docker info
 sudo pip3 install docker-compose
 ```
 
-Install docker compose (go) either via the [package manager](https://docs.docker.com/compose/install/linux/#install-using-the-repository), often outdated or [manually](https://docs.docker.com/compose/install/linux/#install-the-plugin-manually) which is latest.
+Install docker compose (go, **recommended**) either via the [package manager](https://docs.docker.com/compose/install/linux/#install-using-the-repository), often outdated or [manually](https://docs.docker.com/compose/install/linux/#install-the-plugin-manually) which is latest.
 
 Allow the Docker System Service to Launch your Containers on Boot:
 
