@@ -307,7 +307,7 @@ Note that this will install as of writing Python 3.9 which now EOL
 sudo apt install python3 python3-pip
 ```
 
-To install an updated version like Python 3.11, do following steps:
+To install an updated version like Python 3.11, do following steps, note that compiling can take a while:
 
 ```
 cd /tmp
