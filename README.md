@@ -373,6 +373,11 @@ pip install -r requirements.txt
 sudo pip install -r requirements.txt
 ```
 
+Also install:
+```
+sudo apt-get install python3-dev
+sudo apt-get install python3-apt
+```
 
 ## Enable Argon Mini Fan temp driven PWM fan speed
 
