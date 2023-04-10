@@ -317,7 +317,7 @@ wget https://www.python.org/ftp/python/3.11.3/Python-3.11.3.tgz
 tar -xzvf Python-3.11.3.tgz
 cd Python-3.11.3/
 ./configure --enable-optimizations
-make
+make -j4
 sudo make altinstall
 sudo rm /usr/bin/python*
 sudo ln -s /usr/local/bin/python3.11 /usr/bin/python
