@@ -499,7 +499,7 @@ sudo pip3 install docker-compose
 
 Install docker compose (go, **recommended**) either via the [package manager](https://docs.docker.com/compose/install/linux/#install-using-the-repository), often outdated or [manually](https://docs.docker.com/compose/install/linux/#install-the-plugin-manually) which is latest.
 
-Note to use the correct [architecture](https://github.com/docker/compose/releases/) for file downloading, which is for the Raspberry using a 64bit OS `aarch64`.
+Note to use the correct [architecture](https://github.com/docker/compose/releases/) for file downloading, which is for the Raspberry using a 64bit OS `aarch64` (see the ssh welcome screen).
 
 Allow the Docker System Service to Launch your Containers on Boot:
 
