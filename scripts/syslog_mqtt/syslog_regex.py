@@ -54,6 +54,9 @@ def parse_syslog_message(message):
         syslog.syslog(f'Unidentifyable time string: {t}')  # log the failed string for further investigation
         final[1] = t                         # raw timestamp in case of an error
         final[2] = ""                        # keep empty
+        if len(target[11]) == 0:             # if the message is empty
+            t = datetime.datetime.now().strftime("%Y.%m.%d %H:%M:%S")
+            target[11] = (f'Syslog Parse Error at: {t}') # prefill it with an error and timestamp
 
     # print for testing
     # for i in range(1, len(target)):

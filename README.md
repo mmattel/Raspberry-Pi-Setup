@@ -331,8 +331,8 @@ sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.9 30
 sudo update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.11 50
 sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 30
 
-update-alternatives --config python
-update-alternatives --config python3
+sudo update-alternatives --config python
+sudo update-alternatives --config python3
 
 update-alternatives --list python
 update-alternatives --list python3
