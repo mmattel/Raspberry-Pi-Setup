@@ -303,7 +303,8 @@ Post installation, reboot your Pi with `sudo reboot`.
 
 Check if you have python already installed with `python -V` to show the version.
 
-Note when using apt, that this will install as of writing Python 3.9 which now EOL (just dont do it).
+Note when using apt, this will install as of writing Python 3.9 which now EOL (just dont do it).
+If it is already installed, run: `sudo apt install python3-pip` to add pip for python 3.9
 
 ```
 sudo apt install python3 python3-pip
@@ -380,11 +381,21 @@ pip install -r requirements.txt
 sudo pip install -r requirements.txt
 ```
 
-Also install:
+Note that when you have selected python 3.9 via alternatives, you must load the requirements also via:
+
+```
+python -m pip install -r requirements.txt
+sudo python -m pip install -r requirements.txt
+```
+This will make the packages available for python 3.9 too.
+
+Also install the following, note that the provided version (2.3.0) only runs on python 3.9 and 3.10:
 ```
 sudo apt-get install python3-dev
 sudo apt-get install python3-apt
 ```
+
+See [python-apt](https://salsa.debian.org/apt-team/python-apt) for how to compile an updated version
 
 ## Enable Argon Mini Fan temp driven PWM fan speed
 
