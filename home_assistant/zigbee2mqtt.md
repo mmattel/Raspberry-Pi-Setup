@@ -29,6 +29,8 @@ Note that as of December 2022, the Conbee II does not support `Install Codes` bu
 
 To get your `serial/by-id` value, connect the device run: `ls -l /dev/serial/by-id` and see the output.
 
+Note that if you get `No such file or directory` but there is an output when using `by-path` instead of `by-id`, check with `dmesg -wH` if you get a response from connecting the device. If that works, you may have run into a [debian bug](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1035094). To solve this issue, make a copy of the original file `/lib/udev/rules.d/60-serial.rules` and create a new one using the content of the solution referenced in the bug report. Finally reboot and `ls -l /dev/serial/by-id` should run fine.
+
 Use the directory `/home/<your-user>/docker` as base for the volumes.
 
 Note that [envoronment variables](https://www.zigbee2mqtt.io/guide/configuration/#environment-variables) are used to setup the connection to the MQTT broker (mosquitto) and necessary serial adapter config for the ConBee II. This eases basic startup configuration at the docker-compose level.
