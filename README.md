@@ -698,6 +698,15 @@ Notes:
 - Rotate the amount of backup files manually to avoid wasting nfs space.
 - Use [etcher](https://www.balena.io/etcher/) to burn (restore) the image to your target.
 
+## Full Power to USB Devices
+
+The RPi limits the power to USB decices. If you have a good powersupply, you can remove this restriction by editing `sudo vi /boot/config.txt` and add:
+
+```
+max_usb_current=1
+```
+Reboot the RPi so that the changes can take effect.
+
 ## Summary of Ports and URL's Used
 
 | Service   | Port  | URL                              |
@@ -705,7 +714,6 @@ Notes:
 | Portainer | 9443  | `https:\\<your-server/ip>:9443`  |
 | Dozzle    | 9999  |  `http:\\<your-server/ip>:9999`  |
 | Theia     | 8100  |  `http:\\<your-server/ip>:8100`  |
-| netdata   | 19999 |  `http:\\<your-server/ip>:19999` |
 
 ## Install Home Assistant
 
