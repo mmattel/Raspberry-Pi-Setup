@@ -131,9 +131,15 @@ CTRL D
 ```
 sudo apt update
 sudo apt full-upgrade
-sudo apt install ifupdown2 wireless-tools net-tools dnsutils
+sudo apt install ifupdown2 wireless-tools net-tools dnsutils lshw
 sudo apt autoremove
 sudo reboot
+```
+
+Check your RPi
+
+```
+sudo lshw | head -6
 ```
 
 ## wlan0 (for testing only, eg without eth0 connected)
