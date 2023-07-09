@@ -110,7 +110,7 @@ download_firmware () {
 
       # Dev branch coordinator as of 5/11/22
       if [ $2 == "coordinator" ]; then
-        wget https://github.com/Koenkk/Z-Stack-firmware/raw/develop/coordinator/Z-Stack_3.x.0/bin/CC1352P2_CC2652P_launchpad_coordinator_20220507.zip
+        wget https://github.com/Koenkk/Z-Stack-firmware/raw/develop/coordinator/Z-Stack_3.x.0/bin/CC1352P2_CC2652P_launchpad_coordinator_"${fw_release_date}".zip
 
         if [[ $? -ne 0 ]]; then
           log "wget $1 coordinator failed"
@@ -119,7 +119,7 @@ download_firmware () {
       fi
 
       if [ $2 == "router" ]; then
-        wget https://github.com/Koenkk/Z-Stack-firmware/raw/develop/router/Z-Stack_3.x.0/bin/CC1352P2_CC2652P_launchpad_router_20220125.zip
+        wget https://github.com/Koenkk/Z-Stack-firmware/raw/develop/router/Z-Stack_3.x.0/bin/CC1352P2_CC2652P_launchpad_router_"${fw_release_date}".zip
 
         if [[ $? -ne 0 ]]; then
           log "wget $1 router failed"
