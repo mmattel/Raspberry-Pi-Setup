@@ -38,7 +38,7 @@ Note that [environment variables](https://www.zigbee2mqtt.io/guide/configuration
 **IMPORTANT:** Currently you need to define the mqtt.server in the configuration.yaml file, the definition via an environment variable in the docker-compose file returns an error when starting up (MQTT failed to connect: Missing protocol)
 
 Note that enironment variables overwrite settings in `configuration.yaml`.\
-To edit the [configuration](https://www.zigbee2mqtt.io/guide/configuration/#configuration) file post first start, type: 
+To edit the [configuration](https://www.zigbee2mqtt.io/guide/configuration/#configuration) file post first start, type:
 `sudo vi ~/docker/zigbee2mqtt/data/configuration.yaml`
 
 ```
