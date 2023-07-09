@@ -62,8 +62,8 @@ services:
     environment:
       - TZ=Europe/Vienna
       - ZIGBEE2MQTT_CONFIG_MQTT_SERVER=mqtt://mm-rp-hoau.mmhome.local.lan:1883
-      - ZIGBEE2MQTT_CONFIG_MQTT_USER=mmattel
-      - ZIGBEE2MQTT_CONFIG_MQTT_PASSWORD=ntap02
+      - ZIGBEE2MQTT_CONFIG_MQTT_USER=<your-user>
+      - ZIGBEE2MQTT_CONFIG_MQTT_PASSWORD=<your-pwd>
       - ZIGBEE2MQTT_CONFIG_SERIAL_PORT=/dev/zigbee
       #- ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER=deconz
       - ZIGBEE2MQTT_CONFIG_FRONTEND=true 
