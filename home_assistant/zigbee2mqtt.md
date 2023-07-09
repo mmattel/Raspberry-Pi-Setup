@@ -106,7 +106,7 @@ When the container is running, you can access Zigbee2MQTT via `https://<your-ser
 
 ## Update the Zigbee USB Gateway adapter
 
-When using  ConBee II, you need to use the GCFFlasher tool. A description and the tool can be found here: [Firmware in Windows](https://github.com/dresden-elektronik/deconz-rest-plugin/wiki/Update-deCONZ-manually#update-in-windows) . To use [GCFFlasher](https://github.com/dresden-elektronik/gcfflasher) on Linux, you must compile it by yourself. Donwload the [firmware](https://deconz.dresden-elektronik.de/deconz-firmware/?C=M;O=D) and see the [Firmware Changelog](https://github.com/dresden-elektronik/deconz-rest-plugin/wiki/Firmware-Changelog) for changes.
+* When using  ConBee II, you need to use the GCFFlasher tool. A description and the tool can be found here: [Firmware in Windows](https://github.com/dresden-elektronik/deconz-rest-plugin/wiki/Update-deCONZ-manually#update-in-windows) . To use [GCFFlasher](https://github.com/dresden-elektronik/gcfflasher) on Linux, you must compile it by yourself. Download the [firmware](https://deconz.dresden-elektronik.de/deconz-firmware/?C=M;O=D) and see the [Firmware Changelog](https://github.com/dresden-elektronik/deconz-rest-plugin/wiki/Firmware-Changelog) for changes.
 
 ## Configuration
 
