@@ -13,11 +13,12 @@
 # The HA Docker container has all requirements installed.
 
 # adapt the basepath according the needs
+fw_release_date="20230507"
 basepath="$HOME/docker/tools/sonoff-zb3.0p"
 tmp="tmp"
 
 main () {
-    if [ $1 -ne 4 ]
+    if [ $1 -ne 3 ]
        then
           show_usage
        else
@@ -27,7 +28,7 @@ main () {
           prepare_tmp_dir
           download_serial_bootloader
           download_firmware $1 $2
-          flash_firmware $1 $2 $3 $4
+          flash_firmware $1 $2 $3
           cleanup
     fi
 }
@@ -72,16 +73,17 @@ download_serial_bootloader () {
 download_firmware () {
     # https://github.com/Koenkk/Z-Stack-firmware
     # No attempt is made to use github api to download latest versions.
-    # Urls may need to be edited to point to correct files as updates are posted to github.
+    # Urls will need to be edited to point to correct files as updates
+    # are posted to github.
 
     if [ $1 == "master" ]; then
       cd $basepath/$tmp
       mkdir master
       cd master
 
-      # Master branch coordinator
+      # Master branch coordinator as of 5/11/22
       if [ $2 == "coordinator" ]; then
-        wget https://github.com/Koenkk/Z-Stack-firmware/raw/master/coordinator/Z-Stack_3.x.0/bin/CC1352P2_CC2652P_launchpad_coordinator_$4.zip
+        wget https://github.com/Koenkk/Z-Stack-firmware/raw/master/coordinator/Z-Stack_3.x.0/bin/CC1352P2_CC2652P_launchpad_coordinator_"${fw_release_date}".zip
 
         if [[ $? -ne 0 ]]; then
           log "wget $1 coordinator failed"
@@ -90,7 +92,7 @@ download_firmware () {
       fi
 
       if [ $2 == "router" ]; then
-        wget https://github.com/Koenkk/Z-Stack-firmware/raw/master/router/Z-Stack_3.x.0/bin/CC1352P2_CC2652P_launchpad_router_$4.zip
+        wget https://github.com/Koenkk/Z-Stack-firmware/raw/master/router/Z-Stack_3.x.0/bin/CC1352P2_CC2652P_launchpad_router_"${fw_release_date}".zip
 
         if [[ $? -ne 0 ]]; then
           log "wget $1 router failed"
@@ -106,9 +108,9 @@ download_firmware () {
       mkdir dev
       cd dev
 
-      # Dev branch coordinator
+      # Dev branch coordinator as of 5/11/22
       if [ $2 == "coordinator" ]; then
-        wget https://github.com/Koenkk/Z-Stack-firmware/raw/develop/coordinator/Z-Stack_3.x.0/bin/CC1352P2_CC2652P_launchpad_coordinator_$4.zip
+        wget https://github.com/Koenkk/Z-Stack-firmware/raw/develop/coordinator/Z-Stack_3.x.0/bin/CC1352P2_CC2652P_launchpad_coordinator_20220507.zip
 
         if [[ $? -ne 0 ]]; then
           log "wget $1 coordinator failed"
@@ -117,7 +119,7 @@ download_firmware () {
       fi
 
       if [ $2 == "router" ]; then
-        wget https://github.com/Koenkk/Z-Stack-firmware/raw/develop/router/Z-Stack_3.x.0/bin/CC1352P2_CC2652P_launchpad_router_$4.zip
+        wget https://github.com/Koenkk/Z-Stack-firmware/raw/develop/router/Z-Stack_3.x.0/bin/CC1352P2_CC2652P_launchpad_router_20220125.zip
 
         if [[ $? -ne 0 ]]; then
           log "wget $1 router failed"
@@ -157,7 +159,6 @@ show_usage() {
     # $1: dev or master
     # $2: router or coordinator
     # $3: ttyUSB port number
-    # $4: the filename date component like 20221226
 
     log
     log "Usage: $0 [branch] [type] [usb port number]"
@@ -165,19 +166,14 @@ show_usage() {
     log "branch:  master or dev"
     log "type:    coordinator or router"
     log "port:    ttyUSB port number"
-    log "date:    filename date component"
     log
     log "Note that dev of router may not be available at all"
     log "Example: /ttyUSB0 --> 0"
     log
     log USB dongles found:
-
-    readarray -t dongles < <(ls -Alhr /dev/serial/by-id | awk '{print $11, $10, $9}')
-    for i in "${dongles[@]}"
-    do
-      log "$i"
-    done
-
+    log $(ls -Alhr /dev/serial/by-id | awk '{print $9, $10, $11}')
+    log
+    log "Firmware version to be flashed: ${fw_release_date}"
     log
 }
 
@@ -191,9 +187,9 @@ prepare_python () {
     for dep in ${dep_array[@]}; do
        echo "${pip_array[@]}" | grep -q "$dep" &&  \
           log "Already installed $dep" || \
-          pip install $dep
+          python3 -m pip install $dep
     done
     log
 }
 
-main $# $1 $2 $3 $4
+main $# $1 $2 $3
