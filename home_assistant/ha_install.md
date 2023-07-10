@@ -32,6 +32,11 @@ Also see the [HA Community Guides](https://community.home-assistant.io/t/failed-
 
 Reboot when changing `/boot/cmdline.txt`.
 
+### systemd-resolved
+
+You may get a HA warning that `systemd-resolved` is not running. Check by issuing the following command `sudo systemctl status systemd-resolved`.
+If it is not running, you can start it with `sudo systemctl start systemd-resolved`. To make it autostart, issue `sudo systemctl enable systemd-resolved`.
+
 ## Installing via Docker Compose
 
 We use HassIO Core + Supervisor docker-compose install. The superviser docker version is a tagged one as you else would download latest which is always the dev version and not the stable one. When updating (also see the script), you define the tag you want to use for the supervisor, who then uses the latest stable image of core and other containers.
