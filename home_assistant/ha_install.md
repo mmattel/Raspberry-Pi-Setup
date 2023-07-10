@@ -37,6 +37,10 @@ Reboot when changing `/boot/cmdline.txt`.
 You may get a HA warning that `systemd-resolved` is not running. Check by issuing the following command `sudo systemctl status systemd-resolved`.
 If it is not running, you can start it with `sudo systemctl start systemd-resolved`. To make it autostart, issue `sudo systemctl enable systemd-resolved`.
 
+### systemd-journal-gatewayd
+
+You may get a HA warning that `systemd-journal-gatewayd` is not running. Check by issuing the following command `sudo systemctl status systemd-journal-gatewayd`. You also may get the info that it is not installed. To install it, run `sudo apt install systemd-journal-remote -y`. To enable it, issue `sudo systemctl start systemd-journal-gatewayd`.  To make it autostart, issue `sudo systemctl enable systemd-journal-gatewayd`.
+
 ## Installing via Docker Compose
 
 We use HassIO Core + Supervisor docker-compose install. The superviser docker version is a tagged one as you else would download latest which is always the dev version and not the stable one. When updating (also see the script), you define the tag you want to use for the supervisor, who then uses the latest stable image of core and other containers.
