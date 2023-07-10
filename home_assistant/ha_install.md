@@ -2,9 +2,9 @@
 
 Open source home automation that puts local control and privacy first.
 
-### Prerequisites
+## Prerequisites
 
-#### OS Agent
+### OS Agent
 
 Install the necessary HA [os-agent](https://github.com/home-assistant/os-agent#agent-for-home-assistant-os) package for the Raspberry Pi: 
 
@@ -20,9 +20,17 @@ If you would like to uninstall because a new package has been published:
 sudo dpkg --remove os-agent
 ```
 
-#### AppArmor
+### AppArmor
 
 Add the following `apparmor=1 security=apparmor` to `/boot/cmdline.txt`.
+
+### Docker CGroup Version
+
+You may get a HA warning that Docker is using the wrong [CGroup version](https://www.home-assistant.io/more-info/unsupported/cgroup_version/)
+when using the supervised HA installation. To fix this add the following `systemd.unified_cgroup_hierarchy=false` to `/boot/cmdline.txt`.
+Also see the [HA Community Guides](https://community.home-assistant.io/t/failed-to-switch-to-cgroup-v1-error-on-manual-supervisor-install/487090/2).
+
+Reboot when changing `/boot/cmdline.txt`.
 
 ## Installing via Docker Compose
 
