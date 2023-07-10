@@ -39,7 +39,7 @@ If it is not running, you can start it with `sudo systemctl start systemd-resolv
 
 ### systemd-journal-gatewayd
 
-You may get a HA warning that `systemd-journal-gatewayd` is not running. Check by issuing the following command `sudo systemctl status systemd-journal-gatewayd`. You also may get the info that it is not installed. To install it, run `sudo apt install systemd-journal-remote -y`. To enable it, issue `sudo systemctl start systemd-journal-gatewayd`.  To make it autostart, issue `sudo systemctl enable systemd-journal-gatewayd`.
+You may get a HA warning that `systemd-journal-gatewayd` is not running. Check by issuing the following command `sudo systemctl status systemd-journal-gatewayd.socket` (Note the .socket as this is required by HA). You also may get the info that it is not installed. To install it, run `sudo apt install systemd-journal-remote -y`. To start it, issue `sudo systemctl start systemd-journal-gatewayd.socket`.  To make it autostart, issue `sudo ln -s /lib/systemd/system/systemd-journal-gatewayd.socket /etc/systemd/system/systemd-journal-gatewayd.socket`.
 
 ## Installing via Docker Compose
 
