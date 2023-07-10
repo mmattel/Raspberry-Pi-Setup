@@ -26,9 +26,8 @@ Add the following `apparmor=1 security=apparmor` to `/boot/cmdline.txt`.
 
 ### Docker CGroup Version
 
-You may get a HA warning that Docker is using the wrong [CGroup version](https://www.home-assistant.io/more-info/unsupported/cgroup_version/)
-when using the supervised HA installation. To fix this add the following `systemd.unified_cgroup_hierarchy=false` to `/boot/cmdline.txt`.
-Also see the [HA Community Guides](https://community.home-assistant.io/t/failed-to-switch-to-cgroup-v1-error-on-manual-supervisor-install/487090/2).
+You may get a HA warning that Docker is not using [CGroup version 1](https://www.home-assistant.io/more-info/unsupported/cgroup_version/)
+when using the supervised HA installation. Check with `grep cgroup /proc/filesystems` if your system supports cgroupv2. To fix using v1, add the following `systemd.unified_cgroup_hierarchy=false` to `/boot/cmdline.txt`. Also see the [HA Community Guides](https://community.home-assistant.io/t/failed-to-switch-to-cgroup-v1-error-on-manual-supervisor-install/487090/2).
 
 Reboot when changing `/boot/cmdline.txt`.
 
