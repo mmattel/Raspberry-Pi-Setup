@@ -53,7 +53,7 @@ ListenStream=/run/systemd-journal-gatewayd.sock
 ```
 Then reload all services with `sudo systemctl daemon-reload` 
 To start it, issue `sudo systemctl restart systemd-journal-gatewayd.socket`.
-Check with `sudo systemctl status systemd-journal-gatewayd.socket` and `ll /run/systemd-journal-gatewayd.sock` socket avialability.
+Check socket avialability with `sudo systemctl status systemd-journal-gatewayd.socket` and `ll /run/systemd-journal-gatewayd.sock`.
 
 ## Installing via Docker Compose
 
