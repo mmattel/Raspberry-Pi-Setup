@@ -38,7 +38,22 @@ If it is not running, you can start it with `sudo systemctl start systemd-resolv
 
 ### systemd-journal-gatewayd
 
-You may get a HA warning that `systemd-journal-gatewayd` is not running. Check by issuing the following command `sudo systemctl status systemd-journal-gatewayd.socket` (Note the .socket as this is required by HA). You also may get the info that it is not installed. To install it, run `sudo apt install systemd-journal-remote -y`. To start it, issue `sudo systemctl start systemd-journal-gatewayd.socket`.  To make it autostart, issue `sudo ln -s /lib/systemd/system/systemd-journal-gatewayd.socket /etc/systemd/system/systemd-journal-gatewayd.socket`.
+You may get a HA warning that `systemd-journal-gatewayd` is not running. Check by issuing the following command `sudo systemctl status systemd-journal-gatewayd.socket` (Note the .socket as this is required by HA). You also may get the info that it is not installed. To install it, run `sudo apt install systemd-journal-remote -y`. To make it autostart, issue `sudo ln -s /lib/systemd/system/systemd-journal-gatewayd.socket /etc/systemd/system/systemd-journal-gatewayd.socket`. This service needs some setting changes.
+
+```
+sudo mkdir /etc/systemd/system/systemd-journal-gatewayd.socket.d
+sudo vi /etc/systemd/system/systemd-journal-gatewayd.socket.d/overwrite.conf
+```
+add
+
+```
+[Socket]
+ListenStream=
+ListenStream=/run/systemd-journal-gatewayd.sock
+```
+Then reload all services with `sudo systemctl daemon-reload` 
+To start it, issue `sudo systemctl restart systemd-journal-gatewayd.socket`.
+Check with `sudo systemctl status systemd-journal-gatewayd.socket` and `ll /run/systemd-journal-gatewayd.sock` socket avialability.
 
 ## Installing via Docker Compose
 
