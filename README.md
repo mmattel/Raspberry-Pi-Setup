@@ -39,7 +39,7 @@ Table of Contents
    * [Installing Portainer with Docker](#installing-portainer-with-docker)
       * [Portainer Container Admin Password Reset](#portainer-container-admin-password-reset)
       * [Portainer Upgrade](#portainer-upgrade)
-      * [Portainer Add ghcr.io Registry](#portainer-add-ghcr-io-registry)
+      * [Portainer Add ghcr.io Registry](#portainer-add-ghcr.io-registry)
    * [Live Monitoring of Docker Logs with Dozzle](#live-monitoring-of-docker-logs-with-dozzle)
    * [Install Theia IDE for RPi with Docker](#install-theia-ide-for-rpi-with-docker)
    * [Bash Script to Check a Port](#bash-script-to-check-a-port)
