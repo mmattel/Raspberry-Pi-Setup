@@ -69,20 +69,20 @@ Use the directory `/home/<your-user>/docker` as base for the volume.
 version: '3'
 services:
   hassio:
+    image: ghcr.io/home-assistant/aarch64-hassio-supervisor:2023.08.0
     container_name: hassio_supervisor
-    image: homeassistant/aarch64-hassio-supervisor:2023.06.3
-    # image: homeassistant/armv7-hassio-supervisor:2023.06.3
-    restart: always
     privileged: true
+    restart: always
+    # restart: on-failure
     security_opt:
       - seccomp:unconfined
       - apparmor:unconfined
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /home/<your-user>/docker/hassio/data:/data
-      - /home/<your-user>/docker/hassio/scripts:/scripts
+      - /home/<you-user>/docker/hassio/scripts:/scripts
       - /var/run/docker.sock:/var/run/docker.sock
-      - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
+      - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket:ro
     environment:
       # docker inspect hassio_supervisor | grep Env -A10
       - HOMEASSISTANT_REPOSITORY=homeassistant/raspberrypi4-homeassistant
@@ -90,8 +90,7 @@ services:
       - SUPERVISOR_SHARE=/home/<your-user>/docker/hassio/data
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/var/run/dbus/system_bus_socket
       - TZ=Europe/Vienna
-    user: "${LOCAL_USER}:${LOCAL_GROUP}"
-```
+    user: "${LOCAL_USER}:${LOCAL_GROUP}"```
 
 ## Connect with MQTT
 
