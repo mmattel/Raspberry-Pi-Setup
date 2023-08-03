@@ -70,6 +70,7 @@ version: '3'
 services:
   hassio:
     image: ghcr.io/home-assistant/aarch64-hassio-supervisor:2023.08.0
+    # https://github.com/home-assistant/supervisor
     container_name: hassio_supervisor
     privileged: true
     restart: always
