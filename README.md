@@ -39,6 +39,7 @@ Table of Contents
    * [Installing Portainer with Docker](#installing-portainer-with-docker)
       * [Portainer Container Admin Password Reset](#portainer-container-admin-password-reset)
       * [Portainer Upgrade](#portainer-upgrade)
+      * [Portainer Add ghcr.io Registry](#portainer-add-ghcr-io-registry)
    * [Live Monitoring of Docker Logs with Dozzle](#live-monitoring-of-docker-logs-with-dozzle)
    * [Install Theia IDE for RPi with Docker](#install-theia-ide-for-rpi-with-docker)
    * [Bash Script to Check a Port](#bash-script-to-check-a-port)
@@ -632,6 +633,11 @@ docker container start portainer
 ### Portainer Upgrade
 
 Follow the [portainer upgrade documantation](https://docs.portainer.io/start/upgrade/docker) for details.
+
+### Portainer Add ghcr.io Registry
+
+To add the ghcr.io registry to pull images, go to `Registries`, `Add registry` and `Custom registry`. Enter `ghcr.io` as `Registry URL`.
+You now should be able to pull images with `image: ghcr.io/<...>`.
 
 ## Live Monitoring of Docker Logs with Dozzle
 
