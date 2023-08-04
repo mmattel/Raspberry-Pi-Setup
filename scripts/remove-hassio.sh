@@ -61,10 +61,10 @@ echo
 if [ $debug ]; then
   echo "would print all remaining images"
 else
-  docker images
+  docker images | (sed -u 1q; sort)
 fi
 
 echo
 echo "to get the latest stable supervisor tag (not latest or .devxxx) check:"
-echo -e "\e[1;36mhttps://hub.docker.com/r/homeassistant/armv7-hassio-supervisor/tags?page=1\e[0m"
+echo -e "\e[1;36mhttps://github.com/home-assistant/supervisor\e[0m"
 echo "and adapt the image version of the HA supervisor compose file accordingly."
