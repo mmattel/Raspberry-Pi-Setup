@@ -36,6 +36,13 @@ def graceful_shutdown():
 def signal_handler(signum, frame):
     graceful_shutdown()
 
+def on_connect(client, userdata, flags, rc):
+    # http://www.steves-internet-guide.com/mqtt-python-callbacks/
+    client.publish(mqtt_state_topic, payload = "Online", qos = 0, retain = True)
+
+def on_publish(client, userdata, mid):
+    print(f"Messages published: {mid}")
+
 def process_env():
 	# get all environment variables as dictionary
 	# https://pypi.org/project/python-dotenv/
@@ -99,13 +106,6 @@ else:
 
 # MQTT client
 syslog.syslog(f'Opening MQTT socket: {mqtt_server}:{mqtt_port}')
-
-def on_connect(client, userdata, flags, rc):
-    # http://www.steves-internet-guide.com/mqtt-python-callbacks/
-    client.publish(mqtt_state_topic, payload = "Online", qos = 0, retain = True)
-
-def on_publish(client, userdata, mid):
-    print(f"Messages published: {mid}")
 
 mqttclient = mqtt.Client(client_id = mqtt_client_id, clean_session = True)
 mqttclient.on_connect = on_connect
