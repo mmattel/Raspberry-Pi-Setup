@@ -36,26 +36,28 @@ def graceful_shutdown():
 def signal_handler(signum, frame):
     graceful_shutdown()
 
+def process_env():
+	# get all environment variables as dictionary
+	# https://pypi.org/project/python-dotenv/
+	# file either predefined or as cmd line option. option ID starts with 2
+	env_file = ".env"
+	if len(sys.argv) > 1:
+		if os.path.isfile(sys.argv[1]) == True:
+			env_file = sys.argv[1]
+
+	syslog.syslog(f'Using env file: {env_file}')
+
+	full_config = {
+		**dotenv_values(env_file),  # load env variables for mqtt
+		**os.environ,               # override loaded values with environment variables if exists
+	}
+
+	# only get the mqtt_ values from the full dict
+	mqtt_config = {k: v for k, v in full_config.items() if k.startswith('mqtt_')}
+	return mqtt_config
+
 signal.signal(signal.SIGINT, signal_handler)
-
-# get all environment variables as dictionary
-# https://pypi.org/project/python-dotenv/
-# pip install python-dotenv (if necessary)
-# file either predefined or as cmd line option. option ID starts with 2
-env_file = ".env"
-if len(sys.argv) > 1:
-    if os.path.isfile(sys.argv[1]) == True:
-        env_file = sys.argv[1]
-
-syslog.syslog(f'Using env file: {env_file}')
-
-full_config = {
-    **dotenv_values(env_file),  # load env variables for mqtt
-    **os.environ,               # override loaded values with environment variables if exists
-}
-
-# only get the mqtt_ values from the full dict
-mqtt_config = {k: v for k, v in full_config.items() if k.startswith('mqtt_')}
+mqtt_config = process_env()
 
 # when sending messages to syslog, they appear in /var/log/messages
 
