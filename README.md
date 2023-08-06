@@ -368,7 +368,7 @@ sudo ln -s \
 /usr/lib/python3/dist-packages/apt_pkg.so
 ```
 
-To prepare some python packages that are often used, create a file named `requirements.txt` in your home directory with following contents, more libraries can be added easily:
+To prepare some python packages that are often used, create a file named `requirements.txt` in your home directory with following contents, more libraries can be added easily.
 
 ```
 paho-mqtt
@@ -380,6 +380,8 @@ python-dotenv
 docutils
 RPi.GPIO
 ```
+
+Note to run [check_requirements.py](./scripts/check_requirements.py) to see which of the modules are already installed.
 
 Then load the libraries once for the user and once for root:
 
