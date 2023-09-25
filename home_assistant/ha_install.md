@@ -11,9 +11,9 @@ Install the necessary HA [os-agent](https://github.com/home-assistant/os-agent#a
 ```
 cd /tmp
 
-wget https://github.com/home-assistant/os-agent/releases/download/1.5.1/os-agent_1.5.1_linux_aarch64.deb
+wget https://github.com/home-assistant/os-agent/releases/download/1.6.0/os-agent_1.6.0_linux_aarch64.deb
 
-sudo dpkg --install os-agent_1.5.1_linux_aarch64.deb
+sudo dpkg --install os-agent_1.6.0_linux_aarch64.deb
 ```
 If you would like to uninstall because a new package has been published:
 ```
@@ -72,6 +72,8 @@ services:
     image: ghcr.io/home-assistant/aarch64-hassio-supervisor:2023.08.0
     # https://github.com/home-assistant/supervisor
     container_name: hassio_supervisor
+    logging:
+      driver: journald
     privileged: true
     restart: always
     # restart: on-failure
