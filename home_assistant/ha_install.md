@@ -75,6 +75,7 @@ services:
     logging:
       driver: journald
     privileged: true
+    restart: always
     # network_mode: host
     security_opt:
       - seccomp:unconfined
