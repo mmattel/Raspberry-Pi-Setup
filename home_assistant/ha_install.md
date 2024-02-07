@@ -69,7 +69,7 @@ Use the directory `/home/<your-user>/docker` as base for the volume.
 version: '3'
 services:
   hassio:
-    image: ghcr.io/home-assistant/aarch64-hassio-supervisor:2023.08.0
+    image: ghcr.io/home-assistant/aarch64-hassio-supervisor:2024.01.1
     # https://github.com/home-assistant/supervisor
     container_name: hassio_supervisor
     logging:
@@ -86,6 +86,7 @@ services:
       - /home/<you-user>/docker/hassio/scripts:/scripts
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket:ro
+      - /run/systemd-journal-gatewayd.sock:/run/systemd-journal-gatewayd.sock
     environment:
       # docker inspect hassio_supervisor | grep Env -A10
       - HOMEASSISTANT_REPOSITORY=homeassistant/raspberrypi4-homeassistant
