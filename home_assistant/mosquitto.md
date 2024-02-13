@@ -42,7 +42,7 @@ services:
         max-size: "200k"
         max-file: "10"
     volumes:
-      - "/home/<your-user>l/docker/mosquitto/config:/mosquitto/config"
+      - "/home/<your-user>/docker/mosquitto/config:/mosquitto/config"
       - "/home/<your-user>/docker/mosquitto/data:/mosquitto/data"
       - "/home/<your-user>/docker/mosquitto/log:/mosquitto/log"
     environment:
