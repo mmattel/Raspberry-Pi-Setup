@@ -17,6 +17,8 @@ def filter_syslog_message(message=''):
         return 0
     if message[2] == 'asup.smtp.detailNotSent':     # no autosupport.to recipients specified
         return 0
+    if message[2] == 'cecc_log.entry:warning':      # Non Fatal Correctable DRAM ECC Channel x
+        return 0
     if message[2] == 'cifs.terminationNotice':      # cifs shut down completed, cifs terminated
         return 0
     if message[2] == 'kern.syslogd.restarted':      # syslog daemon has been restarted due to syslog.conf changes
