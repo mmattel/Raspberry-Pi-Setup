@@ -148,12 +148,18 @@ while True:
         # only continue if the message comes from filer
         if mqtt_config['mqtt_topic'] not in socket.gethostbyaddr(sender[0])[0]:
             continue
-        # setup response from data
-        response = sr.parse_syslog_message(data.decode(encoding='utf-8'))
+
+        # decode the complete message string from syslog
+        msg_string = data.decode(encoding='utf-8')
+
         # only continue if response is important
-        if not sf.filter_syslog_message(response):
+        if not sf.filter_syslog_message(msg_string):
             continue
+
+        # setup response from data
+        response = sr.parse_syslog_message(msg_string)
         #print(response)
+
         update = scu.construct_update_message(response)
         # send a mqtt update message, the format is fixed
         mqttclient.publish(mqtt_update_topic, payload = update, qos = mqtt_qos, retain = True)

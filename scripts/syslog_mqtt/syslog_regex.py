@@ -1,6 +1,14 @@
 import re
 import datetime
 
+#   message[0] # timestamp "%Y.%m.%d"
+#   message[1] # timestamp "%H:%M"
+#   message[2] # type
+#   message[3] # severity
+#   message[4] # set the uptime
+#   message[5] # set the message
+#   message[6] # set the full message
+
 def parse_syslog_message(message):
 
     #message = '<30>Jan 19 17:00:00 [kern.uptime.filer:info]:   5:00pm up  4 days,  5:39 241578229 NFS ops, 4430 CIFS ops, 0 HTTP ops, 0 FCP ops, 0 iSCSI ops'
