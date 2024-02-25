@@ -317,6 +317,12 @@ If it is already installed, run: `sudo apt install python3-pip` to add pip for p
 sudo apt install python3 python3-pip
 ```
 
+Install the `python3.dev` package which is sometimes required when updating a library with pip.
+
+```
+sudo apt install python3-dev
+```
+
 To install an updated version like Python 3.11 additionally if there is already a bundled OS version installed, do following steps. Note that compiling can take a while:
 
 ```
