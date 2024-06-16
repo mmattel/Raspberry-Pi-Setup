@@ -152,7 +152,7 @@ while True:
         # decode the complete message string from syslog
         msg_string = data.decode(encoding='utf-8')
 
-        # only continue if response is important
+        # only proceed if response is important (False == unimportant)
         if not sf.filter_syslog_message(msg_string):
             continue
 
