@@ -16,7 +16,7 @@ def filter_syslog_message(message=''):
 		'nbt.nbns.registrationComplete',  # all cifs name registrations have completed for the local server
 		'raid.rg.scrub.done',             # scrub completed
 		'raid.rg.scrub.resume',           # resuming scrub at stripe
-		'raid.rg.scrub.summary.cksum',    # scrub found 0 checksum errors
+		#'raid.rg.scrub.summary.cksum',    # scrub found 0 checksum errors
 		'raid.rg.scrub.suspended',        # scrub suspended at stripe
 		'raid.scrub.suspended',           # disk scrub suspended
 		'rc',                             # timed: time daemon started
@@ -24,16 +24,13 @@ def filter_syslog_message(message=''):
 		'sfu.firmwareUpToDate',           # firmware is up-to-date on all disk shelves
 		'wafl.scan.br.realloc.done',      # block reallocation scan on aggregate
 		'wafl.scan.br.redir.done',        # redirect scan on aggregate is complete
-		'wafl.scan.start'                 # starting block reallocation on aggregate
+		'wafl.scan.start',                # starting block reallocation on aggregate
+		'last message repeated'           # this message is a string and has no valid timestamp etc
 	]
 
-	# not important stuff to filer out
+	# not important stuff
 	# check for any occurrence array elements in the message
 	if any(x in message for x in matches):
-		return False
-
-	# check for an occurrenc of a message like 'last message repeated 20 times'
-	if 'last message repeated ' in message:
 		return False
 
 	# anything else is important
