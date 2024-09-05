@@ -249,7 +249,7 @@ The following stelp is necessary especially when using HomeAssistant, also see [
 
 The Bluetooth adapter must be accessible to D-Bus and running BlueZ >= 5.43. It is highly recommended to use BlueZ >= 5.63 as older versions have been reported to be unreliable.
 
-Derived from [Compiling Bluez](https://learn.adafruit.com/pibeacon-ibeacon-with-a-raspberry-pi/compiling-bluez):
+Derived from [Compiling Bluez](https://learn.adafruit.com/pibeacon-ibeacon-with-a-raspberry-pi/compiling-bluez). Check on [kernel.org](www.kernel.org/pub/linux/bluetooth/) for the latest bluez version:
 
 
 ```
@@ -257,14 +257,14 @@ dpkg --status bluez | grep '^Version'
 bluetoothctl -v
 
 sudo apt install libusb-dev libdbus-1-dev libglib2.0-dev libudev-dev libical-dev libreadline-dev
-sudo pip install docutils
+sudo python -m pip install docutils Pygments
 cd /opt
 sudo mkdir bluez
 cd bluez/
 sudo wget https://mirrors.edge.kernel.org/pub/linux/bluetooth/bluez-5.66.tar.xz
-sudo unxz bluez-5.66.tar.xz
-sudo tar xvf bluez-5.66.tar
-cd bluez-5.66/
+sudo unxz bluez-5.77.tar.xz
+sudo tar xvf bluez-5.77.tar
+cd bluez-5.77/
 sudo ./configure --disable-systemd
 sudo make -j4
 sudo make -j4 install
