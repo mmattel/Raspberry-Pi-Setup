@@ -256,15 +256,17 @@ Derived from [Compiling Bluez](https://learn.adafruit.com/pibeacon-ibeacon-with-
 dpkg --status bluez | grep '^Version'
 bluetoothctl -v
 
+sudo apt update
+sudo apt install build-essential
 sudo apt install libusb-dev libdbus-1-dev libglib2.0-dev libudev-dev libical-dev libreadline-dev
 sudo python -m pip install docutils Pygments
 cd /opt
 sudo mkdir bluez
 cd bluez/
-sudo wget https://mirrors.edge.kernel.org/pub/linux/bluetooth/bluez-5.66.tar.xz
-sudo unxz bluez-5.77.tar.xz
-sudo tar xvf bluez-5.77.tar
-cd bluez-5.77/
+sudo wget https://mirrors.edge.kernel.org/pub/linux/bluetooth/bluez-5.78.tar.xz
+sudo unxz bluez-5.78.tar.xz
+sudo tar xvf bluez-5.78.tar
+cd bluez-5.78/
 sudo ./configure --disable-systemd
 sudo make -j4
 sudo make -j4 install
