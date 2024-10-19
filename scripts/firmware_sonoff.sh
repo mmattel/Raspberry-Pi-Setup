@@ -13,7 +13,7 @@
 # The HA Docker container has all requirements installed.
 
 # adapt the basepath according the needs
-fw_release_date="20230507"
+fw_release_date="20240710"
 basepath="$HOME/docker/tools/sonoff-zb3.0p"
 tmp="tmp"
 
