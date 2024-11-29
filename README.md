@@ -8,7 +8,8 @@ Steps to setup a RPi Server with Raspberry PI OS x64 with:
 - Container management with [Portainer](https://docs.portainer.io)
 - Monitoring the RPi with [system_sensors](https://github.com/Sennevds/system_sensors)
 - Backup your SD-Card / boot drive
-- Install Home Assistant 
+- Upgrade the OS
+- Install Home Assistant
 
 Table of Contents
 =================
@@ -44,6 +45,7 @@ Table of Contents
    * [Install Theia IDE for RPi with Docker](#install-theia-ide-for-rpi-with-docker)
    * [Bash Script to Check a Port](#bash-script-to-check-a-port)
    * [Backup your RPi SD Card](#backup-your-rpi-sd-card)
+   * [Upgrade the OS](#upgrade-the-os)
    * [Summary of Ports and URL's Used](#summary-of-ports-and-urls-used)
    * [Install Home Assistant](#install-home-assistant)
       * [Steps](#steps)
@@ -719,6 +721,10 @@ Notes:
 - The script requires the presense of the NFS mount located at `/home/<your-user>/backup` as described above.
 - Rotate the amount of backup files manually to avoid wasting nfs space.
 - Use [etcher](https://www.balena.io/etcher/) to burn (restore) the image to your target.
+
+## Upgrade the OS
+
+For details see the: [Upgrade](./upgrading/os_upgrading.md) documentation
 
 ## Full Power to USB Devices
 
