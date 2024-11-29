@@ -40,3 +40,8 @@ To upgrade the OS like from Debian 11 (bullseye) to Debian 12 (bookworm), follow
   ```bash
   cat /etc/os-release
   ```
+
+* Install additional packages:
+  ```bash
+  sudo apt install software-properties-common
+  ```
