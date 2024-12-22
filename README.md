@@ -23,7 +23,7 @@ Table of Contents
       * [Use bash and vim Settings for Root](#use-bash-and-vim-settings-for-root)
    * [Update Raspberry Pi OS](#update-raspberry-pi-os)
    * [wlan0 (for testing only, eg without eth0 connected)](#wlan0-for-testing-only-eg-without-eth0-connected)
-   * [Netplan (RaspOS Bullseye)](#netplan-raspos-bullseye)
+   * [Netplan](#netplan)
       * [Install and Configure Netplan](#install-and-configure-netplan)
    * [Install/Update Some Tools and Libraries](#installupdate-some-tools-and-libraries)
       * [Update the Bluetooth Driver (Bluez)](#update-the-bluetooth-driver-bluez)
@@ -163,7 +163,7 @@ sudo reboot
 ```
 `ip -br addr show`
 
-## Netplan (RaspOS Bullseye)
+## Netplan
 
 The goal is to create a setup where you can use eth0 and wlan0 concurrently having the same static IP address like you would have with a failover/bond but only one interface is actively used. After many trials where none of them worked, `netplan` is the solution, doing the job perfectly and is easy to configure. The `metric` entry in the yaml configuration file does the magic.
 
@@ -178,8 +178,14 @@ The netplan package is available in the [debian package](https://packages.debian
 ```
 sudo apt search netplan
 sudo apt install netplan.io
+sudo apt install openvswitch-switch-dpdk
 ```
 After installing netplan, get the [01-netcfg.yaml](https://github.com/mmattel/Raspberry-Pi-Setup/blob/main/netplan/01-netcfg.yaml) example file, adapt it to your needs and save it in the `/etc/netplan/` folder. Note that this configuration disables IPv6 as not necessary (by the use of `link-local: [ ]`) and to reduce network startup time, but it can be enabled at any time again.
+
+Secure the netplan config file, else you will get a complaint:
+```
+sudo chmod 600 01-netcfg.yaml
+```
 
 Apply the changes with following commands:
 ```
@@ -243,6 +249,7 @@ sudo apt install netcat
 sudo apt install iftop
 sudo apt install libglib2.0-bin
 sudo apt install build-essential
+sudo apt install mtr-tiny
 ```
 
 ### Update the Bluetooth Driver (Bluez)
