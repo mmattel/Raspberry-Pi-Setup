@@ -1,0 +1,12 @@
+[Unit]
+Description=syslog to mqtt for NetApp
+
+[Service]
+Type=simple
+EnvironmentFile=/home/<user>/syslog_mqtt/.env
+ExecStart=python /home/<user>/syslog_mqtt/syslog_mqtt.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
