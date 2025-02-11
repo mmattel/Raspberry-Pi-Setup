@@ -1,4 +1,5 @@
-# Upgrading the OS
+# Upgrading
+## Upgrading the OS
 
 To upgrade the OS like from Debian 11 (bullseye) to Debian 12 (bookworm), follow the steps described:
 
@@ -45,3 +46,10 @@ To upgrade the OS like from Debian 11 (bullseye) to Debian 12 (bookworm), follow
   ```bash
   sudo apt install software-properties-common
   ```
+
+## Upgrading the Kernel
+
+See [Moving Linux Kernel to 6.12](https://forums.raspberrypi.com/viewtopic.php?t=379745)
+```bash
+sudo rpi-update next
+```
