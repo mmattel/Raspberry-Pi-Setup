@@ -175,20 +175,25 @@ mqttclient.will_set(
 				qos = 0,
 				retain = True
 			)
-mqttclient.connect(
-				mqtt_server,
-				port = mqtt_port,
-				# http://www.steves-internet-guide.com/mqtt-keep-alive-by-example/
-				# no need to set this value with paho-mqtt
-				# this avoids on the broker the following message pairs beling logged
-				# "Client solmate_mqtt closed its connection.
-				# "Client xyz closed its connection.
-				#keepalive = 70,
-				bind_address = '',
-				bind_port = 0,
-				clean_start = mqtt.MQTT_CLEAN_START_FIRST_ONLY,
-				properties = None
-			)
+try:
+	mqttclient.connect(
+					mqtt_server,
+					port = mqtt_port,
+					# http://www.steves-internet-guide.com/mqtt-keep-alive-by-example/
+					# no need to set this value with paho-mqtt
+					# this avoids on the broker the following message pairs beling logged
+					# "Client solmate_mqtt closed its connection.
+					# "Client xyz closed its connection.
+					#keepalive = 70,
+					bind_address = '',
+					bind_port = 0,
+					clean_start = mqtt.MQTT_CLEAN_START_FIRST_ONLY,
+					properties = None
+				)
+except Exception as err:
+	# avoid polluting the syslog with full traces, put a clear message instead
+	syslog.syslog(f'Failed to connect to: {mqtt_server}:{mqtt_port} - {err.message}')
+
 mqttclient.loop_start()
 
 # wait until on_connect returns a response
