@@ -192,7 +192,7 @@ try:
 				)
 except Exception as err:
 	# avoid polluting the syslog with full traces, put a clear message instead
-	syslog.syslog(f'Failed to connect to: {mqtt_server}:{mqtt_port} - {err.message}')
+	syslog.syslog(f'Failed to connect to: {mqtt_server}:{mqtt_port} - {err}')
 
 mqttclient.loop_start()
 
