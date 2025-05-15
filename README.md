@@ -26,6 +26,7 @@ Table of Contents
    * [Netplan](#netplan)
       * [Install and Configure Netplan](#install-and-configure-netplan)
    * [Install/Update Some Tools and Libraries](#installupdate-some-tools-and-libraries)
+   * [Disable One-Wire GPIO](#disable-one-wire-gpio)
       * [Update the Bluetooth Driver (Bluez)](#update-the-bluetooth-driver-bluez)
       * [Install D-Bus Broker](#install-d-bus-broker)
    * [Install Python3 and pip3](#install-python3-and-pip3)
@@ -46,6 +47,7 @@ Table of Contents
    * [Bash Script to Check a Port](#bash-script-to-check-a-port)
    * [Backup your RPi SD Card](#backup-your-rpi-sd-card)
    * [Upgrade the OS or Kernel](#upgrade-the-os-or-kernel)
+   * [Full Power to USB Devices](#full-power-to-usb-devices)
    * [Summary of Ports and URL's Used](#summary-of-ports-and-urls-used)
    * [Install Home Assistant](#install-home-assistant)
       * [Steps](#steps)
@@ -251,6 +253,28 @@ sudo apt install libglib2.0-bin
 sudo apt install build-essential
 sudo apt install mtr-tiny
 ```
+
+## Disable One-Wire GPIO
+
+If you are not using the One-Wire GPIO interface, such as for the DS18B20 temperature sensor, you can safely disable it.
+If it is enabled but not used, you will get many log entries when running `journalctl --system -r -a` such as:\
+`kernel: w1_master_driver w1_bus_master1: Family 0 for xyz is not registered.`
+
+To disable One-Wire GPIO run:
+
+```bash
+sudo raspi-config
+```
+
+And disable via: `5 ... Interface Options` -> `P7 - 1 Wire` --> `No`
+
+You can see the result (or do the change manually) in:
+
+```bash
+cat /boot/config.txt
+```
+
+where `dtoverlay=w1-gpio` gets commented out. A reboot is required.
 
 ### Update the Bluetooth Driver (Bluez)
 
