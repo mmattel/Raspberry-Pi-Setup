@@ -2,8 +2,12 @@
 
    * [Overview](#overview)
    * [Installing Mosquitto with Docker](#installing-mosquitto-with-docker)
-   * [Set a Password authentication](#set-a-password-authentication)
+   * [Configuration](#configuration)
+      * [Basic Configuration](#basic-configuration)
+      * [Set a Password Authentication](#set-a-password-authentication)
+      * [Reboot Persist Messages](#reboot-persist-messages)
    * [Accessing Mosquitto](#accessing-mosquitto)
+
 
 <!-- Created by https://github.com/ekalinin/github-markdown-toc -->
 
@@ -50,18 +54,25 @@ services:
     user: "${LOCAL_USER}:${LOCAL_GROUP}"
 ```
 
-Because we are only working on the local LAN, you can set the `listerer` in section _Extra listeners_ and the `allow_anonymous` in the _Security_ section config option to:
+## Configuration
 
-`vi docker/mosquitto/config/mosquitto.conf`
+To configure mosquitto, edit the `~/docker/mosquitto/config/mosquitto.conf` file. When done, restart the container.
+
+### Basic Configuration
+
+Because we are only working on the local LAN, you can set the `listerer` in section _Extra listeners_ to allow all IP and port 1883:
 
 ```
 listener 1883 0.0.0.0
+```
+With low security and not recommended, the `allow_anonymous` setting in the _Security_ section config option can be set to `true`.
+```
 allow_anonymous true
 ```
 
-## Set a Password authentication
+### Set a Password Authentication
 
-If you want to set a password for security reasons, proceed with the following, replace `<user-name>` accordingly:
+If you want to set a password for security reasons, which is highly recommended, proceed with the following, replace `<user-name>` accordingly:
 
 - In portainer, go into the command shell of the mosquitto container using `bin/sh`
 - Run `mosquitto_passwd -c /mosquitto/config/password.txt <user-name>`
@@ -69,16 +80,26 @@ If you want to set a password for security reasons, proceed with the following, 
 - Use `mosquitto_passwd --help` to see all the arguments and options (like for updating the password)
 - Exit the command shell with button `Disconnect`
 
-Now change the mosquitto.conf file from your RPi to configure it for password authentication
-
-`vi docker/mosquitto/config/mosquitto.conf`
+Now change the `mosquitto.conf` file from your RPi to configure it for password authentication
 
 ```
 allow_anonymous false
 password_file /mosquitto/config/password.txt
 ```
 
-When done, restart the container.
+### Reboot Persist Messages  
+
+When the container or the RPi gets rebootet, the latest messages will not survive the reboot if not configured otherwise.
+ 
+In the _Persistence_ section, set the following keys:
+
+```
+persistence true
+persistence_file mosquitto.db
+persistence_location /mosquitto/data/
+```
+
+This will create a file on the RPi `docker/mosquitto/data/mosquitto.db` which is only a few KB in size and updated on new messages.
 
 ## Accessing Mosquitto
 
