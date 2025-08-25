@@ -195,10 +195,13 @@ If you have configured the wlan0 interface before, **REMOVE** wlan0 from `wpa su
 ```
 sudo wpa_cli remove_network 0
 sudo wpa_cli save_config
+sudo wpa_cli list_networks
 ```
-Disable `dhcpcd` for `eth0` and `wlan0` to avoid that the interfaces get an additional dynamic IP address beside the static one if connected. 
 
-`sudo vi /etc/dhcpcd.conf` 
+Disable `dhcpcd` for `eth0` and `wlan0` to avoid that the interfaces get an additional dynamic IP address beside the static one if connected. 
+```
+sudo vi /etc/dhcpcd.conf
+```
 
 Set `denyinterfaces eth0 wlan0`, save and restart the dhcpcd service. The interfaces will now no longer show up a second dynamic provided IP address.
 
