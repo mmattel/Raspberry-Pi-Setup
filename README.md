@@ -264,7 +264,7 @@ And disable via: `3 ... Interface Options` -> `I7 - 1 Wire` --> `No`
 You can see the result (or do the change manually) in:
 
 ```bash
-cat /boot/config.txt
+cat /boot/firmware/config.txt
 ```
 
 where `dtoverlay=w1-gpio` gets commented out. A reboot is required.
