@@ -96,40 +96,31 @@ syntax on               " permanently turn on syntax highlighting
 
 `nano ~/.bash_aliases`
 
-add:
+Add or uncomment:
 ```
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 ```
-use the new settings:
 
-`source ~/.profile`
-
-### Use bash and vim Settings for Root
-
-Use the same bash settings from your user also when using root.
-
-```
-sudo su -
-cd /root
-cd /root/.vimrc .
-cd /root/.bash_aliases .
-vi .bashrc
-```
 Add the following lines at the end if not exists:
-
 ```
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 ```
-Save the file and run `source ~/.profile` to enable the changes. Type `ll` to test. Finally,
 
-```
-cd /home/<your-user>
-CTRL D
-```
+To use the new settings:
+
+`source ~/.bashrc`
+
+### Use bash and vim Settings for Root
+
+Use the same bash settings from your user also when using root.
+
+Save the file and run `source ~/.profile` to enable the changes. Type `ll` to test.
+
+Exit the root shell with `CTRL D`
 
 ## Update Raspberry Pi OS
 
@@ -179,9 +170,11 @@ The netplan package is available in the [debian package](https://packages.debian
 
 ```
 sudo apt search netplan
+sudo apt install dhcpcd
 sudo apt install netplan.io
 sudo apt install openvswitch-switch-dpdk
 ```
+
 After installing netplan, get the [01-netcfg.yaml](https://github.com/mmattel/Raspberry-Pi-Setup/blob/main/netplan/01-netcfg.yaml) example file, adapt it to your needs and save it in the `/etc/netplan/` folder. Note that this configuration disables IPv6 as not necessary (by the use of `link-local: [ ]`) and to reduce network startup time, but it can be enabled at any time again.
 
 Secure the netplan config file, else you will get a complaint:
@@ -266,7 +259,7 @@ To disable One-Wire GPIO run:
 sudo raspi-config
 ```
 
-And disable via: `5 ... Interface Options` -> `P7 - 1 Wire` --> `No`
+And disable via: `3 ... Interface Options` -> `I7 - 1 Wire` --> `No`
 
 You can see the result (or do the change manually) in:
 
